@@ -1,0 +1,9 @@
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4.1}Model}{\reset@font\mtcSfont 33}{section.4.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1.1}Estimating change-points locations with $K^{\star }$ known}{\reset@font\mtcSSfont 34}{subsection.4.1.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1.2}Estimating change-points locations with $K^{\star }$ unknown}{\reset@font\mtcSSfont 36}{subsection.4.1.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4.2}Estimation procedure}{\reset@font\mtcSfont 37}{section.4.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.2.1}Estimating the $\lambda $'s}{\reset@font\mtcSSfont 37}{subsection.4.2.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.2.2}Estimation procedure for $K^{\star }$, $\bm {t}^{\star }$ and $\bm {\lambda }^{\star }$}{\reset@font\mtcSSfont 37}{subsection.4.2.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4.3}Simulation study}{\reset@font\mtcSfont 38}{section.4.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.3.1}Tuning hyper-parameters of the Newton-Raphson method}{\reset@font\mtcSSfont 39}{subsection.4.3.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.3.2}Tuning the parameters of the change-point detection method}{\reset@font\mtcSSfont 41}{subsection.4.3.2}}

@@ -1,0 +1,7 @@
+\def \figurename {Algorithm}
+\contentsline {algorithm}{\numberline {1}{\ignorespaces Optimal partition algorithm:\relax }}{14}{algorithm.1}%
+\contentsline {algorithm}{\numberline {2}{\ignorespaces PELT algorithm\relax }}{15}{algorithm.2}%
+\contentsline {algorithm}{\numberline {3}{\ignorespaces CROPS algorithm\relax }}{15}{algorithm.3}%
+\contentsline {algorithm}{\numberline {4}{\ignorespaces PELT algorithm combined with Newton-Raphson:\relax }}{39}{algorithm.4}%
+\contentsline {algorithm}{\numberline {5}{\ignorespaces Clustering with greedy method:\relax }}{80}{algorithm.5}%
+\contentsline {algorithm}{\numberline {6}{\ignorespaces Clustering by dynamic programming:\relax }}{81}{algorithm.6}%

@@ -1,0 +1,662 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\astroncite{Adams and MacKay}{2007}]{adams2007bayesian}
+Adams, R.~P. and MacKay, D.~J. (2007).
+\newblock Bayesian online changepoint detection.
+\newblock {\em arXiv preprint arXiv:0710.3742}.
+
+\bibitem[\protect\astroncite{{Agriculture \& Environment Research Unit (AERU)
+  at the University of Hertfordshire}}{2021}]{Prosulfocarb:PPDB}
+{Agriculture \& Environment Research Unit (AERU) at the University of
+  Hertfordshire} (2021).
+\newblock {Prosulfocarb (Ref: SC 0574)}.
+\newblock \url{https://sitem.herts.ac.uk/aeru/ppdb/en/Reports/557.htm}.
+\newblock Retrieved: March 1, 2022. Part of \cite{Lewisetal2016database}.
+
+\bibitem[\protect\astroncite{{ANSES (Agence nationale de sécurité sanitaire
+  de l’alimentation, de l’environnement et du travail)}}{2018}]{PPV}
+{ANSES (Agence nationale de sécurité sanitaire de l’alimentation, de
+  l’environnement et du travail)} (2018).
+\newblock Prosulfocarbe (phytopharmacovigilance).
+\newblock
+  \url{https://www.anses.fr/fr/system/files/Fiche_PPV_Prosulfocarbe.pdf}.
+\newblock Retrieved: March 1, 2022 (French document).
+
+\bibitem[\protect\astroncite{Antweiler and Taylor}{2008}]{Antweiler2008}
+Antweiler, R.~C. and Taylor, H.~E. (2008).
+\newblock Evaluation of statistical treatments of left-censored environmental
+  data using coincident uncensored data sets: I. summary statistics.
+\newblock {\em Environmental Science {\&} Technology}, 42(10):3732--3738.
+
+\bibitem[\protect\astroncite{Arias-Castro et~al.}{2011}]{10.1214/10-AOS839}
+Arias-Castro, E., Candès, E.~J., and Durand, A. (2011).
+\newblock {Detection of an anomalous cluster in a network}.
+\newblock {\em The Annals of Statistics}, 39(1):278 -- 304.
+
+\bibitem[\protect\astroncite{Aznar et~al.}{2017}]{aznar2017spatio}
+Aznar, R., Moreno-Ram{\'o}n, H., Albero, B., S{\'a}nchez-Brunete, C., and
+  Tadeo, J.~L. (2017).
+\newblock Spatio-temporal distribution of pyrethroids in soil in mediterranean
+  paddy fields.
+\newblock {\em Journal of Soils and Sediments}, 17(5):1503--1513.
+
+\bibitem[\protect\astroncite{Bai}{1994}]{Bai1994}
+Bai, J. (1994).
+\newblock {LEAST} {SQUARES} {ESTIMATION} {OF} a {SHIFT} {IN} {LINEAR}
+  {PROCESSES}.
+\newblock {\em Journal of Time Series Analysis}, 15(5):453--472.
+
+\bibitem[\protect\astroncite{{Bardet, Jean-Marc} et~al.}{2020}]{bardet2020}
+{Bardet, Jean-Marc}, {Brault, Vincent}, {Dachian, Serguei}, {Enikeeva, Farida},
+  and {Saussereau, Bruno} (2020).
+\newblock Change-point detection, segmentation, and related topics.
+\newblock {\em ESAIM: ProcS}, 68:97--122.
+
+\bibitem[\protect\astroncite{Basseville and
+  Nikiforov}{1993}]{basseville1993detection}
+Basseville, M. and Nikiforov, I.~V. (1993).
+\newblock {\em Detection of Abrupt Change: Theory and Application}, volume~15.
+\newblock prentice Hall Englewood Cliffs.
+
+\bibitem[\protect\astroncite{Borzsony et~al.}{2001}]{914855}
+Borzsony, S., Kossmann, D., and Stocker, K. (2001).
+\newblock The skyline operator.
+\newblock In {\em Proceedings 17th International Conference on Data
+  Engineering}, pages 421--430.
+
+\bibitem[\protect\astroncite{Bouveyron et~al.}{2022}]{bouveyron2021co}
+Bouveyron, C., Jacques, J., Schmutz, A., Simoes, F., and Bottini, S. (2022).
+\newblock Co-clustering of multivariate functional data for the analysis of air
+  pollution in the south of france.
+\newblock {\em Annals of Applied Statistics}, 16(3):1400–1422.
+
+\bibitem[\protect\astroncite{Bunce et~al.}{2018}]{BUNCE_2018}
+Bunce, C., Carr, J.~R., Nienow, P.~W., Ross, N., and Killick, R. (2018).
+\newblock Ice front change of marine-terminating outlet glaciers in northwest
+  and southeast greenland during the 21st century.
+\newblock {\em Journal of Glaciology}, 64(246):523--535.
+
+\bibitem[\protect\astroncite{Byrd et~al.}{1995}]{Byrd1995}
+Byrd, R.~H., Lu, P., Nocedal, J., and Zhu, C. (1995).
+\newblock A limited memory algorithm for bound constrained optimization.
+\newblock {\em {SIAM} Journal on Scientific Computing}, 16(5):1190--1208.
+
+\bibitem[\protect\astroncite{Canales et~al.}{2018}]{Canales2018}
+Canales, R.~A., Wilson, A.~M., Pearce-Walker, J.~I., Verhougstraete, M.~P., and
+  Reynolds, K.~A. (2018).
+\newblock Methods for handling left-censored data in quantitative microbial
+  risk assessment.
+\newblock {\em Applied and Environmental Microbiology}, 84(20):e01203--18.
+
+\bibitem[\protect\astroncite{Ccanccapa et~al.}{2016}]{masia2016}
+Ccanccapa, A., Masiá, A., Andreu, V., and Picó, Y. (2016).
+\newblock Spatio-temporal patterns of pesticide residues in the turia and
+  júcar rivers (spain).
+\newblock {\em Science of The Total Environment}, 540:200--210.
+\newblock 5th Special Issue SCARCE: River Conservation under Multiple
+  stressors: Integration of ecological status, pollution and hydrological
+  variability.
+
+\bibitem[\protect\astroncite{Chen and Gupta}{2012}]{chen2012parametric}
+Chen, J. and Gupta, A.~K. (2012).
+\newblock {\em Parametric statistical change point analysis: With applications
+  to genetics, medicine, and finance}.
+\newblock Springer.
+
+\bibitem[\protect\astroncite{Chen
+  et~al.}{2020}]{doi:10.1080/07474946.2020.1826796}
+Chen, J., Kim, S.-H., and Xie, Y. (2020).
+\newblock S3t: A score statistic for spatiotemporal change point detection.
+\newblock {\em Sequential Analysis}, 39(4):563--592.
+
+\bibitem[\protect\astroncite{Chen et~al.}{1998}]{chen1998speaker}
+Chen, S., Gopalakrishnan, P., et~al. (1998).
+\newblock Speaker, environment and channel change detection and clustering via
+  the bayesian information criterion.
+\newblock In {\em Proc. DARPA broadcast news transcription and understanding
+  workshop}, volume~8, pages 127--132. Citeseer.
+
+\bibitem[\protect\astroncite{Cohen}{1965}]{cohen1965maximum}
+Cohen, A.~C. (1965).
+\newblock Maximum likelihood estimation in the weibull distribution based on
+  complete and on censored samples.
+\newblock {\em Technometrics}, 7(4):579--588.
+
+\bibitem[\protect\astroncite{Costa et~al.}{2016}]{costa2016}
+Costa, M., Gonçalves, A.~M., and Teixeira, L. (2016).
+\newblock Change-point detection in environmental time series based on the
+  informational approach.
+\newblock {\em Electronic Journal of Applied Statistical Analysis},
+  9(2):267--296.
+
+\bibitem[\protect\astroncite{Cressie and Wikle}{2015}]{cressie2015}
+Cressie, N. and Wikle, C.~K. (2015).
+\newblock {\em Statistics for spatio-temporal data}.
+\newblock John Wiley \& Sons.
+
+\bibitem[\protect\astroncite{Croghan and Egeghy}{2003}]{Croghan2003MethodsOD}
+Croghan, W. and Egeghy, P.~P. (2003).
+\newblock Methods of dealing with values below the limit of detection using sas
+  carry.
+\newblock In {\em The Proceedings of the SouthEast SAS Users Group}.
+
+\bibitem[\protect\astroncite{Delignette-Muller and
+  Dutang}{2015}]{delignette2015}
+Delignette-Muller, M.~L. and Dutang, C. (2015).
+\newblock fitdistrplus: An r package for fitting distributions.
+\newblock {\em Journal of statistical software}, 64:1--34.
+
+\bibitem[\protect\astroncite{Einmahl and McKeague}{2003}]{Einmahl2003}
+Einmahl, J. H.~J. and McKeague, I.~W. (2003).
+\newblock Empirical likelihood based hypothesis testing.
+\newblock {\em Bernoulli}, 9(2):267--290.
+
+\bibitem[\protect\astroncite{Endres et~al.}{2015}]{endres2015scalagon}
+Endres, M., Roocks, P., and Kie{\ss}ling, W. (2015).
+\newblock Scalagon: an efficient skyline algorithm for all seasons.
+\newblock In {\em International Conference on Database Systems for Advanced
+  Applications}, pages 292--308. Springer.
+
+\bibitem[\protect\astroncite{{European Food Safety
+  Authority}}{2010}]{Authority2010}
+{European Food Safety Authority} (2010).
+\newblock Management of left‐censored data in dietary exposure assessment of
+  chemical substances.
+\newblock {\em EFSA Journal}, 8(3):1557.
+
+\bibitem[\protect\astroncite{Fawcett}{2006}]{Fawcett2006}
+Fawcett, T. (2006).
+\newblock An introduction to {ROC} analysis.
+\newblock {\em Pattern Recognition Letters}, 27(8):861--874.
+
+\bibitem[\protect\astroncite{Fearnhead et~al.}{2018}]{Fearnhead2018}
+Fearnhead, P., Maidstone, R., and Letchford, A. (2018).
+\newblock Detecting changes in slope with an $l_0$ penalty.
+\newblock {\em Journal of Computational and Graphical Statistics},
+  28(2):265--275.
+
+\bibitem[\protect\astroncite{Figueiredo et~al.}{2021}]{figueiredo2021spatio}
+Figueiredo, D.~M., Duyzer, J., Huss, A., Krop, E.~J., Gerritsen-Ebben, M.,
+  Gooijer, Y., and Vermeulen, R.~C. (2021).
+\newblock Spatio-temporal variation of outdoor and indoor pesticide air
+  concentrations in homes near agricultural fields.
+\newblock {\em Atmospheric Environment}, 262:118612.
+
+\bibitem[\protect\astroncite{Fortunato}{2010}]{FortunatoSurveyGraphs2010}
+Fortunato, S. (2010).
+\newblock Community detection in graphs.
+\newblock {\em Physics Reports}, 486(3-5):75 -- 174.
+
+\bibitem[\protect\astroncite{Frick et~al.}{2014}]{Frick2014}
+Frick, K., Munk, A., and Sieling, H. (2014).
+\newblock Multiscale change point inference.
+\newblock {\em Journal of the Royal Statistical Society. Series B (Statistical
+  Methodology)}, 76(3):495--580.
+
+\bibitem[\protect\astroncite{Fryzlewicz}{2014}]{Fryzlewicz2014}
+Fryzlewicz, P. (2014).
+\newblock Wild binary segmentation for multiple change-point detection.
+\newblock {\em The Annals of Statistics}, 42(6).
+
+\bibitem[\protect\astroncite{Gillaizeau et~al.}{2020}]{Gillaizeau2020}
+Gillaizeau, F., Gal, C.~L., Maudet, C., Fournier, M., and Leuillet, S. (2020).
+\newblock M{\'{e}}thodes de gestion des valeurs sous des seuils de
+  d{\'{e}}tection ou de quantification.
+\newblock {\em Revue d{\textquotesingle}{\'{E}}pid{\'{e}}miologie et de
+  Sant{\'{e}} Publique}, 68:S137.
+
+\bibitem[\protect\astroncite{Gillespie et~al.}{2010}]{Gillespie2010}
+Gillespie, B.~W., Chen, Q., Reichert, H., Franzblau, A., Hedgeman, E.,
+  Lepkowski, J., Adriaens, P., Demond, A., Luksemburg, W., and Garabrant, D.~H.
+  (2010).
+\newblock Estimating population distributions when some data are below a limit
+  of detection by using a reverse kaplan-meier estimator.
+\newblock {\em Epidemiology}, 21(4):S64--S70.
+
+\bibitem[\protect\astroncite{Harchaoui and
+  L{\'{e}}vy-Leduc}{2010}]{Harchaoui2010}
+Harchaoui, Z. and L{\'{e}}vy-Leduc, C. (2010).
+\newblock Multiple change-point estimation with a total variation penalty.
+\newblock {\em Journal of the American Statistical Association},
+  105(492):1480--1493.
+
+\bibitem[\protect\astroncite{Harchaoui et~al.}{2008}]{Harchaoui2008}
+Harchaoui, Z., Moulines, E., and Bach, F. (2008).
+\newblock Kernel change-point analysis.
+\newblock In Koller, D., Schuurmans, D., Bengio, Y., and Bottou, L., editors,
+  {\em Advances in Neural Information Processing Systems}, volume~21. Curran
+  Associates, Inc.
+
+\bibitem[\protect\astroncite{Harvell et~al.}{1999}]{Harvell1999}
+Harvell, C.~D., Kim, K., Burkholder, J.~M., Colwell, R.~R., Epstein, P.~R.,
+  Grimes, D.~J., Hofmann, E.~E., Lipp, E.~K., Osterhaus, A. D. M.~E.,
+  Overstreet, R.~M., Porter, J.~W., Smith, G.~W., and Vasta, G.~R. (1999).
+\newblock Emerging marine diseases--climate links and anthropogenic factors.
+\newblock {\em Science}, 285(5433):1505--1510.
+
+\bibitem[\protect\astroncite{Haynes et~al.}{2014}]{haynes2014}
+Haynes, K., Eckley, I.~A., and Fearnhead, P. (2014).
+\newblock Efficient penalty search for multiple changepoint problems.
+\newblock {\em arXiv preprint arXiv:1412.3617}.
+
+\bibitem[\protect\astroncite{Haynes et~al.}{2017}]{haynes2017}
+Haynes, K., Eckley, I.~A., and Fearnhead, P. (2017).
+\newblock Computationally efficient changepoint detection for a range of
+  penalties.
+\newblock {\em Journal of Computational and Graphical Statistics},
+  26(1):134--143.
+
+\bibitem[\protect\astroncite{He and Severini}{2010}]{He2010}
+He, H. and Severini, T.~A. (2010).
+\newblock Asymptotic properties of maximum likelihood estimators in models with
+  multiple change points.
+\newblock {\em Bernoulli}, 16(3).
+
+\bibitem[\protect\astroncite{H{\'e}brail et~al.}{2010}]{hebrail2010exploratory}
+H{\'e}brail, G., Hugueney, B., Lechevallier, Y., and Rossi, F. (2010).
+\newblock Exploratory analysis of functional data via clustering and optimal
+  segmentation.
+\newblock {\em Neurocomputing}, 73(7-9):1125--1141.
+
+\bibitem[\protect\astroncite{Hewett and Ganser}{2007}]{Hewett2007ACO}
+Hewett, P. and Ganser, G.~H. (2007).
+\newblock A comparison of several methods for analyzing censored data.
+\newblock {\em The Annals of occupational hygiene}, 51 7:611--32.
+
+\bibitem[\protect\astroncite{H{\"o}hle}{2010}]{hohle2010online}
+H{\"o}hle, M. (2010).
+\newblock Online change-point detection in categorical time series.
+\newblock In {\em Statistical modelling and regression structures}, pages
+  377--397. Springer.
+
+\bibitem[\protect\astroncite{Höök and Tang}{2013}]{Hoeoek2013}
+Höök, M. and Tang, X. (2013).
+\newblock Depletion of fossil fuels and anthropogenic climate
+  change{\textemdash}a review.
+\newblock {\em Energy Policy}, 52:797--809.
+
+\bibitem[\protect\astroncite{{Institut National de l'Information Géographique
+  et Forestière}}{2020}]{IGN:RPG}
+{Institut National de l'Information Géographique et Forestière} (2020).
+\newblock {Registre parcellaire graphique (RPG)}.
+\newblock \url{https://geoservices.ign.fr/bdtopo}.
+\newblock Retrieved: March 1, 2022.
+
+\bibitem[\protect\astroncite{{Institut National de l'Information Géographique
+  et Forestière}}{2021}]{IGN:BD:TOPO}
+{Institut National de l'Information Géographique et Forestière} (2021).
+\newblock {BD TOPO{\sffamily\textregistered}}.
+\newblock \url{https://geoservices.ign.fr/bdtopo}.
+\newblock Retrieved: March 1, 2022.
+
+\bibitem[\protect\astroncite{Jackson et~al.}{2005}]{Jackson2005}
+Jackson, B., Scargle, J., Barnes, D., Arabhi, S., Alt, A., Gioumousis, P.,
+  Gwin, E., San, P., Tan, L., and Tsai, T.~T. (2005).
+\newblock An algorithm for optimal partitioning of data on an interval.
+\newblock {\em {IEEE} Signal Processing Letters}, 12(2):105--108.
+
+\bibitem[\protect\astroncite{Jensen}{1969}]{Jensen1969}
+Jensen, R.~E. (1969).
+\newblock A dynamic programming algorithm for cluster analysis.
+\newblock {\em Operations Research}, 17(6):1034--1057.
+
+\bibitem[\protect\astroncite{Johnson et~al.}{1994}]{Johnson1994}
+Johnson, N.~L., Kotz, S., and Balakrishnan, N. (1994).
+\newblock {\em Continuous Univariate Distributions}.
+\newblock Wiley-Interscience.
+
+\bibitem[\protect\astroncite{Khopkar}{2007}]{khopkar2007}
+Khopkar, S. (2007).
+\newblock {\em Environmental pollution monitoring and control}.
+\newblock New Age International.
+
+\bibitem[\protect\astroncite{Kießling}{2002}]{KIELING2002311}
+Kießling, W. (2002).
+\newblock Chapter 28 - foundations of preferences in database systems.
+\newblock In Bernstein, P.~A., Ioannidis, Y.~E., Ramakrishnan, R., and
+  Papadias, D., editors, {\em VLDB '02: Proceedings of the 28th International
+  Conference on Very Large Databases}, pages 311--322. Morgan Kaufmann, San
+  Francisco.
+
+\bibitem[\protect\astroncite{Killick et~al.}{2012}]{Killick2012}
+Killick, R., Fearnhead, P., and Eckley, I.~A. (2012).
+\newblock Optimal detection of changepoints with a linear computational cost.
+\newblock {\em Journal of the American Statistical Association},
+  107(500):1590--1598.
+
+\bibitem[\protect\astroncite{Lavielle}{1999}]{Lavielle1997}
+Lavielle, M. (1999).
+\newblock Detection of multiple changes in a sequence of dependent variables.
+\newblock {\em Stochastic Processes and their Applications}, 83(1):79--102.
+
+\bibitem[\protect\astroncite{L{\'e}vy-Leduc and
+  Roueff}{2009}]{levy2009detection}
+L{\'e}vy-Leduc, C. and Roueff, F. (2009).
+\newblock Detection and localization of change-points in high-dimensional
+  network traffic data.
+\newblock {\em The Annals of Applied Statistics}, 3:637--662.
+
+\bibitem[\protect\astroncite{Lewis et~al.}{2016}]{Lewisetal2016database}
+Lewis, K., Tzilivakis, J., Warner, D., and Green, A. (2016).
+\newblock An international database for pesticide risk assessments and
+  management.
+\newblock {\em Human and Ecological Risk Assessment: An International Journal},
+  22(4):1050--1064.
+
+\bibitem[\protect\astroncite{Li et~al.}{2015}]{li2015m}
+Li, S., Xie, Y., Dai, H., and Song, L. (2015).
+\newblock M-statistic for kernel change-point detection.
+\newblock {\em Advances in Neural Information Processing Systems}, 28.
+
+\bibitem[\protect\astroncite{Li et~al.}{2010}]{Li2010}
+Li, W., Guo, W., Luo, X., and Li, X. (2010).
+\newblock On sliding window based change point detection for hybrid {SIP} {DoS}
+  attack.
+\newblock In {\em 2010 {IEEE} Asia-Pacific Services Computing Conference}.
+  {IEEE}.
+
+\bibitem[\protect\astroncite{Li et~al.}{2021}]{Li2021}
+Li, Y., Bao, T., Shu, X., Gao, Z., Gong, J., and Zhang, K. (2021).
+\newblock Data-driven crack behavior anomaly identification method for concrete
+  dams in long-term service using offline and online change point detection.
+\newblock {\em Journal of Civil Structural Health Monitoring},
+  11(5):1449--1460.
+
+\bibitem[\protect\astroncite{Liang et~al.}{2019}]{liang2019using}
+Liang, Z., Qian, S.~S., Wu, S., Chen, H., Liu, Y., Yu, Y., and Yi, X. (2019).
+\newblock Using bayesian change point model to enhance understanding of the
+  shifting nutrients-phytoplankton relationship.
+\newblock {\em Ecological Modelling}, 393:120--126.
+
+\bibitem[\protect\astroncite{Lindstr{\"o}m
+  et~al.}{2014}]{lindstrom2014flexible}
+Lindstr{\"o}m, J., Szpiro, A.~A., Sampson, P.~D., Oron, A.~P., Richards, M.,
+  Larson, T.~V., and Sheppard, L. (2014).
+\newblock A flexible spatio-temporal model for air pollution with spatial and
+  spatio-temporal covariates.
+\newblock {\em Environmental and ecological statistics}, 21(3):411--433.
+
+\bibitem[\protect\astroncite{Liu et~al.}{2022}]{Liu2022}
+Liu, C., Chen, Y., Chen, F., Zhu, P., and Chen, L. (2022).
+\newblock Sliding window change point detection based dynamic network model
+  inference framework for airport ground service process.
+\newblock {\em Knowledge-Based Systems}, 238:107701.
+
+\bibitem[\protect\astroncite{Liu et~al.}{2017}]{liu2017change}
+Liu, S., Wright, A., and Hauskrecht, M. (2017).
+\newblock Change-point detection method for clinical decision support system
+  rule monitoring.
+\newblock In {\em Conference on Artificial Intelligence in Medicine in Europe},
+  pages 126--135. Springer.
+
+\bibitem[\protect\astroncite{Lung-Yut-Fong et~al.}{2011}]{YutFong2011}
+Lung-Yut-Fong, A., L{\'{e}}vy-Leduc, C., and Capp{\'{e}}, O. (2011).
+\newblock Distributed detection/localization of change-points in
+  high-dimensional network traffic data.
+\newblock {\em Statistics and Computing}, 22(2):485--496.
+
+\bibitem[\protect\astroncite{Lung-Yut-Fong et~al.}{2015}]{lung2015}
+Lung-Yut-Fong, A., L{\'e}vy-Leduc, C., and Capp{\'e}, O. (2015).
+\newblock Homogeneity and change-point detection tests for multivariate data
+  using rank statistics.
+\newblock {\em Journal de la Soci{\'e}t{\'e} Fran{\c{c}}aise de Statistique},
+  156(4):133--162.
+
+\bibitem[\protect\astroncite{Maidstone et~al.}{2016}]{Maidstone2016}
+Maidstone, R., Hocking, T., Rigaill, G., and Fearnhead, P. (2016).
+\newblock On optimal multiple changepoint algorithms for large data.
+\newblock {\em Statistics and Computing}, 27(2):519--533.
+
+\bibitem[\protect\astroncite{Majumdar et~al.}{2005}]{MAJUMDAR2005149}
+Majumdar, A., Gelfand, A.~E., and Banerjee, S. (2005).
+\newblock Spatio-temporal change-point modeling.
+\newblock {\em Journal of Statistical Planning and Inference}, 130(1):149--166.
+\newblock Herman Chernoff: Eightieth Birthday Felicitation Volume.
+
+\bibitem[\protect\astroncite{Manly}{2008}]{Manly2008}
+Manly, B.~F. (2008).
+\newblock {\em Statistics for Environmental Science and Management}.
+\newblock Chapman and Hall/{CRC}.
+
+\bibitem[\protect\astroncite{Marchant et~al.}{2018}]{Marchant2018}
+Marchant, C., Leiva, V., Christakos, G., and Cavieres, M.~F. (2018).
+\newblock Monitoring urban environmental pollution by bivariate control charts:
+  New methodology and case study in santiago, chile.
+\newblock {\em Environmetrics}, 30(5):e2551.
+
+\bibitem[\protect\astroncite{Mitra and Kundu}{2008}]{Mitra2008}
+Mitra, S. and Kundu, D. (2008).
+\newblock Analysis of left censored data from the generalized exponential
+  distribution.
+\newblock {\em Journal of Statistical Computation and Simulation},
+  78(7):669--679.
+
+\bibitem[\protect\astroncite{Mori et~al.}{2012}]{Mori2012}
+Mori, A.~S., Furukawa, T., and Sasaki, T. (2012).
+\newblock Response diversity determines the resilience of ecosystems to
+  environmental change.
+\newblock {\em Biological Reviews}, 88(2):349--364.
+
+\bibitem[\protect\astroncite{{National Center for Biotechnology
+  Information}}{2022}]{Prosulfocarb:NIH:url}
+{National Center for Biotechnology Information} (2022).
+\newblock {PubChem Compound Summary for CID 62020, Prosulfocarb}.
+\newblock \url{https://pubchem.ncbi.nlm.nih.gov/compound/Prosulfocarb}.
+\newblock Retrieved: March 1, 2022.
+
+\bibitem[\protect\astroncite{Newman}{2003}]{Newman2003GraphSurveySIAM}
+Newman, M. E.~J. (2003).
+\newblock The structure and function of complex networks.
+\newblock {\em SIAM Review}, 45:167--256.
+
+\bibitem[\protect\astroncite{Nougadère et~al.}{2014}]{NOUGADERE201432}
+Nougadère, A., Merlo, M., Héraud, F., Réty, J., Truchot, E., Vial, G.,
+  Cravedi, J.-P., and Leblanc, J.-C. (2014).
+\newblock How dietary risk assessment can guide risk management and food
+  monitoring programmes: The approach and results of the french observatory on
+  pesticide residues (anses/orp).
+\newblock {\em Food Control}, 41:32--48.
+
+\bibitem[\protect\astroncite{{Office français de la biodiversité}}{}]{Naiade}
+{Office français de la biodiversité}.
+\newblock Na\"{\i}ades, données sur la qualité des eaux de surface.
+\newblock \url{http://www.naiades.eaufrance.fr/},
+  \url{http://www.ofb.gouv.fr/}.
+\newblock Retrieved: March 1, 2022.
+
+\bibitem[\protect\astroncite{{Office français de la biodiversité and Système
+  d'Information sur l'Eau}}{2021}]{BNVD}
+{Office français de la biodiversité and Système d'Information sur l'Eau}
+  (2021).
+\newblock Achats de pesticides par code postal.
+\newblock
+  \url{https://geo.data.gouv.fr/fr/datasets/bdc2c6f21f70acccfea73445f68a5f0d6ee5b7c1},
+  \url{https://www.eaufrance.fr/}, \url{http://www.ofb.gouv.fr/}.
+\newblock Retrieved: March 1, 2022.
+
+\bibitem[\protect\astroncite{Ortega et~al.}{2018}]{8347162}
+Ortega, A., Frossard, P., Kovačević, J., Moura, J. M.~F., and Vandergheynst,
+  P. (2018).
+\newblock Graph signal processing: Overview, challenges, and applications.
+\newblock {\em Proceedings of the IEEE}, 106(5):808--828.
+
+\bibitem[\protect\astroncite{Ozgul et~al.}{2010}]{Ozgul2010}
+Ozgul, A., Childs, D.~Z., Oli, M.~K., Armitage, K.~B., Blumstein, D.~T., Olson,
+  L.~E., Tuljapurkar, S., and Coulson, T. (2010).
+\newblock Coupled dynamics of body mass and population growth in response to
+  environmental change.
+\newblock {\em Nature}, 466(7305):482--485.
+
+\bibitem[\protect\astroncite{Pettitt}{1980}]{Pettitt1980}
+Pettitt, A. (1980).
+\newblock Some results on estimating a change-point using non-parametric type
+  statistics.
+\newblock {\em Journal of Statistical Computation and Simulation},
+  11(3-4):261--272.
+
+\bibitem[\protect\astroncite{Ranganathan}{2010}]{ranganathan2010pliss}
+Ranganathan, A. (2010).
+\newblock Pliss: Detecting and labeling places using online change-point
+  detection.
+\newblock {\em Robotics: Science and Systems VI}.
+
+\bibitem[\protect\astroncite{Reeves et~al.}{2007}]{reeves2007review}
+Reeves, J., Chen, J., Wang, X.~L., Lund, R., and Lu, Q.~Q. (2007).
+\newblock A review and comparison of changepoint detection techniques for
+  climate data.
+\newblock {\em Journal of applied meteorology and climatology}, 46(6):900--915.
+
+\bibitem[\protect\astroncite{Renaud et~al.}{2013}]{renaud:hal-01218670}
+Renaud, E., Large, A., Werey, C., and Barbier, R. (2013).
+\newblock {Les {\'e}chelles des syst{\`e}mes d'information et d'indicateurs de
+  l'eau destin{\'e}e {\`a} la consommation humaine : int{\'e}r{\^e}ts et
+  r{\^o}les d'un {\'e}chelon d{\'e}partemental ou supra-local}.
+\newblock In {\em {Congr{\`e}s de l'ASTEE}}, page 20 p., Nantes, France.
+\newblock Congr{\`e}s de l'ASTEE, Nantes, FRA, 04-/06/2013 - 07/06/2013.
+
+\bibitem[\protect\astroncite{Rigaill et~al.}{2012}]{rigaill2012exact}
+Rigaill, G., Lebarbier, E., and Robin, S. (2012).
+\newblock Exact posterior distributions and model selection criteria for
+  multiple change-point detection problems.
+\newblock {\em Statistics and computing}, 22(4):917--929.
+
+\bibitem[\protect\astroncite{Roocks}{2016}]{RJ-2016-054}
+Roocks, P. (2016).
+\newblock {Computing Pareto Frontiers and Database Preferences with the rPref
+  Package}.
+\newblock {\em {The R Journal}}, 8(2):393--404.
+
+\bibitem[\protect\astroncite{Sadani et~al.}{2019}]{sadani2019new}
+Sadani, S., Abdollahnezhad, K., Teimouri, M., and Ranjbar, V. (2019).
+\newblock A new estimator for weibull distribution parameters: Comprehensive
+  comparative study for weibull distribution.
+\newblock {\em arXiv preprint arXiv:1902.05658}.
+
+\bibitem[\protect\astroncite{Sampson et~al.}{2011}]{sampson2011}
+Sampson, P.~D., Szpiro, A.~A., Sheppard, L., Lindström, J., and Kaufman, J.~D.
+  (2011).
+\newblock Pragmatic estimation of a spatio-temporal air quality model with
+  irregular monitoring data.
+\newblock {\em Atmospheric Environment}, 45(36):6593--6606.
+
+\bibitem[\protect\astroncite{Schaeffer}{2007}]{Schaeffer:COSREV2007}
+Schaeffer, S.~E. (2007).
+\newblock Graph clustering.
+\newblock {\em Computer Science Review}, 1(1):27--64.
+
+\bibitem[\protect\astroncite{Shi et~al.}{2022}]{Shi2022}
+Shi, X., Beaulieu, C., Killick, R., and Lund, R. (2022).
+\newblock Changepoint detection: An analysis of the central england temperature
+  series.
+\newblock {\em Journal of Climate}, pages 1 -- 46.
+
+\bibitem[\protect\astroncite{Shipley}{2016}]{shipley2016}
+Shipley, B. (2016).
+\newblock {\em Cause and correlation in biology: a user's guide to path
+  analysis, structural equations and causal inference with R}.
+\newblock Cambridge University Press.
+
+\bibitem[\protect\astroncite{Shoari and Dub{\'e}}{2018}]{shoari2018toward}
+Shoari, N. and Dub{\'e}, J.-S. (2018).
+\newblock Toward improved analysis of concentration data: embracing nondetects.
+\newblock {\em Environmental toxicology and chemistry}, 37(3):643--656.
+
+\bibitem[\protect\astroncite{Shuman et~al.}{2013}]{6494675}
+Shuman, D.~I., Narang, S.~K., Frossard, P., Ortega, A., and Vandergheynst, P.
+  (2013).
+\newblock The emerging field of signal processing on graphs: Extending
+  high-dimensional data analysis to networks and other irregular domains.
+\newblock {\em IEEE Signal Processing Magazine}, 30(3):83--98.
+
+\bibitem[\protect\astroncite{Tartakovsky and
+  Moustakides}{2010}]{tartakovsky2010state}
+Tartakovsky, A.~G. and Moustakides, G.~V. (2010).
+\newblock State-of-the-art in bayesian changepoint detection.
+\newblock {\em Sequential Analysis}, 29(2):125--145.
+
+\bibitem[\protect\astroncite{Truong et~al.}{2020}]{truong2020}
+Truong, C., Oudre, L., and Vayatis, N. (2020).
+\newblock Selective review of offline change point detection methods.
+\newblock {\em Signal Processing}, 167:107299.
+
+\bibitem[\protect\astroncite{van Os and Meulman}{2004}]{Os2004}
+van Os, B. and Meulman, J. (2004).
+\newblock Improving dynamic programming strategies for partitioning.
+\newblock {\em Journal of Classification}, 21(2):207--230.
+
+\bibitem[\protect\astroncite{Verbeke and Cools}{1995}]{Verbeke1995}
+Verbeke, J. and Cools, R. (1995).
+\newblock The newton-raphson method.
+\newblock {\em International Journal of Mathematical Education in Science and
+  Technology}, 26(2):177--193.
+
+\bibitem[\protect\astroncite{Vert and Bleakley}{2010}]{NIPS2010}
+Vert, J.-p. and Bleakley, K. (2010).
+\newblock Fast detection of multiple change-points shared by many signals using
+  group lars.
+\newblock In Lafferty, J., Williams, C., Shawe-Taylor, J., Zemel, R., and
+  Culotta, A., editors, {\em Advances in Neural Information Processing
+  Systems}, volume~23. Curran Associates, Inc.
+
+\bibitem[\protect\astroncite{Villani}{2009}]{villani2009optimal}
+Villani, C. (2009).
+\newblock {\em Optimal transport: old and new}, volume 338.
+\newblock Springer.
+
+\bibitem[\protect\astroncite{Wang et~al.}{2019}]{Wang2019}
+Wang, Y., Wang, Z., and Zi, X. (2019).
+\newblock Rank-based multiple change-point detection.
+\newblock {\em Communications in Statistics - Theory and Methods},
+  49(14):3438--3454.
+
+\bibitem[\protect\astroncite{Wasson et~al.}{2002}]{wasson:hal-02580774}
+Wasson, J., Chandesris, A., Pella, H., and Blanc, L. (2002).
+\newblock {D{\'e}finition des hydro-{\'e}cor{\'e}gions fran{\c c}aises
+  m{\'e}tropolitaines. Approche r{\'e}gionale de la typologie des eaux
+  courantes et {\'e}l{\'e}ments pour la d{\'e}finition des peuplements de
+  r{\'e}f{\'e}rence d'invert{\'e}br{\'e}s}.
+\newblock Technical report, {irstea}.
+
+\bibitem[\protect\astroncite{Yang and Kuo}{2001}]{Yang2001}
+Yang, T.~Y. and Kuo, L. (2001).
+\newblock Bayesian binary segmentation procedure for a poisson process with
+  multiple changepoints.
+\newblock {\em Journal of Computational and Graphical Statistics},
+  10(4):772--785.
+
+\bibitem[\protect\astroncite{Yao}{1988}]{YAO1988181}
+Yao, Y.-C. (1988).
+\newblock Estimating the number of change-points via schwarz' criterion.
+\newblock {\em Statistics and Probability Letters}, 6(3):181--189.
+
+\bibitem[\protect\astroncite{Zhang and Siegmund}{2006}]{Zhang2006}
+Zhang, N.~R. and Siegmund, D.~O. (2006).
+\newblock A modified bayes information criterion with applications to the
+  analysis of comparative genomic hybridization data.
+\newblock {\em Biometrics}, 63(1):22--32.
+
+\bibitem[\protect\astroncite{Zhao and Chu}{2010a}]{zhao2010bayesian}
+Zhao, X. and Chu, P.-S. (2010a).
+\newblock Bayesian changepoint analysis for extreme events (typhoons, heavy
+  rainfall, and heat waves): An rjmcmc approach.
+\newblock {\em Journal of Climate}, 23(5):1034--1046.
+
+\bibitem[\protect\astroncite{Zhao and Chu}{2010b}]{Zhao2010}
+Zhao, X. and Chu, P.-S. (2010b).
+\newblock Bayesian changepoint analysis for extreme events (typhoons, heavy
+  rainfall, and heat waves): An {RJMCMC} approach.
+\newblock {\em Journal of Climate}, 23(5):1034--1046.
+
+\bibitem[\protect\astroncite{Zheng et~al.}{2021}]{Zheng2021}
+Zheng, K., Tan, L., Sun, Y., Wu, Y., Duan, Z., Xu, Y., and Gao, C. (2021).
+\newblock Impacts of climate change and anthropogenic activities on vegetation
+  change: Evidence from typical areas in china.
+\newblock {\em Ecological Indicators}, 126:107648.
+
+\bibitem[\protect\astroncite{Zou et~al.}{2014}]{Zou2014}
+Zou, C., Yin, G., Feng, L., and Wang, Z. (2014).
+\newblock Nonparametric maximum likelihood approach to multiple change-point
+  problems.
+\newblock {\em The Annals of Statistics}, 42(3).
+
+\end{thebibliography}

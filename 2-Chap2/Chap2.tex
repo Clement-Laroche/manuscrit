@@ -1,0 +1,191 @@
+\chapter{Chapter 2 : Change-point detection state of the art}\label{chp:2}
+
+\minitoc
+
+As discussed in Chapter \ref{chp:1}, it is critical to determine time periods during which the properties of the concentration signal are constant. This is a mathematical problem that has been extensively addressed in the literature in the form of breakpoint detection. There are two types of breakpoint detection algorithms:
+
+\begin{itemize}
+\item \textbf{Off-line methods:} There are numerous reviews of this topic in the literature, among the most extensive are \cite{basseville1993detection,truong2020}. In these methods, one works with the entire data signal. Breakpoints are identified by following the signal from the most recent date to the earliest date. There are numerous applications of these methods in different application areas \cite{chen2012parametric,levy2009detection,Shi2022,Li2021}
+\item \textbf{On-line methods:} a detailed description of these methods can be found in \cite{basseville1993detection}. The difference with the methods of the previous point is that the detection of a breakpoint is done when the data is read. The goal is to detect as quickly as possible a point in time during the reading where the characteristics of the signal have changed. 
+\end{itemize}
+
+This work will focus only on the off-line methods that we will develop in the following sections. This choice was motivated by the operational speed of data samplng and storing on which this work is based. Clearly, on-line detection methods would be of interest to the Anses if the goal were to act urgently and investigate any potentially anomalous signal as soon as it is detected. However, the agency's missions are longer term in nature. At the time this work began, data were being collected annually, so the use of online methods was inappropriate. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \cite{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
+
+Breakpoint detection methods were excluded from this work and therefore are not be presented in this state of the art. Although these methods are of interest to the task set in this manuscript. The focus of this work was to explore frequentist models and their adaptation to the specificities of concentration data (see Chapter \ref{chp:3}). However, numerous examples of application of bayesian methods can be found in the literature \cite{rigaill2012exact,tartakovsky2010state,adams2007bayesian,zhao2010bayesian,liang2019using}.
+
+The outline of the state of the art is strongly based on the nomenclature established in (Truong). Section 1 describes the modelling used in the theory of breakpoint detection theory in parametric and nonparametric frameworks will be described in Section 1. The breakpoint search methods are then discussed in Section 2. The various existing methods for calibrating the penalty for the case where the number of breaks is unknown are presented in Section 3. Although the bulk of our work deals with univariate data, we will extend the methods discussed to the case where the variables are multivariate.
+
+
+\section{Models}\label{chp2:model}
+
+Several terms are introduced and will be retained in this section. We consider a signal consisting of observations $\bm y = (y_1,...,y_n)$ which are the realisations of random variables $Y_1,...,Y_n$. This signal is assumed to be piecewise stationary. Its properties are constant over parts, which we will call segments, and change at times $t_1^* <... < t_k^* <... < t_{K^*}^*$. A segment of the signal from the u-th coordinate to the v-th is noted $y_{u:v}$. Following the convention, let $t_0 = 0$ and $t_{K^*+1} = n$. In our context, the purpose of breakpoint detection is to estimate the positions $t_k^*$ and the number of breaks $K^*$ when it is unknown. 
+
+The search for a segmentation $\mathcal{T}_{K^*}$  of a signal $\bm y$ into $K^*+1$ segments can be formally described as an optimization problem. More precisely, one tries to minimise a quantitative criterion. Without loss of generality, the criterion chosen in our case corresponds to a cost $\mathcal{C}(\mathcal{T},\bm y)$ and, more precisely, to the sum of the cost of each segment defined by $\mathcal{T}_{K^*}$: 
+\begin{equation}\label{chp:2:cost}
+\mathcal{C}(\mathcal{T}_{K^*},\bm y) = \sum_{k=0}^{K^*} W(y_{t^*_k+1:t^*_{k+1}}),
+\end{equation}
+where $W(y_{t^*_k+1:t^*_{k+1}})$ denotes the cost of the kth segment. The ultimate goal is to find the segmentation that minimizes \ref{chp:2:cost}. The function chosen to model the cost of a segment $W$ determines the types of changes detected. Its choice can also depend on whether a parametric of non parametric settings is desirable. 
+It is assumed that $K^*$ is always assumed to be unknown. It will sometimes be necessary to assume that $K^*$ is known in order to introduce certain algorithms. In this case, it is explicitly stated that this will be the case. the knowledge of the number of breakpoints change the optimization problem. In the case, where $K^*$ is known the problem consists in solving: 
+\begin{equation}\label{chp:2:optKnown}
+\min_{\lvert\mathcal{T}\rvert = K^*} \mathcal{C}(\mathcal{T},\bm y), 
+\end{equation}     
+It transforms to a penalized optimization problem when $K^*$ is unknown: 
+\begin{equation}\label{chp:2:optnKnown}
+\min_{\mathcal{T}} \{ \mathcal{C}(\mathcal{T},\bm y) + pen(\mathcal{T}) \} 
+\end{equation}      
+
+
+\subsection{Parametric setting}
+
+In the parametric case, the detection depends heavily on what we are looking for in the signal $\bm y$. For example, searching for slope changes in a signal \cite{Bai1994,Fearnhead2018} does not require the same modelling as detecting changes in the mean \cite{Frick2014,chen2012parametric}. We restrict our investigation to a cost function based on maximum likelihood. In this setting, the observations located in the $k$-th segment is supposed to be following a distribution $Q$ depending on a set of parameters $\bm \theta_k$. More formally, we have that:
+$$y_t \sim f(.;\bm \theta_k)\mathbbm{1}_{t_{k}^*+1\leq t \leq t_{k+1}^*},$$
+with $f$ being the density function of distribution $Q$. In other words, we suppose that all observations emanate from the same distribution $Q$ but the values of $\bm \theta_k$ change abruptly at each change-point $t^*_k$. We supppose that $\bm \theta \in \Theta$ with $\Theta$ being a subset of $\mathbb{R}^d$ and compact. 
+The cost function used to evaluate segments in this context is the negative log-likelihood. Hence, for a segment $y_{u:v}$ with $u < v$, we can write:  
+$$W(y_{u:v}) = -\sup_{\bm \theta \in \Theta} \sum_{i = u}^{v} \ln f(y_i; \bm \theta)$$ 
+
+In this case, the optimization problem \ref{chp:2:optnKnown} rewrites as: 
+\begin{equation}\label{chp:2:penlik}
+\min_{\mathcal{T} = (t_0 < t_1 < ... < t_K < t_{K+1})} \{ -\sup_{\bm \theta \in \Theta} \sum_{k=0}^K \sum_{i = t_k+1}^{t_{k+1}} \ln f(y_i; \bm \theta_k) + pen(\mathcal{T}) \} 
+\end{equation}       
+
+These models are very common in litterature and were adapted to various types of distributions $Q$. The investigations spread from the gaussian, to distribution belonging to the exponential family and even to discrete distribution. 
+
+\subsection{Non-Parametric setting}
+
+The cost function for a segment can also be adapted for nonparametric statistical inference. Several strategies have been developed in the literature over time. These include the nonparametric maximum likelihood method \cite{Zou2014,Einmahl2003}, kernel methods \cite{Harchaoui2008,li2015m}, and rank-based methods \cite{Pettitt1980,Wang2019}. We will focus on the latter here for two main reasons. First, the ranked based methods were already known from the experts working with the Anses. Second, the methods we are presenting here can be adapted for left-censored observations.  
+
+Detecting a breakpoint in a signal can be done using a test statistic based on the ranks of the observations rather than their values. The rank of the ith observation is defined as $R_i = \sum_{j =1}^n\mathbbm{1}(X_j < X_i)$. Moreover, we note $\hat{F}_n(t) = \frac{1}{n}\sum_{i = 1}^n\mathbbm{1}(X_i < t)$ the empirical cumulative distribution function (c.d.f.). The cost function is derived from the Wilcoxon/Mann-Whitney rank criterion. This is equivalent to running the test under the following assumptions: 
+\begin{itemize}
+  \item $\mathcal{H}_0$: there are no breaks in the $\bm Y = (Y_1,...,Y_n)$ 
+  \item $\mathcal{H}_1$: there is a change $t^*$ such that $Y_1,...,Y_{t^*}$ are distributed according $\mathbb{P}_1$ and $Y_{t^*+1},...,Y_{n}$ are distributed according to $\mathbb{P}_2$. 
+\end{itemize}
+The rank statistic of the $t$-th observation is centered and is written as follows:
+\begin{equation}\label{chp2:statranknp}
+  U_n(t) = \frac{2}{\sqrt{nt(n-t)}}\sum_{i = 1}^{t}\bigg(\frac{n+1}{2} - R_i\bigg)
+\end{equation}
+The test statistic for $\mathcal{H}_0$ and $\mathcal{H}_1$ is defined as:
+\begin{equation}\label{chp2:stattestnp}
+  S_n(t) = \hat{\Sigma}_n^{-1} U^2_n(t),
+\end{equation}
+where $\hat{\Sigma}_n = \frac{4}{n}\sum_{i=1}^n(\hat{F}_n(X_i)-1/2)^2$. Theorem 1 of \cite{lung2015} shows that under the null hypothesis the $S_n$ are distributed according to a $\chi^2$ distribution.
+
+The non parametric test statistic was extended to multiple changepoint detection by \cite{lung2015}. The cost function $W$ for a segment $y_{u:v}$ is defined as: 
+\begin{equation}
+  W(y_{u:v}) = -(v-u)\hat{\Sigma}^{-1}_n\overline{R}^2_{u:v},
+\end{equation}
+where $\overline{R}_{u:v} = \frac{1}{v-u}\sum_{i = u}^vR_i$ is the average rank of $y_{u:v}$.
+
+In this case, the optimization problem \ref{chp:2:optKnown} rewrites as: 
+\begin{equation}\label{chp:2:npcost}
+\min_{\lvert\mathcal{T}\rvert = K}  -\sum_{k=0}^K \sum_{i = t_k+1}^{t_{k+1}} (t_k+1-t_{k+1})\hat{\Sigma}^{-1}_n\overline{R}^2_{t_k+1:t_{k+1}}
+\end{equation}       
+
+\section{Searching for change points}
+
+Various methods for finding breakpoints have been described in the literature. They can be distinguished according to whether they provide an optimal solution to the problems \ref{chp:2:optKnown} and \ref{chp:2:optnKnown} or an answer in the form of an approximation. Only the optimal methods are listed here. Approximation methods are not discussed, but there are plenty of them, such as sliding window methods \cite{Li2010,Liu2022}, bottom-up segmentation \cite{chen1998speaker}, and binary segmentation \cite{Yang2001,Fryzlewicz2014}. Two methods that provide an optimal solution are presented below.
+
+\subsection{Optimal segmentation approach}
+
+The optimal segmentation alogirhtm brings an answer to problem \ref{chp:2:optKnown}. With a fixed $K$ number of change-points, one can recursivly solve the optimization problem. 
+
+\begin{algorithm}[ht]
+\caption{Optimal partition algorithm:}\label{chp2:algo:opt}
+\begin{algorithmic}
+
+\State \textbf{input} : signal $y_{1:n}$, cost function $c()$, number of changepoints $K \geq 1$
+\State Create $C_1$ a $n\times n$ empty matrix
+\ForAll{$(u,v)$ such that $1 \leq u < v \leq n$}
+  \State $C(u,v) \gets c(y_{u:v})$
+\EndFor
+\If{$K+1 > 2$}
+  \For{$k = 2,...,K$}
+    \ForAll{$u,v \in \{1,..,n\}$ such that $v-u > k$}
+      \State $C_k(u,v) \gets \min_{u+k-1 \leq t < v} C_{k-1}(u,t) + C_1(t+1,v)$ 
+    \EndFor
+  \EndFor
+\EndIf
+\State $L \gets (0,...,0)$ vector of size $K+1$
+\State $L{K+1} \gets n$
+\State $k \gets K+1$
+\While{$k > 1$}
+  \State $s \gets L(k)$
+  \State $t^* \gets \arg\min_{k-1\leq t < s}C_{k-1}(1,t)+C_1(t+1,s)$
+  \State $L(k-1) \gets t^*$
+  \State $k \gets k-1$
+\EndWhile
+\State \textbf{Output:} a list $L$ of $K$ estimated changepoints (with $n$ as a last coordinate).
+\end{algorithmic}
+\end{algorithm} 
+
+\subsection{PELT algorithm}
+
+\begin{algorithm}
+\caption{PELT algorithm}\label{chp2:algo:pelt}
+\begin{algorithmic}
+
+\State \textbf{input} : the data $y_{1},...,y_{n}$, the censoring threshold $a$,  and the penalty term $\beta_{n}$ \\
+  
+\State \textbf{initialisations} : $F(0)=\beta_{n}$, $R_{1}=\lbrace 0\rbrace$, $CP(0)=NULL$  
+  
+ \ForAll{$\tilde t=1,...,n$} :
+ \begin{enumerate}
+  \item Compute 
+  $ F(\tilde t)=\min_{t\in R_{\tilde t}}\lbrace F(t)+W(y_{(t+1):\tilde t}, \hat \lambda_{(t+1):\tilde t})+\beta_{n}\rbrace $
+  \item Compute $ \overline t=\arg \min_{t\in R_{\tilde t}}\lbrace F(t)+W(y_{(t+1):\tilde t}, \hat \lambda_{(t+1):\tilde t})+\beta_{n}\rbrace $ 
+  \item Set $CP(\tilde t)=[CP(\overline t), \overline t]$
+  \item Set $R_{\tilde t+1}=\left\{t\in R_{\tilde t}\cup \lbrace\tilde t\rbrace \vert F(t)+W(y_{(t+1):\tilde t}, \hat \lambda_{(t+1):\tilde t}) +\beta_{n} \le F(\tilde t)   \right\}$ 
+ \end{enumerate} 
+   \EndFor \\
+   
+\State \textbf{output} : the vector of change-points $CP$. 
+ 
+\end{algorithmic}
+\end{algorithm} 
+
+\section{Estimation of the number of changes}
+
+Several methods are possible to select the best segmentation model. In the case of using a penalized criterion, this is equivalent of tuning the penalty term. This state of the art deals only deals with linear penalties, as mentioned in \ref{chp2:model}. Other types we will not discuss in this work (see for instance \cite{Harchaoui2010,Zhang2006,NIPS2010}). When no penalized criterion is used, there are other methods for selecting the best segmentation.
+
+\subsection{Different heuristics}
+
+\subsubsection{Methods for penalty calibration}
+
+\subsubsection{Methods using the optimal partitioning algorithm}
+
+\subsection{Exploratory approach: CROPS algorithm}
+
+\begin{algorithm}
+\caption{CROPS algorithm}\label{chp2:algo:crops}
+\begin{algorithmic}
+
+\State \textbf{input} : the data $y_{1},...,y_{n}$, \\
+the bounds of the initial interval of penalties $\beta_{min}$ and $\beta_{max}$, \\
+\texttt{PELT} algorithm 
+  
+\State Compute \texttt{PELT}$(y_{1:n},\beta_{min})$ and \texttt{PELT}$(y_{1:n},\beta_{max})$ 
+\State Define $\beta^* \gets \{(\beta_{min},\beta_{max})\}$ a list of vectors.  
+\While{$\beta^*\neq \emptyset$}
+  \State Define $(\beta_0, \beta_1) \gets \beta^*(1)$
+  \If{$m(\beta_0) > m(\beta_1)+1$}
+    \State $\beta_{int} \gets \frac{\mathcal{Q}_{m(\beta_1)}(y_{1:n})-\mathcal{Q}_{m(\beta_0)}(y_{1:n})}{m(\beta_0)-m(\beta_1)}$
+    \State $res \gets$ \texttt{PELT}$(y_{1:n},\beta_{int})$
+    \State From $res$ store $m(\beta_{int})$
+    \If{$m(\beta_{int})\neq m(\beta_1)$}
+      \State $\beta^* \gets \{\beta^*,(\beta_0,\beta_{int}),(\beta_{int},\beta_1)\}$
+    \EndIf
+  \EndIf
+  \State $\beta^* \gets \beta^*$\textbackslash$(\beta_0,\beta_1)$
+\EndWhile 
+   
+\State \textbf{output} : Detailed segmentation for all $\beta \in [\beta_{min},\beta_{max}]$. 
+ 
+\end{algorithmic}
+\end{algorithm} 
+
+\section{Extension to the multivariate case}
+
+\subsection{Fully multivariate detection}
+
+\subsection{Subset multivariate detection}
+
+

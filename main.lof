@@ -1,0 +1,49 @@
+\addvspace {10\p@ }
+\contentsline {xchapter}{Chapter 1: Introduction}{9}{chapter.1}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Chapter 2 : Change-point detection state of the art}{10}{chapter.2}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Chapter 3 : Problematic and data}{17}{chapter.3}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Three main compartments of a complete monitoring procedure.\relax }}{19}{figure.caption.6}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Stations monitoring water suface in the Centre-Val de Loire french region. Two different geographical scales are represented. The underlying hydrographic network linking all stations is plotted on the left, the stations are colored according to their hydroecoregion on the right.\relax }}{22}{figure.caption.7}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces All active stations measuring air quality on March the 1st of 2021 coupled with meteorological stations active that day. The main wind direction and speed measured that day is mapped with the red arrows.\relax }}{23}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Data sets selected in this work.\relax }}{25}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Censorship illustration. The top Figure sums up the limits of measurements effects. The bottom Figure shows the consequences of censorship on the samples of a station located in the Centre-Val de Loire region. This station changed its equipment in 2016, the LOQ change values.\relax }}{26}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Histogram of all measurements of prosulfocarbe made between 2017-10-01 and 2018-02-01 in the Centre-Val de Loire region.\relax }}{27}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Spatial and temporal heterogeneity in sampling. The Figures on the left represent all the samples of two neighbouring stations. The map on the right shows the position of those stations.\relax }}{28}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Spatial and temporal heterogeneity in distribution. The Figures on the left represent all the samples of two stations. The map on the right shows the position of those stations.\relax }}{29}{figure.caption.13}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Time series plot of HER 8,5 and 4 daily maximum concentrations. The log scale was used for a easier visualization.\relax }}{30}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Spatial maps in time. The prosulfocarbe's quantification rate of each station was computed for each season of 2017 and 2018.\relax }}{31}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Space (1-D)/Time plots. Grey tiles correspond to location and moment were no sample were collected.\relax }}{32}{figure.caption.16}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Chapter 4 : Change point detection in left censored observations}{33}{chapter.4}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Plot of the cost function values against $\lambda $ values when all observations are censored. It is represented for several $\sigma $ values. The sample consists in 100 values of threshold $a = 0.1$.\relax }}{38}{figure.caption.17}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Choice of the minimal segment length: simulation results. Our method performance is Illustrated with the red line, the \textit {Multrank} method is drawn in blue. The results are illustrated for several censorship thresholds and the different minimal segment lengths used were $5,10,25,50$ and $75$ observations.\relax }}{43}{figure.caption.21}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of simulated signal with $(\lambda _1 = 1, \lambda _2 = 4, \lambda _3 = 0.5, \lambda _4 = 5, \lambda _5 = 1)$, $\sigma = 0.5 $, $n = 400$, $K = 4$, $(p_1 = 80,p_2 = 160,p_3 = 240,p_4 = 320)$ and $\alpha = 50\%$.\relax }}{44}{figure.caption.22}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Precision of the estimated change-points for both methods.\relax }}{45}{figure.caption.24}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Chapter 5 : Case study}{46}{chapter.5}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribution of the number of measurements per station.\relax }}{56}{figure.caption.25}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Plot of daily maximum concentrations\relax }}{57}{figure.caption.26}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Map of the non connex components in the station graph.\relax }}{58}{figure.caption.27}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Plot of successive $\setbox \z@ \hbox {\mathsurround \z@ $\textstyle \sigma $}\mathaccent "0362{\sigma }$ values. We stopped the to iterate when the $\lvert \setbox \z@ \hbox {\mathsurround \z@ $\textstyle \sigma $}\mathaccent "0362{\sigma }_b - \setbox \z@ \hbox {\mathsurround \z@ $\textstyle \sigma $}\mathaccent "0362{\sigma }_{b} \rvert \leq 10^{-3}$\relax }}{59}{figure.caption.28}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Best segmentation found by the change-point detection procedure with CROPS-based penalty tuning. The dates of the breaks are : October 20, 2012; May 25, 2016; October 13, 2016; February 7, 2017; October 5, 2017; January 19, 2018; October 5, 2018; January 18, 2019; October 11, 2019; May 6, 2020; October 7, 2020; December 20, 2020; July 27, 2021.The black rectangle corresponds to the selected temporal segment in section \ref {section:clust129}\relax }}{60}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Map of geographical clusters.\relax }}{61}{figure.caption.30}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Clusters pareto front.\relax }}{62}{figure.caption.31}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Mapped pareto front.\relax }}{63}{figure.caption.32}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Conclusion}{64}{chapter.6}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Proofs of Chapter \ref {chp:4}}{74}{appendix.a.A}%
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Iteration function plot. The values of $y_i$ used was drawned from a 1000000 size samples of Weibull realisations with parameters $(\lambda ^\star ,\sigma )$\relax }}{75}{figure.caption.35}%
+\contentsline {figure}{\numberline {A.2}{\ignorespaces $\partial ^2\mathcal {L}(\lambda ;y,\sigma )$ plot. The values of $y_i$ used was drawned from a 1000000 size samples of Weibull realisations with parameters $(\lambda ^\star ,\sigma )$.\relax }}{76}{figure.caption.36}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Complement of Chapter \ref {chp:5}}{78}{appendix.a.B}%
+\contentsline {figure}{\numberline {B.1}{\ignorespaces Scenarios with $\sigma = 0.4$.\relax }}{78}{figure.caption.37}%
+\contentsline {figure}{\numberline {B.2}{\ignorespaces Scenarios with $\sigma = 0.8$.\relax }}{79}{figure.caption.38}%
+\contentsline {figure}{\numberline {B.3}{\ignorespaces Example of three stations data. The data were simulated.\relax }}{84}{figure.caption.39}%
+\contentsline {figure}{\numberline {B.4}{\ignorespaces Example of modified c.d.f. for the Wasserstein distance.\relax }}{85}{figure.caption.40}%
+\contentsline {figure}{\numberline {B.5}{\ignorespaces Wheat (in yellow) and barley (in red) crops location in Centre-Val de Loire\relax }}{85}{figure.caption.41}%
+\contentsline {figure}{\numberline {B.6}{\ignorespaces Prosulfocarb sales between 2008 and 2017 in the Centre-Val de Loire region\relax }}{86}{figure.caption.42}%
+\contentsline {figure}{\numberline {B.7}{\ignorespaces Elbow method selecting the optimal segmentation of the full signal $\overline {\mathcal {D}}$.\relax }}{86}{figure.caption.43}%
+\contentsline {figure}{\numberline {B.8}{\ignorespaces Elbow method for the spatial clustering.\relax }}{87}{figure.caption.44}%
