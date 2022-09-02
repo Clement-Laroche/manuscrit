@@ -28,6 +28,7 @@
 *.bbl
 *.bcf
 *.blg
+*.bib.sav.tmp
 *-blx.aux
 *-blx.bib
 *.run.xml
@@ -162,6 +163,7 @@ acs-*.bib
 *.maf
 *.mlf
 *.mlt
+*.mtc
 *.mtc[0-9]*
 *.slf[0-9]*
 *.slt[0-9]*
