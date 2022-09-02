@@ -52,7 +52,7 @@ These models are very common in litterature and were adapted to various types of
 
 \subsection{Non-Parametric setting}
 
-The cost function for a segment can also be adapted for nonparametric statistical inference. Several strategies have been developed in the literature over time. These include the nonparametric maximum likelihood method \cite{Zou2014,Einmahl2003}, kernel methods \cite{Harchaoui2008,li2015m}, and rank-based methods \cite{Pettitt1980,Wang2019}. We will focus on the latter here for two main reasons. First, the ranked based methods were already known from the experts working with the Anses. Second, the methods we are presenting here can be adapted for left-censored observations.  
+The cost function for a segment can also be adapted for nonparametric statistical inference. Several strategies have been developed in the literature over time. These include the nonparametric maximum likelihood method \cite{Zou2014,Einmahl2003}, kernel methods \cite{Harchaoui2008,li2015m}, and rank-based methods \cite{Pettitt1980,Wang2019}. We will focus on the latter here for two main reasons. First, the ranked based methods were already known from the experts working with the Anses. Second, the method we are presenting here can be adapted for left-censored observations.  
 
 Detecting a breakpoint in a signal can be done using a test statistic based on the ranks of the observations rather than their values. The rank of the ith observation is defined as $R_i = \sum_{j =1}^n\mathbbm{1}(X_j < X_i)$. Moreover, we note $\hat{F}_n(t) = \frac{1}{n}\sum_{i = 1}^n\mathbbm{1}(X_i < t)$ the empirical cumulative distribution function (c.d.f.). The cost function is derived from the Wilcoxon/Mann-Whitney rank criterion. This is equivalent to running the test under the following assumptions: 
 \begin{itemize}
@@ -86,16 +86,21 @@ Various methods for finding breakpoints have been described in the literature. T
 
 \subsection{Optimal segmentation approach}
 
-The optimal segmentation alogirhtm brings an answer to problem \ref{chp:2:optKnown}. With a fixed $K$ number of change-points, one can recursivly solve the optimization problem. 
+The optimal segmentation algorithm brings an answer to problem \ref{chp:2:optKnown}. With a fixed $K$ number of change-points, one can recursivly solve the optimization problem. The recursion comes from the following relationship: 
+\begin{equation}\label{chp2:recurs}
+\min_{\lvert\mathcal{T}\rvert = K}\mathcal{C}(\mathcal{T},\bm y) = \min_{t \leq n-K}\{W(y_{1:t})+\min_{\lvert\mathcal{T}\rvert = K-1}\mathcal{C}(\mathcal{T}, y_{t:n})\} 
+\end{equation}
+In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in $K-1$ segments, one can compute the optimal segmentation of the whole signal $\bm y$ in $K$ segments. This results in a computationnal cost in order of $\mathcal{O}(Kn^2)$ \cite{haynes2017}. Algorithm \ref{chp2:algo:opt} shows the implementation of \ref{chp2:recurs}. 
+
 
 \begin{algorithm}[ht]
 \caption{Optimal partition algorithm:}\label{chp2:algo:opt}
 \begin{algorithmic}
 
-\State \textbf{input} : signal $y_{1:n}$, cost function $c()$, number of changepoints $K \geq 1$
+\State \textbf{input} : signal $y_{1:n}$, cost function $W()$, number of changepoints $K \geq 1$
 \State Create $C_1$ a $n\times n$ empty matrix
 \ForAll{$(u,v)$ such that $1 \leq u < v \leq n$}
-  \State $C(u,v) \gets c(y_{u:v})$
+  \State $C(u,v) \gets W(y_{u:v})$
 \EndFor
 \If{$K+1 > 2$}
   \For{$k = 2,...,K$}
@@ -117,30 +122,40 @@ The optimal segmentation alogirhtm brings an answer to problem \ref{chp:2:optKno
 \end{algorithmic}
 \end{algorithm} 
 
+Appplication of this optimal partitionning methods can be found in \cite{rigaill2015pruned,Lavielle1997,perron2006dealing}
+
 \subsection{PELT algorithm}
+
+The Pruned Exact Linear Time (PELT) algorithm solves problem \ref{chp:2:optnKnown}. It was introduced by \cite{Killick2012}. It has a computationnal in order of $\mathcal{O}(n)$ when the penalty term $pen(\mathcal{T})$ is linear in the number of change points e.g. $pen(\mathcal{T}) = \beta K$ where $\beta > 0$ is the addtionnal cost one must pay each time a break is decided in the signal $\bm y$. The pruning rule can be stated as follows: \\
+for $t<s < n$, if
+\begin{equation}\label{chp2:pruning}
+ \min_{\mathcal{T}}\bigg[\mathcal{C}(\mathcal{T},y_{0:t})+\beta\lvert \mathcal{T}\rvert\bigg] + W(y_{t+1:s}) \geq \min_{\mathcal{T}}\bigg[\mathcal{C}(\mathcal{T},y_{0:s})+\beta\lvert \mathcal{T}\rvert\bigg], 
+\end{equation}
+holds, then $t$ can never be the last changepoint prior to $n$.   
+One can sequentially go through the signal $\bm y = \{y_s\}_{s=1}^n$ and obtain a set of potential breakpoints $\{t_0,...,t_k\}$ for each index $s \in {1,...,n}$. Then, one should proceed to eliminate candidates from this set using this pruning rule. This is the principle of Algorithm \ref{chp2:algo:pelt}.
 
 \begin{algorithm}
 \caption{PELT algorithm}\label{chp2:algo:pelt}
 \begin{algorithmic}
 
-\State \textbf{input} : the data $y_{1},...,y_{n}$, the censoring threshold $a$,  and the penalty term $\beta_{n}$ \\
+\State \textbf{input} : the data $y_{1},...,y_{n}$, a cost function $W()$, and the penalty term $\beta_{n}$ \\
   
-\State \textbf{initialisations} : $F(0)=\beta_{n}$, $R_{1}=\lbrace 0\rbrace$, $CP(0)=NULL$  
+\State \textbf{initialisations} : $F(0)=-\beta_{n}$, $R_{1}=\lbrace 0\rbrace$, $CP(0)=NULL$  
   
- \ForAll{$\tilde t=1,...,n$} :
- \begin{enumerate}
-  \item Compute 
-  $ F(\tilde t)=\min_{t\in R_{\tilde t}}\lbrace F(t)+W(y_{(t+1):\tilde t}, \hat \lambda_{(t+1):\tilde t})+\beta_{n}\rbrace $
-  \item Compute $ \overline t=\arg \min_{t\in R_{\tilde t}}\lbrace F(t)+W(y_{(t+1):\tilde t}, \hat \lambda_{(t+1):\tilde t})+\beta_{n}\rbrace $ 
-  \item Set $CP(\tilde t)=[CP(\overline t), \overline t]$
-  \item Set $R_{\tilde t+1}=\left\{t\in R_{\tilde t}\cup \lbrace\tilde t\rbrace \vert F(t)+W(y_{(t+1):\tilde t}, \hat \lambda_{(t+1):\tilde t}) +\beta_{n} \le F(\tilde t)   \right\}$ 
- \end{enumerate} 
-   \EndFor \\
+\ForAll{$\tilde t=1,...,n$} :
+  \State Compute 
+  $ F(\tilde t)=\min_{t\in R_{\tilde t}}\lbrace F(t)+W(y_{(t+1):\tilde t})+\beta_{n}\rbrace $
+  \State Compute $ \overline t=\arg \min_{t\in R_{\tilde t}}\lbrace F(t)+W(y_{(t+1):\tilde t})+\beta_{n}\rbrace $ 
+  \State Set $CP(\tilde t)=[CP(\overline t), \overline t]$
+  \State Set $R_{\tilde t+1}=\left\{t\in R_{\tilde t}\cup \lbrace\tilde t\rbrace \vert F(t)+W(y_{(t+1):\tilde t}) +\beta_{n} \le F(\tilde t)   \right\}$ 
+\EndFor 
    
 \State \textbf{output} : the vector of change-points $CP$. 
  
 \end{algorithmic}
 \end{algorithm} 
+
+This method is very popular in litterature, one can find numerous examples in very diverse fields \cite{Wang2015,Wang2021,Kosta2015}.
 
 \section{Estimation of the number of changes}
 
