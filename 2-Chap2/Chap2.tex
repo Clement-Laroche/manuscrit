@@ -84,7 +84,7 @@ In this case, the optimization problem \ref{chp:2:optKnown} rewrites as:
 
 Various methods for finding breakpoints have been described in the literature. They can be distinguished according to whether they provide an optimal solution to the problems \ref{chp:2:optKnown} and \ref{chp:2:optnKnown} or an answer in the form of an approximation. Only the optimal methods are listed here. Approximation methods are not discussed, but there are plenty of them, such as sliding window methods \cite{Li2010,Liu2022}, bottom-up segmentation \cite{chen1998speaker}, and binary segmentation \cite{Yang2001,Fryzlewicz2014}. Two methods that provide an optimal solution are presented below.
 
-\subsection{Optimal segmentation approach}
+\subsection{Optimal segmentation approach}\label{chp2:opt}
 
 The optimal segmentation algorithm brings an answer to problem \ref{chp:2:optKnown}. With a fixed $K$ number of change-points, one can recursivly solve the optimization problem. The recursion comes from the following relationship: 
 \begin{equation}\label{chp2:recurs}
@@ -124,7 +124,7 @@ In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in
 
 Appplication of this optimal partitionning methods can be found in \cite{rigaill2015pruned,Lavielle1997,perron2006dealing}
 
-\subsection{PELT algorithm}
+\subsection{PELT algorithm}\label{chp2:pelt}
 
 The Pruned Exact Linear Time (PELT) algorithm solves problem \ref{chp:2:optnKnown}. It was introduced by \cite{Killick2012}. It has a computationnal in order of $\mathcal{O}(n)$ when the penalty term $pen(\mathcal{T})$ is linear in the number of change points e.g. $pen(\mathcal{T}) = \beta K$ where $\beta > 0$ is the addtionnal cost one must pay each time a break is decided in the signal $\bm y$. The pruning rule can be stated as follows: \\
 for $t<s < n$, if
@@ -134,7 +134,7 @@ for $t<s < n$, if
 holds, then $t$ can never be the last changepoint prior to $n$.   
 One can sequentially go through the signal $\bm y = \{y_s\}_{s=1}^n$ and obtain a set of potential breakpoints $\{t_0,...,t_k\}$ for each index $s \in {1,...,n}$. Then, one should proceed to eliminate candidates from this set using this pruning rule. This is the principle of Algorithm \ref{chp2:algo:pelt}.
 
-\begin{algorithm}
+\begin{algorithm}[ht]
 \caption{PELT algorithm}\label{chp2:algo:pelt}
 \begin{algorithmic}
 
@@ -159,17 +159,69 @@ This method is very popular in litterature, one can find numerous examples in ve
 
 \section{Estimation of the number of changes}
 
-Several methods are possible to select the best segmentation model. In the case of using a penalized criterion, this is equivalent of tuning the penalty term. This state of the art deals only deals with linear penalties, as mentioned in \ref{chp2:model}. Other types we will not discuss in this work (see for instance \cite{Harchaoui2010,Zhang2006,NIPS2010}). When no penalized criterion is used, there are other methods for selecting the best segmentation.
+This section propose diverse methods to estimate the number of changes $K$ in $\bm y$. In the case of using a penalized criterion e.g. \ref{chp:2:optnKnown}, this is equivalent of tuning the penalty term. This state of the art deals only deals with linear penalties as mentionned in \ref{chp2:pelt}. They take the form $pen(\mathcal{T}) = \beta K$ with $\beta > 0$. Other types we will not discuss in this work (see for instance \cite{Harchaoui2010,Zhang2006,NIPS2010}). When no penalized criterion is used, there are other methods for selecting the best segmentation. 
 
 \subsection{Different heuristics}
 
 \subsubsection{Methods for penalty calibration}
 
+The solution of problem \ref{chp:2:optnKnown} depends on the penalty value $\beta$. The choice of this value can be viewed as a model selection problem. The higher the penalty value, the lower the number of fractions and therefore the higher the segmentation cost. There are many procedures for calibrating the value of $\beta$. We describe here only those that were used in this work: 
+
+\begin{itemize}
+  \item The BIC criterion: this is one of the most popular procedures in the literature for change point detection and more generally for model selection. It is applied in the case of parametric modelling. In the context of break detection, this criterion is written as follows: $pen(\mathcal{T}) = \frac{p}{2}\log(n)$ where $p$ represents the dimension of the parameters $\bm \theta$.
+  \item The slope heuristic: Sometimes it is necessary to use other methods to calibrate the penalties. It can be stated that the BIC is appropriate when the modelling is parametric. It depends on the dimension of the parameter $\bm \theta$ so it is hardly applicable when the inference is non-parametric inference. The slope heuristic allows us to solve this problem and, in particular, to determine a minimal value of the penalty $\beta_{min}$. If we plot the successive values of $\mathcal{C}_k$ for different $k$ with respect as a function of $\beta$, we obtain a decreasing curve. The values of $\mathcal{C}_k$ for high values of $k$ have a linear behaviour. We can define the minimum penalty value $\beta_{min}$ as the slope of this line. Moreover, the ideal value of the penalty is at the value $2\beta_{min}$. 
+\end{itemize}
+
+Other methods can be cited like the Akaike Information Criterion or the dimension jump.  
+
 \subsubsection{Methods using the optimal partitioning algorithm}
+
+Although Optimal Partition Algorithm \ref{chp2:algo:opt} is used to solve the problem in 2.1 and therefore requires a fixed number of $K+1$ segments to work, the number of segments can also be estimated as follows. Assuming that the actual number of interruptions is less than a number $K_{max}$, Algorithm \ref{chp2:algo:opt} should be run for a number of breaks $K$ between 1 and $K_{max}$. We can then plot the cost of the $K_{max}$ different segments obtained according to the number of breaks. 
+
+The curve is divided into two parts. The first part shows the cost decreasing rapidly with the number of change points, with a much smaller decrease in cost above a certain number of breaks $\hat{K}$ \cite{LAVIELLE20051501}. It is precisely this value $\hat{K}$ that we choose as the estimator for the number of change points. To capture this value automatically, a elbow method is used. One can find other examples of the elbow method in \cite{liu2020determine,syakur2018integration}. It is also used in the \textit{Multrank} detection method \cite{lung2015} as it obtains the best results for the estimation of $K^*$.
+
+We can give an \texttt{R} based algorithm of the elbow method in Algorithm \ref{chp2:algo:elbow}. We note $\mathcal{C}_k$ the cost of the optimal segmentation of signal $\bm y$ in $k+1$ segments. This can be done using basic \texttt{R} functions like the linear model function \texttt{lm}:   
+
+\begin{algorithm}[ht]
+\caption{Elbow method algorithm}\label{chp2:algo:elbow}
+\begin{algorithmic}
+
+\State \textbf{input} : the segmentations cost $\mathcal{C}_k$ for $k \in \{1,...,K_{max}\}$ \\
+
+\State \textbf{initialisations} : Initialize $C \gets (\mathcal{C}_1,...,\mathcal{C}_{K_{max}})$, \\
+Initialize $slope \gets (0,...,0)$  a $K_{max}-2$ length vector. 
+\For{$k = 2,...,K_{max}-1$}
+  \State $ml1 \gets \texttt{lm}(C(1:k) \sim 1:k)$
+  \State $ml2 \gets \texttt{lm}(C(k:K_{max}) \sim k:K_{max})$
+  \State $slope(k-1) \gets \sum ml1\$ residuals + \sum ml2\$ residuals$
+\EndFor
+\State $CP \gets (2:K_{max}-1)(which.min(slope))$
+\State \textbf{output} : the optimal number of changes $CP$. 
+ 
+\end{algorithmic}
+\end{algorithm} 
 
 \subsection{Exploratory approach: CROPS algorithm}
 
-\begin{algorithm}
+The methods of calibration of the penalty value of the problem \ref{optnknown}, allow to set $\beta$ to a certain and ideal value. The algorithm CROPS: Changepoints for a Range Of PenaltieS algorithm defines a more exploratory approach. It allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find the penalty values wihtin that range associated with new segmentations.  
+
+The proccess to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_k(y_{i:n}) = \min_{\mathcal{T}_k} \sum_{j = 0}^k W(y _{t_j+1:t_{j+1}})$ the unpenalized cost of the optimal segmentation in $k$ changepoints of $\bm y$ and $m(\beta)$ the number of changepoints of the optimal segmentation result obtained usng $\beta$ in problem \ref{chp:2:optnKnown}, the theorem writes as follows:
+
+\begin{theorem}
+Let $\beta_0 < \beta_1$, 3 cases are possible to uncover new penalty values:
+\begin{enumerate}
+  \item If $m(\beta_0) = m(\beta_1)$ then $m(\beta) = m(\beta_0)$ for all $\beta \in [\beta_0,\beta_1]$
+  \item If $m(\beta_0) = m(\beta_1)+1$ then $m(\beta) = m(\beta_0)$ for all $\beta\in[\beta_0,\beta_{int}[$ and $m(\beta) = m(\beta_1)$ for all $\beta\in[\beta_{int},\beta_1]$ with:
+  \begin{equation}\label{chp2:crit:crops}
+    \beta_{int} = \frac{U_{m(\beta_1)}(y_{1:n})-U_{m(\beta_0)}(y_{1:n})}{m(\beta_0)-m(\beta_1)}
+  \end{equation}
+  \item If $m(\beta_0) > m(\beta_1)+1$ and $m(\beta_{int}) = m(\beta_1)$ where $\beta_{int}$ is defined in \ref{chp2:crit:crops}, then $m(\beta) = m(\beta_0)$ if $\beta\in[\beta_0,\beta_{int}[$ and $m(\beta) = m(\beta_1)$ if $\beta\in [\beta_{int},\beta_1]$
+\end{enumerate}
+\end{theorem} 
+
+From this theorem is derived the CROPS Algorithm \ref{chp2:algo:crops}.  
+
+\begin{algorithm}[ht]
 \caption{CROPS algorithm}\label{chp2:algo:crops}
 \begin{algorithmic}
 
@@ -193,9 +245,10 @@ the bounds of the initial interval of penalties $\beta_{min}$ and $\beta_{max}$,
 \EndWhile 
    
 \State \textbf{output} : Detailed segmentation for all $\beta \in [\beta_{min},\beta_{max}]$. 
- 
 \end{algorithmic}
 \end{algorithm} 
+
+An estimation of the number of changes can be obtained by combining the results of Algorithm  \ref{chp2:algo:crops} with the elbow method. For each $\beta$ uncovered by CROPS, we have the number of changes $m(\beta)$ and the cost $\mathcal{C}_{\beta}(\bm y_{1:n})$. We can run Algorithm \ref{chp2:algo:elbow} to estimate an optimal number of changes. Keeping the results of other segmentations found by CROPS for exploratory purposes. 
 
 \section{Extension to the multivariate case}
 
