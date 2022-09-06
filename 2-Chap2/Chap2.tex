@@ -18,7 +18,7 @@ The outline of the state of the art is strongly based on the nomenclature establ
 
 \section{Models}\label{chp2:model}
 
-Several terms are introduced and will be retained in this section. We consider a signal consisting of observations $\bm y = (y_1,...,y_n)$ which are the realisations of random variables $Y_1,...,Y_n$. This signal is assumed to be piecewise stationary. Its properties are constant over parts, which we will call segments, and change at times $t_1^* <... < t_k^* <... < t_{K^*}^*$. A segment of the signal from the u-th coordinate to the v-th is noted $y_{u:v}$. Following the convention, let $t_0 = 0$ and $t_{K^*+1} = n$. In our context, the purpose of breakpoint detection is to estimate the positions $t_k^*$ and the number of breaks $K^*$ when it is unknown. 
+Several terms are introduced and will be retained in this section. We consider a signal consisting of observations $\bm y = (y_1,...,y_n)$ which are the realisations of random variables $Y_1,...,Y_n$. This signal is assumed to be piecewise stationary and univariate. Its properties are constant over parts, which we will call segments, and change at times $t_1^* <... < t_k^* <... < t_{K^*}^*$. A segment of the signal from the u-th coordinate to the v-th is noted $y_{u:v}$. Following the convention, let $t_0 = 0$ and $t_{K^*+1} = n$. In our context, the purpose of breakpoint detection is to estimate the positions $t_k^*$ and the number of breaks $K^*$ when it is unknown. 
 
 The search for a segmentation $\mathcal{T}_{K^*}$  of a signal $\bm y$ into $K^*+1$ segments can be formally described as an optimization problem. More precisely, one tries to minimise a quantitative criterion. Without loss of generality, the criterion chosen in our case corresponds to a cost $\mathcal{C}(\mathcal{T},\bm y)$ and, more precisely, to the sum of the cost of each segment defined by $\mathcal{T}_{K^*}$: 
 \begin{equation}\label{chp:2:cost}
@@ -35,7 +35,7 @@ It transforms to a penalized optimization problem when $K^*$ is unknown:
 \end{equation}      
 
 
-\subsection{Parametric setting}
+\subsection{Parametric setting}\label{chp2:sec:likm}
 
 In the parametric case, the detection depends heavily on what we are looking for in the signal $\bm y$. For example, searching for slope changes in a signal \cite{Bai1994,Fearnhead2018} does not require the same modelling as detecting changes in the mean \cite{Frick2014,chen2012parametric}. We restrict our investigation to a cost function based on maximum likelihood. In this setting, the observations located in the $k$-th segment is supposed to be following a distribution $Q$ depending on a set of parameters $\bm \theta_k$. More formally, we have that:
 $$y_t \sim f(.;\bm \theta_k)\mathbbm{1}_{t_{k}^*+1\leq t \leq t_{k+1}^*},$$
@@ -50,7 +50,7 @@ In this case, the optimization problem \ref{chp:2:optnKnown} rewrites as:
 
 These models are very common in litterature and were adapted to various types of distributions $Q$. The investigations spread from the gaussian, to distribution belonging to the exponential family and even to discrete distribution. 
 
-\subsection{Non-Parametric setting}
+\subsection{Non-Parametric setting}\label{chp2:sec:multrank}
 
 The cost function for a segment can also be adapted for nonparametric statistical inference. Several strategies have been developed in the literature over time. These include the nonparametric maximum likelihood method \cite{Zou2014,Einmahl2003}, kernel methods \cite{Harchaoui2008,li2015m}, and rank-based methods \cite{Pettitt1980,Wang2019}. We will focus on the latter here for two main reasons. First, the ranked based methods were already known from the experts working with the Anses. Second, the method we are presenting here can be adapted for left-censored observations.  
 
@@ -157,19 +157,19 @@ One can sequentially go through the signal $\bm y = \{y_s\}_{s=1}^n$ and obtain 
 
 This method is very popular in litterature, one can find numerous examples in very diverse fields \cite{Wang2015,Wang2021,Kosta2015}.
 
-\section{Estimation of the number of changes}
+\section{Estimation of the number of changes}\label{chp2:nb_change}
 
 This section propose diverse methods to estimate the number of changes $K$ in $\bm y$. In the case of using a penalized criterion e.g. \ref{chp:2:optnKnown}, this is equivalent of tuning the penalty term. This state of the art deals only deals with linear penalties as mentionned in \ref{chp2:pelt}. They take the form $pen(\mathcal{T}) = \beta K$ with $\beta > 0$. Other types we will not discuss in this work (see for instance \cite{Harchaoui2010,Zhang2006,NIPS2010}). When no penalized criterion is used, there are other methods for selecting the best segmentation. 
 
-\subsection{Different heuristics}
+\subsection{Different heuristics}\label{chp2:pencal}
 
 \subsubsection{Methods for penalty calibration}
 
 The solution of problem \ref{chp:2:optnKnown} depends on the penalty value $\beta$. The choice of this value can be viewed as a model selection problem. The higher the penalty value, the lower the number of fractions and therefore the higher the segmentation cost. There are many procedures for calibrating the value of $\beta$. We describe here only those that were used in this work: 
 
 \begin{itemize}
-  \item The BIC criterion: this is one of the most popular procedures in the literature for change point detection and more generally for model selection. It is applied in the case of parametric modelling. In the context of break detection, this criterion is written as follows: $pen(\mathcal{T}) = \frac{p}{2}\log(n)$ where $p$ represents the dimension of the parameters $\bm \theta$.
-  \item The slope heuristic: Sometimes it is necessary to use other methods to calibrate the penalties. It can be stated that the BIC is appropriate when the modelling is parametric. It depends on the dimension of the parameter $\bm \theta$ so it is hardly applicable when the inference is non-parametric inference. The slope heuristic allows us to solve this problem and, in particular, to determine a minimal value of the penalty $\beta_{min}$. If we plot the successive values of $\mathcal{C}_k$ for different $k$ with respect as a function of $\beta$, we obtain a decreasing curve. The values of $\mathcal{C}_k$ for high values of $k$ have a linear behaviour. We can define the minimum penalty value $\beta_{min}$ as the slope of this line. Moreover, the ideal value of the penalty is at the value $2\beta_{min}$. 
+  \item The BIC criterion: this is one of the most popular procedures in the literature for change point detection and more generally for model selection. It is applied in the case of parametric modelling. In the context of break detection, this criterion is written as follows: $pen(\mathcal{T}) = \frac{p}{2}\log(n)$ where $p$ represents the dimension of the parameters $\bm \theta$. Examples of the BIC criterion use can be found in \cite{YAO1988181,faure2016comparison,Shi2022}. As stated in \cite{faure2016comparison} fixing the penalty term parameter $\beta$ \textit{a priori} is not suited for the data at hand. In our case, the BIC led to overestimate the number of change points in all experiments. We can say that it didn't scale to our types of data. A more data driven calibration method was needed.    
+  \item The slope heuristic: Sometimes it is necessary to use other methods to calibrate the penalties. It can be stated that the BIC is appropriate when the modelling is parametric. It depends on the dimension of the parameter $\bm \theta$ so it is hardly applicable when the inference is non-parametric inference. The slope heuristic \cite{Birge2006} allows us to solve this problem and, in particular, to determine a minimal value of the penalty $\beta_{min}$. If we plot the successive values of $\mathcal{C}_k$ for different $k$ with respect as a function of $\beta$, we obtain a decreasing curve. The values of $\mathcal{C}_k$ for high values of $k$ have a linear behaviour. We can define the minimum penalty value $\beta_{min}$ as the slope of this line. Moreover, the ideal value of the penalty is at the value $2\beta_{min}$. This procedure has been used on various applications \cite{Baudry2011,Bardet2012,arlot2009data}.
 \end{itemize}
 
 Other methods can be cited like the Akaike Information Criterion or the dimension jump.  
@@ -252,8 +252,29 @@ An estimation of the number of changes can be obtained by combining the results 
 
 \section{Extension to the multivariate case}
 
-\subsection{Fully multivariate detection}
+In the Section \ref{chp2:model}, it was stated that the $\bm y$ signal is univariate. It is possible to extend the methods for detecting breaks to the multivariate case. It is now assumed that the variables are $y_i = (y_i^1,...,y_i^D)$ where $D$ is the dimension of the individual observations. In \cite{pickering2016changepoint} we distinguish two types of methods for detecting multivariate fractions:
 
-\subsection{Subset multivariate detection}
+\begin{itemize}
+  \item Fully multivariate methods: If a breakpoint is determined in the signal $\bm y$, then this break is then present in the $D$ dimensions. 
+  \item Multivariate subset methods: If a breakpoint is determined in the signal $\bm y$, then this break is only present only in a subset of the $D$ dimensions.
+\end{itemize}
+
+Both types of methods are illustrated in Figure.
+
+
+Most models presented in this section \ref{chp2:model} are extensible to the multivariate case and lead to fully multivariate methods. For example, parametric models can be fitted by using multivariate likelihood, see . The penalized likelihood criterion \ref{chp:2:penlik} is always used to solve Problem \ref{chp:2:optnKnown}. The choice of penalty values is still made with procedures as in \ref{chp2:pencal}. In the non paramétrique case, the \textit{Multrank} method can also be extended to multivariate settings. This necessits a to adapt \ref{chp:2:npcost} as:  
+
+\begin{equation}\label{chp:2:npcostmulti}
+\min_{\lvert\mathcal{T}\rvert = K}  -\sum_{k=0}^K \sum_{i = t_k+1}^{t_{k+1}} (t_k+1-t_{k+1})\overline{\bm R}'_{t_k+1:t_{k+1}}\bigg(\hat{\Sigma}_n^D\bigg)^{-1}\overline{\bm R}_{t_k+1:t_{k+1}},
+\end{equation}       
+where $\overline{\bm R}_{u:v} = (\overline{R}^{(d)}_{u:v})_{d=1}^D$, $\overline{R}^{(d)}_{u:v}$ is the average rank of the segment defined by $u$ and $v$ of the $d$-th dimension $y^{(d)}_{u:v}$, and $\hat{\Sigma}_n^D$ is the $D$-dimensionnal empirical covariance matrix. 
+
+The crucial point leading to fully multivariate detection is that the assumption that there are change points in the signal $\bm y$ does not take into account that only certain variables may be affected. To overcome this problem and thus create multivariate subset methods, it is assumed in \cite{pickering2016changepoint} that the change-points locations $(t_0,...,t_{K+1})$ are associated with subsets of variables $(\mathcal{S}_0,...,\mathcal{S}_{K+1})$. A subset $\mathcal{S}_k$ indicates which variables among the $D$ changed. For each times in the series $t \in [1:n]$, we can define a vector of change points $c^t = (c_1^t,...,c_D^t)$ where $c_d^t$ is the last change point position known prior to instant $t$ for variable $d$ including $t$. At the time changes $t_k$, we have that $c_d^{t_k} = t_k$ if $d \in \mathcal{S}_k$. The size of subset $\mathcal{S}_k$ is noted $q_{t_k} = \sum_{d=1}^D\mathbbm{1}(c_d^{t_k} = t_k)$. Denoting, $W_d(y_{u:v})$ the cost of segment $u:v$ for the $d$-th variable, \cite{pickering2016changepoint} derived a penalized criterion similar to \ref{chp:2:optnKnown} to minimize: 
+
+\begin{equation}\label{chp:2:optnKnownmulti}
+\mathcal{C}(\mathcal{T},\bm y) + pen(\mathcal{T}) = \sum_{k = 0}^{K+1}\bigg(\sum_{d=1}^D \bigg[ q_{t_k}W_d(y_{(c^{t_k}_d+1):c^{t_{k+1}}_d})\bigg] + pen(q_{t_k}) \bigg) + pen(\mathcal{T})
+\end{equation}      
+
+We can see that this criterion bears two penalty terms. $pen(\mathcal{T})$ was already discussed in Section \ref{chp2:nb_change} and serves the purpose of not overestimate the number of changes $K$. $pen(q_{t_k})$ avoids the over estimation of the number of variables in subset $\mathcal{S}_k$. 
 
 
