@@ -252,15 +252,19 @@ An estimation of the number of changes can be obtained by combining the results 
 
 \section{Extension to the multivariate case}
 
-In the Section \ref{chp2:model}, it was stated that the $\bm y$ signal is univariate. It is possible to extend the methods for detecting breaks to the multivariate case. It is now assumed that the variables are $y_i = (y_i^1,...,y_i^D)$ where $D$ is the dimension of the individual observations. In \cite{pickering2016changepoint} we distinguish two types of methods for detecting multivariate fractions:
+In the Section \ref{chp2:model}, it was stated that the $\bm y$ signal is univariate. It is possible to extend the methods for detecting breaks to the multivariate case. It is now assumed that the variables are $y_i = (y_i^1,...,y_i^D)$ where $D$ is the dimension of the individual observations. Two types of settings for multivariate cahnge points are highlighted in \cite{pickering2016changepoint}. Both of them are illustrated in Figure \ref{fig:multicp}:
 
 \begin{itemize}
   \item Fully multivariate methods: If a breakpoint is determined in the signal $\bm y$, then this break is then present in the $D$ dimensions. 
   \item Multivariate subset methods: If a breakpoint is determined in the signal $\bm y$, then this break is only present only in a subset of the $D$ dimensions.
 \end{itemize}
 
-Both types of methods are illustrated in Figure.
-
+\begin{figure}[ht]
+  \centering
+  \includegraphics[]{figs/Chap2/MultiCP.pdf}
+  \caption{Two examples showing the difference between fully and subset multivariate settings.}
+  \label{fig:multicp}
+\end{figure}
 
 Most models presented in this section \ref{chp2:model} are extensible to the multivariate case and lead to fully multivariate methods. For example, parametric models can be fitted by using multivariate likelihood, see . The penalized likelihood criterion \ref{chp:2:penlik} is always used to solve Problem \ref{chp:2:optnKnown}. The choice of penalty values is still made with procedures as in \ref{chp2:pencal}. In the non paramétrique case, the \textit{Multrank} method can also be extended to multivariate settings. This necessits a to adapt \ref{chp:2:npcost} as:  
 
@@ -276,5 +280,7 @@ The crucial point leading to fully multivariate detection is that the assumption
 \end{equation}      
 
 We can see that this criterion bears two penalty terms. $pen(\mathcal{T})$ was already discussed in Section \ref{chp2:nb_change} and serves the purpose of not overestimate the number of changes $K$. $pen(q_{t_k})$ avoids the over estimation of the number of variables in subset $\mathcal{S}_k$. 
+
+
 
 
