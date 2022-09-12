@@ -1,0 +1,242 @@
+\documentclass[12pt, twoside]{report}  
+\usepackage[toc,page]{appendix}
+\usepackage[english]{minitoc}
+
+
+\begin{document}
+\dominitoc
+\tableofcontents								     
+
+\chapter{Intro}
+
+\chapter{Chapitre problématique et données}
+
+
+
+\section{Présentation de l'Agence}
+
+\textbf{Objectifs :} Introduire le financeur de la thèse, c'est lui qui a déterminé les objectifs de la thèse donc cette section donne plus de contexte.  
+
+\subsection{Objectifs}
+
+\textbf{Objectifs :} Parler de la santé publique environnementale dont une des missions est la surveillance des pesticides (mais pas que).  
+
+\subsection{Moyens}
+
+\textbf{Objectifs :} Parler du réseau partenaire, centralisation de beaucoup de données d'autres instituts/labos mais n'est pas propriétaire des données.   
+
+\subsection{Différences avec d'autres pays}
+
+\textbf{Objectifs :} trouver des références, je sais que ça vient d'un des rapporteurs du papier qui nous a dit que ça se passait pas comme ça dans les autres pays, mais faut que je trouve une preuve de ça dans une référence. \\
+
+\textbf{Transition :} La mission qui nous intéresse porte sur les pesticides.
+
+\section{Spécificité des pesticides}
+
+\textbf{Objectifs :} Description du parcours d'une molécule de son épandage à sa rentrée en contact potentielle avec des organismes vivants. 
+
+\subsection{Epandage d'une substance}
+
+\textbf{Objectifs :} Description des différentes méthodes d'épandage, spécifique aux types de cultures. 
+
+\subsection{Propagation dans un milieu environnemental}
+
+\textbf{Objectifs :} Dispersion d'une substance épandue dans les milieux environnementaux, décrire les compartiments environnementaux. 
+
+\subsection{Contamination}
+
+\textbf{Objectifs :} Préciser exactement ce que l'on observe dans la contamination (santé humaine, animale et phénomènes de résistance aux substances). \\
+
+\textbf{Transition :} Nous on s'occupe de la surveillance de concentrations de pesticides dans des milieux environnementaux donc on regarde des données de mesure prélevées par des stations dans le temps et dans l'espace.
+
+\section{Spécificité des mesures de concentrations}
+
+\textbf{Objectifs :} Les problématiques des données de concentrations. 
+
+\subsection{Mesures directes: les prélèvements}
+\subsubsection{Hétérogénéité spatio-temporelle}
+\subsubsection{Rythme de relève irrégulier}
+\subsubsection{Censure à gauche}
+
+\textbf{Transition :} d'autres moyens existent pour avoir une idée de combien de µg/L ont été utilisés. 
+
+\subsection{Mesures indirectes}
+\subsubsection{Enquêtes PK}
+\subsubsection{BNVD}
+
+\textbf{Transition :} des informations spécifiques au milieu environnemental considéré sont nécessaires parce que celles ci peuvent influencer la dispersion du produit. 
+
+\section{Les données descriptives supplémentaires}
+
+\textbf{Objectif :} données spécifiques aux milieux environnementaux et données météo également \\
+
+\textbf{Transition :} Combinaison de données de différentes sources d'informations, les experts ont besoin de croiser les informations de ces sources pour travailler. On donne une première approche (naïve) dans la section suivante.
+
+\section{Visualisation des données}
+
+\textbf{Objectif :} qu'est ce qu'il est possible de faire en représentation (s'appuyer sur des références de surveys en visualisation de données), pourquoi c'est pas très pratique et parler d'application parler des applications interactives (du style Rshiny peut être trouver un exemple d'une pré existante à l'Anses disponible au public ou alors une source qui montre l'intérêt de l'Anses pour ces applications). \\
+
+\textbf{Transition :} Notre plus-value, nous on souhaite développer une application qui combine un travail de modélisation et de visualisation, dont l'objectif est de trouver de manière automatique des anomalies spatio-temporelle de concentration.    
+
+\chapter{Chapitre état de l'art}
+
+\textbf{Objectif :} Aborder la partie modélisation surtout parler de l'aspect temporel, l'irrégularité temporelle plus la censure. On cherche à trouver des segments temporels où les concentrations sont homogènes. Dans la littérature les méthodes de détections de change-points permettent de le faire. Exit les méthode online en donner des références. Exit les méthodes bayésiennes en donner des références.
+
+\section{Modélisation}
+
+\textbf{Objectif :} introduction des fonctions de coût, inférence paramétriques et non paramétriques.
+
+\subsection{Inférence paramétrique}
+\subsection{Inférence non-paramétrique}
+
+\section{Recherche de points de ruptures}
+
+\textbf{Objectif :} Exit les méthodes approximatives (binseg, window sliding) ce n'est pas ce que l'on veut (on peut donner des références). On cherche une solution exacte au problème des ruptures.
+
+\subsection{Partition optimale}
+
+\textbf{Objectif :} Donner la description plus algo pseudo code. Méthode lente et qui nécessite une nombre de rupture connu. 
+
+\subsection{PELT}
+
+\textbf{Objectif :} Donner la description plus algo pseudo code. Méthode plus rapide qui peut résoudre le problème pénalisé avec un nombre de ruptures inconnu. 
+
+\textbf{Transition :} 
+\begin{itemize}
+\item Avantage : aucune modélisation du temps n'est faite avec ces deux méthodes, permet de contourner le problème du sampling irrégulier. 
+\item Problème est que avec PELT, pour une valeur de pénalité est associée une segmentation optimale. Quand on utilise la partition optimale, on obtient toutes les segmentations (bien que ce soit lent) pour des nombres de ruptures inférieur à un $K_{max}$ fixé. Avoir plusieurs choix de segmentations est préférable dans une démarche exploratoire. Comment utiliser les avantages de PELT dans ce type de démarche ?
+\end{itemize}
+
+\section{Explorer le nombre de ruptures et sélection de modèle}
+
+\textbf{Objectif :} Donner les méthodes pour obtenir plusieurs segmentations : parler de CROPS. Pour la sélection de modèle, parler de la méthode du coude ?
+
+\section{Détection de ruptures sur des données de pesticides}
+
+\textbf{Objectif :} Mentionné par Mada me semble-t-il ? Un tour de littérature sur les applications pré existantes leurs limites dans notre cadre.
+
+\chapter{Chapitre modèle de détection de rupture dans des données censurées à gauche}
+
+\textbf{Objectif :} Décrire ce que l'on a développé dans le cadre le plus général possible (donc Weibull pas tout de suite). Voir comment on peut insérer la censure à gauche dans des méthodes de détection de ruptures et voir les difficultés que ça pose.
+
+\section{Modèle}
+
+\subsection{Le modèle de rupture}
+
+\textbf{Objectif :} Donner la formule du problème pénalisé avec un fonction de coût paramétrique, les hypothèses de convergence des estimateurs et mettre les preuves en annexes.
+
+\subsection{Adaptation à l'observation des données}
+
+\textbf{Objectif :} On s'intéresse à des lois ayant des paramètres de dispersion et d'intensité. Donner la modélisation censure à gauche en écrivant la log vraisemblance (dans le cadre général). 
+
+\section{Procédure d'estimation}
+
+\subsection{L'estimation du nombre et positions de ruptures}
+
+\textbf{Objectif :} Cas d'application de PELT que l'on peut utiliser car les conditions sont réunies. Bien mentionner que l'application de Pelt nécessite une taille minimale de segment pour fonctionner. Pour choisir une valeur de pénalité, on utilise CROPS. 
+
+\subsection{L'estimation des paramètres d'un segment en cas de censure}
+
+\textbf{Objectif :} Newton-raphson, discussion sur $lambda$ maximum dans le cas d'un segment entièrement censuré et sur l'existence d'un minimum global (la dérivée seconde n'est pas forcément tout le temps positive mais on peut montrer l'existence d'un minimum global dans le cas d'une Weibull par exemple). 
+
+\section{Expériences de simulation}
+
+\textbf{Objectif :} Faire des essais pour calibrer notre méthode, on choisit une loi de Weibull. Ensuite la comparer à multrank.
+
+\subsection{Calibrer Newton-Raphson}
+
+\textbf{Objectif :}
+\begin{itemize}
+\item Parler de l'importance de l'initialisation et comparer les différentes initialisations possibles.
+\item Après avoir lu vos retours, . Le seuil de précision n'est pas très intéressant.  
+\end{itemize}
+
+\subsection{Calibrer la taille minimale de segment}
+
+\textbf{Objectif :} Montrer la capacité de détection d'une rupture avec les Area Under the Curve (faire varier le taux de censure).
+
+\subsection{Comparaison avec MultRank}
+
+\textbf{Objectif :} Regarder qui s'en sort le mieux pour trouver le nombre et la position des ruptures dans des signaux simulés.  
+
+\chapter{Application on real data}
+
+\textbf{Objectif :} Montrer les résultats convaincants et leur intérêt sur le prosulfocarb.  
+
+\section{Collectes de données et modèle sous-jacent}
+
+\textbf{Objectif :} Sous quelle forme disposons nous des données et comment allons les exploiter.
+
+\subsection{Graphe des stations}
+
+\textbf{Objectif :} Définition du graphe des stations.
+
+\subsection{Collecte de données}
+
+\textbf{Objectif :} Description et notations pour les relevés faits par les stations et définition de la série des max journaliers.
+
+\subsection{Modélisation de la série des maximums journaliers}
+
+\textbf{Objectif :} Poser le modélisation du modèle de ruptures sur la série des maximums journaliers. Préciser que l'on modélise par Weibull ici ? 
+
+\section{Procédure d'estimation}
+
+\textbf{Objectif :} Comment obtient on la segmentation de la série temporelle, le clustering spatial et les scores d'anomalie ? 
+
+\subsection{Détection de ruptures dans les maximums journaliers}
+
+\textbf{Objectif :} En suivant la procédure du chapitre 4, on peut obtenir le nombre de ruptures leur position et les paramètres de chaque segment. Cette partie est surtout pour introduire la méthode d'estimation du paramètre de dispersion sigma. 
+
+\subsection{Clustering spatial}
+
+\textbf{Objectif :} Présenter les deux méthodes de clustering spatiale possible pour obtenir un clustering spatial en présence de composantes non connexes. Les deux méthodes sont la méthode gloutonne (celle utilisée dans l'article), la méthode par programmation dynamique que j'ai mis en place grâce au papier Hébrail (et Rossi) de clustering et segmentation simultané de données fonctionnelles. Etape indépendante de la segmentation temporelle, toutes les stations du graphes sont utilisées. 
+
+\subsection{Détection d'anomalies}
+
+\textbf{Objectif :} Introduire le front de Pareto utilisée sur toutes les données d'un cluster pendant la période temporelle. 
+
+\section{Présentation des données}
+
+\textbf{Objectif :} Expliquer le contexte pourquoi on travaille sur cette substance à cet endroit et sur cette période et faire travail de statistique descriptif. 
+
+\subsection{Choix de la période temporelle et et de la zone d'étude}
+
+\textbf{Objectif :} Justification du contexte applicatif (ventes croissantes, statut de la substance et sa toxicité sur les organismes aquatiques d'où le fait de regarder les eaux de surface). Montrer la série des maximums journaliers.
+
+\subsection{Le graphe des stations associé}
+
+\textbf{Objectif :} Décrire la construction du graphe avec l'utilisation de l'IGN. 
+
+\section{Résultats}
+
+\subsection{Segmentation temporelle}
+
+\textbf{Objectif :} Montrer la segmentation obtenue pour les max journaliers (méthode du coude en annexe). Commenter les résultats.
+
+\subsection{Résultats du clustering du graphe}
+
+\textbf{Objectif :} Montrer les clusters obtenus pour le clustering optimal (méthode du coude en annexe). Commenter les résultats. 
+
+\subsection{Détection de clusters anormaux}
+
+\textbf{Objectif :} Montrer la cartographie des anomalies (tracé des fronts de Pareto en annexe). Commenter les résultats. 
+
+\chapter{Operational tools}
+
+\textbf{Objectif :} Présenter toutes fonctionnalités de l'appli (faire des captures d'écran ?). 
+
+\chapter{Conclusion}
+
+\section{Résumé de notre travail}
+
+\textbf{Objectif :} Reprendre la problématique du deuxième chapitre, dire que malgré les caractéristiques des données réelles on a réussi a en extraire des informations importantes. Montrer les limites des résultats (le nombre de données d'un cluster lors de la détection d'anomalies dans un segment temporel notamment)
+
+\section{Axes d'améliorations}
+
+\textbf{Objectif :}
+\begin{itemize}
+\item les améliorations que l'on peut apporter sur ce que l'on a déjà fait (multivarié, comparaison de positions de ruptures sur des séries temporelles indépendantes, suivi de l'évolution des fronts de pareto des clusters dans le temps)
+\item les autres pistes de travail : améliorer et uniformiser les pratiques de collectes de données. Parler de l'optimal design comme piste. 
+\end{itemize}
+
+\end{document}
