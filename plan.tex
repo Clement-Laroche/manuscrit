@@ -9,6 +9,8 @@
 
 \chapter{Intro}
 
+\textbf{Objectif :} c'est plus ici qu'il serait intéressant au début de définir le champ de l'environmental science.
+
 \chapter{Chapitre problématique et données}
 
 
@@ -31,23 +33,25 @@
 
 \textbf{Transition :} La mission qui nous intéresse porte sur les pesticides.
 
-\section{Spécificité des pesticides}
+\section{La mission de phytopharmacovigilance et ses spécificités}
 
-\textbf{Objectifs :} Description du parcours d'une molécule de son épandage à sa rentrée en contact potentielle avec des organismes vivants. 
+\textbf{Objectif :} Pourquoi on regarde ça et essayer de préparer le terrain pour 2.3 et 2.4.. Expliquer que lorsqu'on utilise un produit actif ses mécanismes d'action sur sa cible peuvent également agir sur d'autres organismes (qui ne sont pas la cible). L'épandage se fait dans une zone (prévention ou traitement d'une culture cible) et du fait de son introduction dans l'environnement peut diffuser. On peut alors observer des contaminations humaines ou autres (végétales animales). (s'appuyer sur la fiche description ppv site anses sans la partie réseau partenaire qu'on garde en 2.3 et 2.4). Noter que la diffusion est influencée par la structure géographique (donner à titre d'exemple les HER) où des conditions météos.     
 
-\subsection{Epandage d'une substance}
+%\textbf{Objectifs :} Description du parcours d'une molécule de son épandage à sa rentrée en contact potentielle avec des organismes vivants. 
 
-\textbf{Objectifs :} Description des différentes méthodes d'épandage, spécifique aux types de cultures. 
+%\subsection{Epandage d'une substance}
 
-\subsection{Propagation dans un milieu environnemental}
+%\textbf{Objectifs :} Description des différentes méthodes d'épandage, spécifique aux types de cultures. 
 
-\textbf{Objectifs :} Dispersion d'une substance épandue dans les milieux environnementaux, décrire les compartiments environnementaux. 
+%\subsection{Propagation dans un milieu environnemental}
 
-\subsection{Contamination}
+%\textbf{Objectifs :} Dispersion d'une substance épandue dans les milieux environnementaux, décrire les compartiments environnementaux. 
 
-\textbf{Objectifs :} Préciser exactement ce que l'on observe dans la contamination (santé humaine, animale et phénomènes de résistance aux substances). \\
+%\subsection{Contamination}
 
-\textbf{Transition :} Nous on s'occupe de la surveillance de concentrations de pesticides dans des milieux environnementaux donc on regarde des données de mesure prélevées par des stations dans le temps et dans l'espace.
+%\textbf{Objectifs :} Préciser exactement ce que l'on observe dans la contamination (santé humaine, animale et phénomènes de résistance aux substances). \\
+
+%\textbf{Transition :} Nous on s'occupe de la surveillance de concentrations de pesticides dans des milieux environnementaux donc on regarde des données de mesure prélevées par des stations dans le temps et dans l'espace.
 
 \section{Spécificité des mesures de concentrations}
 
@@ -70,94 +74,113 @@
 
 \textbf{Objectif :} données spécifiques aux milieux environnementaux et données météo également \\
 
-\textbf{Transition :} Combinaison de données de différentes sources d'informations, les experts ont besoin de croiser les informations de ces sources pour travailler. On donne une première approche (naïve) dans la section suivante.
+%\textbf{Transition :} Combinaison de données de différentes sources d'informations, les experts ont besoin de croiser les informations de ces sources pour travailler. On donne une première approche (naïve) dans la section suivante.
 
-\section{Visualisation des données}
+\section{Construire la surveillance de ces données}
 
-\textbf{Objectif :} qu'est ce qu'il est possible de faire en représentation (s'appuyer sur des références de surveys en visualisation de données), pourquoi c'est pas très pratique et parler d'application parler des applications interactives (du style Rshiny peut être trouver un exemple d'une pré existante à l'Anses disponible au public ou alors une source qui montre l'intérêt de l'Anses pour ces applications). \\
+\textbf{Objectif :} Exploiter une combinaison de données issues de différentes sources d'informations, c'est un problème complexe sur lequel sortir des diagnostics automatiques ne semble pas être le plus efficace. Besoin donc de connaissance experte (l'humain). Pour pouvoir explorer ces données les experts ont besoin d'outils permettant de croiser les informations de ces sources pour travailler et cela passe par exemple par des outils de visualisation. (s'appuyer sur des références de surveys en visualisation de données) en donner les limites. 
 
-\textbf{Transition :} Notre plus-value, nous on souhaite développer une application qui combine un travail de modélisation et de visualisation, dont l'objectif est de trouver de manière automatique des anomalies spatio-temporelle de concentration.    
+%\textbf{Objectif :} qu'est ce qu'il est possible de faire en représentation (s'appuyer sur des références de surveys en visualisation de données), pourquoi c'est pas très pratique et parler d'application parler des applications interactives (du style Rshiny peut être trouver un exemple d'une pré existante à l'Anses disponible au public ou alors une source qui montre l'intérêt de l'Anses pour ces applications). \\
 
-\chapter{Chapitre état de l'art}
+%\textbf{Transition :} Notre plus-value, nous on souhaite développer une application qui combine un travail de modélisation et de visualisation, dont l'objectif est de trouver de manière automatique des anomalies spatio-temporelle de concentration.    
 
-\textbf{Objectif :} Aborder la partie modélisation surtout parler de l'aspect temporel, l'irrégularité temporelle plus la censure. On cherche à trouver des segments temporels où les concentrations sont homogènes. Dans la littérature les méthodes de détections de change-points permettent de le faire. Exit les méthode online en donner des références. Exit les méthodes bayésiennes en donner des références.
+\chapter{Chapitre Change-point detection}
+
+\textbf{Objectif :} Une fois autorisée, utilisation de substance n'est pas sous contrôle de l'agence, l'utilisation n'est donc pas uniforme sur l'ensemble du territoire et très variable dans le temps (en fonction de la météo et de l'évolution climatique qui elle même dépend de la géographie). L'objectif est de trouver des périodes de temps stable, homogène spatio-temporellement. Pour ce qui est du temporel, on utilise ici de la détection de ruptures pour trouver ce qui esgt stable temporellement. Il ya des surveys qui existent (les citer) on ne couvre ici que ce qui nous a semblé cohérent.
+
+%Aborder la partie modélisation surtout parler de l'aspect temporel, l'irrégularité temporelle plus la censure. On cherche à trouver des segments temporels où les concentrations sont homogènes. Dans la littérature les méthodes de détections de change-points permettent de le faire. Exit les méthode online en donner des références. Exit les méthodes bayésiennes en donner des références.
 
 \section{Modélisation}
 
-\textbf{Objectif :} introduction des fonctions de coût, inférence paramétriques et non paramétriques.
-
+\textbf{Objectif :} introduction des fonctions de coût, inférence paramétriques et non paramétriques. Pas de formulation de problème pénalisé dans cette section.
 \subsection{Inférence paramétrique}
 \subsection{Inférence non-paramétrique}
 
 \section{Recherche de points de ruptures}
 
-\textbf{Objectif :} Exit les méthodes approximatives (binseg, window sliding) ce n'est pas ce que l'on veut (on peut donner des références). On cherche une solution exacte au problème des ruptures.
+\textbf{Objectif :} Exit les méthodes approximatives (binseg, window sliding) ce n'est pas ce que l'on veut (on peut donner des références). On cherche une solution exacte au problème des ruptures la taille des données le permet.
 
 \subsection{Partition optimale}
 
-\textbf{Objectif :} Donner la description plus algo pseudo code. Méthode lente et qui nécessite une nombre de rupture connu. 
+\textbf{Objectif :} Donner la description plus algo pseudo code. Méthode lente et qui nécessite une nombre de rupture connu. Cependant grâce à différentes méthodes on peut estimer le nombre de rupture qunad il n'est pas connu : 1. on sort toutes les segopt pour K allant de 1 à Kmax puis on utilise une stratégie de pénalisation 2. méthode du coude.  
 
 \subsection{PELT}
 
-\textbf{Objectif :} Donner la description plus algo pseudo code. Méthode plus rapide qui peut résoudre le problème pénalisé avec un nombre de ruptures inconnu. 
+\textbf{Objectif :} Sous certaines conditions sur la pénalité , on peut reformuler le problème et utiliser pelt. Donner la description plus algo pseudo code. Avantage : Méthode plus rapide. Inconvénient : opacité de la pénalité, on ne sait pas combien de ruptures on va obtenir pour une valeur donnée de pénalité.
 
-\textbf{Transition :} 
-\begin{itemize}
-\item Avantage : aucune modélisation du temps n'est faite avec ces deux méthodes, permet de contourner le problème du sampling irrégulier. 
-\item Problème est que avec PELT, pour une valeur de pénalité est associée une segmentation optimale. Quand on utilise la partition optimale, on obtient toutes les segmentations (bien que ce soit lent) pour des nombres de ruptures inférieur à un $K_{max}$ fixé. Avoir plusieurs choix de segmentations est préférable dans une démarche exploratoire. Comment utiliser les avantages de PELT dans ce type de démarche ?
-\end{itemize}
+%\textbf{Transition :} 
+%\begin{itemize}
+%\item Avantage : aucune modélisation du temps n'est faite avec ces deux méthodes, permet de contourner le problème du sampling irrégulier. 
+%\item Problème est que avec PELT, pour une valeur de pénalité est associée une segmentation optimale. Quand on utilise la partition optimale, on obtient toutes les segmentations (bien que ce soit lent) pour des nombres de ruptures inférieur à un $K_{max}$ fixé. Avoir plusieurs choix de segmentations est préférable dans une démarche exploratoire. Comment utiliser les avantages de PELT dans ce type de démarche ?
+%\end{itemize}
 
-\section{Explorer le nombre de ruptures et sélection de modèle}
+\section{CROPS}
 
-\textbf{Objectif :} Donner les méthodes pour obtenir plusieurs segmentations : parler de CROPS. Pour la sélection de modèle, parler de la méthode du coude ?
+
+\textbf{Objectif :} Compromis pour atteindre l'exhaustivité de segopt et la rapidité de PELT. CROPS. Pour une démarche exploratoire ce qui semble être le plus cohérent car permet de se sortir du fait que dans PELT la valeur de pen induit le nombre de rupture.  
+%\textbf{Objectif :} Donner les méthodes pour obtenir plusieurs segmentations : parler de CROPS. Pour la sélection de modèle, parler de la méthode du coude ?
 
 \section{Détection de ruptures sur des données de pesticides}
 
-\textbf{Objectif :} Mentionné par Mada me semble-t-il ? Un tour de littérature sur les applications pré existantes leurs limites dans notre cadre.
+\textbf{Objectif :} Un tour de littérature sur les applications pré existantes leurs limites dans notre cadre.
 
 \chapter{Chapitre modèle de détection de rupture dans des données censurées à gauche}
 
-\textbf{Objectif :} Décrire ce que l'on a développé dans le cadre le plus général possible (donc Weibull pas tout de suite). Voir comment on peut insérer la censure à gauche dans des méthodes de détection de ruptures et voir les difficultés que ça pose.
+\textbf{Objectif :} Décrire ce que l'on a développé dans le cadre le plus général possible (donc Weibull pas tout de suite). Voir comment on peut insérer la censure à gauche (ou à droite) dans des méthodes de détection de ruptures et voir les difficultés que ça pose.
 
-\section{Modèle}
+\section{Effet de la censure}
 
-\subsection{Le modèle de rupture}
+\textbf{Objectif :} introduction d'un paramètre de régularisation pour les segments complètement censurés. Illustration, loi exponentielle. 
 
-\textbf{Objectif :} Donner la formule du problème pénalisé avec un fonction de coût paramétrique, les hypothèses de convergence des estimateurs et mettre les preuves en annexes.
+\section{Gestion du multi-paramètre}
 
-\subsection{Adaptation à l'observation des données}
+\textbf{Objectif :} stratégie détection sur tous les paramètres. et stratégie intermédiaire paramètre global solution d'optimisation alternée (présentation de l'heuristique pour estimer le sigma sans forcément mentionner Weibull). Illustration loi de Weibull. 
 
-\textbf{Objectif :} On s'intéresse à des lois ayant des paramètres de dispersion et d'intensité. Donner la modélisation censure à gauche en écrivant la log vraisemblance (dans le cadre général). 
+\section{Comparaison avec Multrank}
 
-\section{Procédure d'estimation}
+\textbf{Objectif :} expériences sur la taille minimale de segment et de comparaison avec Multrank
 
-\subsection{L'estimation du nombre et positions de ruptures}
+\textbf{Remarque:} Newton Raphson passe en annexe ou saute.
 
-\textbf{Objectif :} Cas d'application de PELT que l'on peut utiliser car les conditions sont réunies. Bien mentionner que l'application de Pelt nécessite une taille minimale de segment pour fonctionner. Pour choisir une valeur de pénalité, on utilise CROPS. 
+%\section{Modèle}
 
-\subsection{L'estimation des paramètres d'un segment en cas de censure}
+%\subsection{Le modèle de rupture}
 
-\textbf{Objectif :} Newton-raphson, discussion sur $lambda$ maximum dans le cas d'un segment entièrement censuré et sur l'existence d'un minimum global (la dérivée seconde n'est pas forcément tout le temps positive mais on peut montrer l'existence d'un minimum global dans le cas d'une Weibull par exemple). 
+%\textbf{Objectif :} Donner la formule du problème pénalisé avec un fonction de coût paramétrique, les hypothèses de convergence des estimateurs et mettre les preuves en annexes.
 
-\section{Expériences de simulation}
+%\subsection{Adaptation à l'observation des données}
 
-\textbf{Objectif :} Faire des essais pour calibrer notre méthode, on choisit une loi de Weibull. Ensuite la comparer à multrank.
+%\textbf{Objectif :} On s'intéresse à des lois ayant des paramètres de dispersion et d'intensité. Donner la modélisation censure à gauche en écrivant la log vraisemblance (dans le cadre général). 
 
-\subsection{Calibrer Newton-Raphson}
+%\section{Procédure d'estimation}
 
-\textbf{Objectif :}
-\begin{itemize}
-\item Parler de l'importance de l'initialisation et comparer les différentes initialisations possibles.
-\item Après avoir lu vos retours, . Le seuil de précision n'est pas très intéressant.  
-\end{itemize}
+%\subsection{L'estimation du nombre et positions de ruptures}
 
-\subsection{Calibrer la taille minimale de segment}
+%\textbf{Objectif :} Cas d'application de PELT que l'on peut utiliser car les conditions sont réunies. Bien mentionner que l'application de Pelt nécessite une taille minimale de segment pour fonctionner. Pour choisir une valeur de pénalité, on utilise CROPS. 
 
-\textbf{Objectif :} Montrer la capacité de détection d'une rupture avec les Area Under the Curve (faire varier le taux de censure).
+%\subsection{L'estimation des paramètres d'un segment en cas de censure}
 
-\subsection{Comparaison avec MultRank}
+%\textbf{Objectif :} Newton-raphson, discussion sur $lambda$ maximum dans le cas d'un segment entièrement censuré et sur l'existence d'un minimum global (la dérivée seconde n'est pas forcément tout le temps positive mais on peut montrer l'existence d'un minimum global dans le cas d'une Weibull par exemple). 
 
-\textbf{Objectif :} Regarder qui s'en sort le mieux pour trouver le nombre et la position des ruptures dans des signaux simulés.  
+%\section{Expériences de simulation}
+
+%\textbf{Objectif :} Faire des essais pour calibrer notre méthode, on choisit une loi de Weibull. Ensuite la comparer à multrank.
+
+%\subsection{Calibrer Newton-Raphson}
+
+%\textbf{Objectif :}
+%\begin{itemize}
+%\item Parler de l'importance de l'initialisation et comparer les différentes initialisations possibles.
+%\item Après avoir lu vos retours, . Le seuil de précision n'est pas très intéressant.  
+%\end{itemize}
+
+%\subsection{Calibrer la taille minimale de segment}
+
+%\textbf{Objectif :} Montrer la capacité de détection d'une rupture avec les Area Under the Curve (faire varier le taux de censure).
+
+%\subsection{Comparaison avec MultRank}
+
+%\textbf{Objectif :} Regarder qui s'en sort le mieux pour trouver le nombre et la position des ruptures dans des signaux simulés.  
 
 \chapter{Application on real data}
 
@@ -165,7 +188,7 @@
 
 \section{Collectes de données et modèle sous-jacent}
 
-\textbf{Objectif :} Sous quelle forme disposons nous des données et comment allons les exploiter.
+\textbf{Objectif :} Sous quelle forme disposons nous des données et comment allons les exploiter. 
 
 \subsection{Graphe des stations}
 
@@ -173,19 +196,19 @@
 
 \subsection{Collecte de données}
 
-\textbf{Objectif :} Description et notations pour les relevés faits par les stations et définition de la série des max journaliers.
+\textbf{Objectif :} Description et notations pour les relevés faits par les stations et définition de la série des max journaliers. renvoyer au chapitre 4 pour la modélisation des max.
 
-\subsection{Modélisation de la série des maximums journaliers}
+%\subsection{Modélisation de la série des maximums journaliers}
 
-\textbf{Objectif :} Poser le modélisation du modèle de ruptures sur la série des maximums journaliers. Préciser que l'on modélise par Weibull ici ? 
+%\textbf{Objectif :} Poser le modélisation du modèle de ruptures sur la série des maximums journaliers. Préciser que l'on modélise par Weibull ici ? 
 
 \section{Procédure d'estimation}
 
-\textbf{Objectif :} Comment obtient on la segmentation de la série temporelle, le clustering spatial et les scores d'anomalie ? 
+\textbf{Objectif :} La segmentation de la série temporelle s'obtient en utilisant la procédure de 4. Comment se gère le clustering spatial et les scores d'anomalie ? 
 
-\subsection{Détection de ruptures dans les maximums journaliers}
+%\subsection{Détection de ruptures dans les maximums journaliers}
 
-\textbf{Objectif :} En suivant la procédure du chapitre 4, on peut obtenir le nombre de ruptures leur position et les paramètres de chaque segment. Cette partie est surtout pour introduire la méthode d'estimation du paramètre de dispersion sigma. 
+%\textbf{Objectif :} En suivant la procédure du chapitre 4, on peut obtenir le nombre de ruptures leur position et les paramètres de chaque segment. Cette partie est surtout pour introduire la méthode d'estimation du paramètre de dispersion sigma. 
 
 \subsection{Clustering spatial}
 
@@ -223,7 +246,7 @@
 
 \chapter{Operational tools}
 
-\textbf{Objectif :} Présenter toutes fonctionnalités de l'appli (faire des captures d'écran ?). 
+\textbf{Objectif :} faire une démo avec des captures d'écran. Passer les détails style si je clique là il se passe quoi.
 
 \chapter{Conclusion}
 
