@@ -58,11 +58,11 @@ Anses does not itself collect the data it needs to fulfil its phytoharmacovigila
 \end{enumerate}
 This results in collecting spatio-temporal informations. The data sets that provide information on pesticide concentrations and use are presented in detail in section \ref{chp:2:3}.
 
-\section{Pesticids measurments specifities}\label{chp:2:3}
+\section{Pesticides measurments data}\label{chp:2:3}
 
 There are two types of measurements: direct measurements, which are essentially stations that measure the exact concentration of a substance in a particular environment, and indirect measurements, which give indications of the use of a substance.
 
-\subsection{Direct measurments information}
+\subsection{Direct measurments characteristics}
 
 In this part, the characteristics of pesticides direct measures from sampling stations are studied. The following characteristics are not found systematically, but are very common when it comes to concentration measurements.
 
@@ -75,7 +75,7 @@ The first specificity of concentration measurement arises from the problem of me
     \item the limit of quantification (LOQ): This is the smallest concentration value of a substance in a sample that can be measured with certainty. 
 \end{itemize}
 
-These limits are determined by the sensors that the sampling station is equiped with. It happens that geographical areas are covered by stations that do not have the same equipment. In this case, there are several LOQ values within the samples taken in that area. In the case of surface waters, for example, the contracts for the selection of monitoring laboratories are awarded by the water agencies. These agencies, six in number, cover an area larger than the French administrative regions. This means that if the scale of an administrative region is taken as the basis for a study, this region may fall under the jurisdiction of two different water agencies and therefore the measuring instruments may be different. Moreover, the same station may change its measuring equipment over time. Station equipment contracts are renewed periodically, but renewal does not guarantee that the same equipment will be maintained. All those caracteristics are illustrated in Figure \ref{fig:cens_ex}. These two limits of accuracy mean that concentration data are left-censored. Several methods have been developed to handle this type of data. We can cite the imputation of values to replace the LOQ values present in the set of concentration values, the use of the maximum likelihood estimator or the Kaplan-Meier estimator (see \cite{Gillaizeau2020,Croghan2003MethodsOD}). In Chapter 4, we will show which method was chosen to handle this type of data in this thesis. 
+These limits are determined by the sensors that the sampling station is equiped with. It happens that geographical areas are covered by stations that do not have the same equipment. In this case, there are several LOQ values within the samples taken in that area. In the case of surface waters, for example, the contracts for the selection of monitoring laboratories are awarded by the water agencies. These agencies, six in number, cover an area larger than the French administrative regions. This means that if the scale of an administrative region is taken as the basis for a study, this region may fall under the jurisdiction of two different water agencies and therefore the measuring instruments may be different. Moreover, the same station may change its measuring equipment over time. Station equipment contracts are renewed periodically, but renewal does not guarantee that the same equipment will be maintained. All those caracteristics are illustrated in Figure \ref{fig:cens_ex}. These two limits of accuracy mean that concentration data are left-censored. In Chapter 4, we will show which method was chosen to handle this type of data in this thesis. Several methods have been developed to handle this type of data. We can cite the imputation of values to replace the LOQ values present in the set of concentration values, the use of the maximum likelihood estimator or the Kaplan-Meier estimator (see \cite{Gillaizeau2020,Croghan2003MethodsOD}). 
 
 \begin{figure}
     \centering
@@ -86,11 +86,11 @@ These limits are determined by the sensors that the sampling station is equiped 
 
 \subsubsection{Irregular sampling}
 
-The second feature of these data is the spatial and temporal heterogeneity of the measurements. This is not the case for all pesticide monitoring data. This makes it a particularity of the French network. Figure \ref{fig:cens_ex} already shows that the rhythm of the measurements for the same station is irregular in time. 
+The second feature is a direct consequence of Section \ref{chp:2:1}. We mentioned that each country has organised its own monitoring system. Some features are country specific and have an impact on the raw data of the collected samples. Sampling in France is not necessarily done at regular intervals, as can be seen in Figure \ref{fig:cens_ex}. No sample was made during the year 2019. This is also true for water monitoring data. This is a peculiarity of the French network, as this is not the case in all countries. For example, \cite{Zhang2008} states that sampling in surface waters is regular in China. Furthermore, \cite{Joergensen2008} states that this is also the case for groundwater monitoring systems in countries such as China, the Netherlands, and South Korea. The South Korean monitoring system is even automatic, and a sample is taken every six hours and automatically stored on a central server after analysis. We would also like to point out that strategies other than regular sampling, such as grab sampling \cite{Novic2017} could explain the irregular sampling rythm in French surface water quality. Grab sampling consists of obtaining as accurate a picture as possible of surface water quality in a short period of time (and in a limited area). If the operations of grab samples and periodic monitoring operations of a station are reported in the same database, irregular sampling may also occur.  
 
 \subsubsection{Spatio-temporal heterogeneity}
 
-Figure \ref{fig:het_samp_ex} shows that for two spatially neighbouring stations the measured values are not synchronous in time. It can also be seen that the stations take very few measurements and do not take the same number of measurements. In Figure \ref{fig:het_samp_ex} we see that it is not possible to compare the measurements of the two existing stations. The stations literally sampled in non-overlapping time periods. Therefore, to derive information from these data, one must work on a different scale than that of the station. Aggregating the data from the two stations results in a time series that is more evenly sampled over time. Thus, there is a trade-off between the number of data available to make a statistical statement about a spatial area and the accuracy of that spatial extent. 
+Another main chgaracteristics mentionned in \cite{Baran2022} is the spatio-temporal heterogeneity in the data-sets. Figure \ref{fig:het_samp_ex} shows the temporal heterogeneity. For two spatially neighbouring stations the measured values are not synchronous in time. It can also be seen that the stations take very few measurements and do not take the same number of measurements. In Figure \ref{fig:het_samp_ex} we see that it is not possible to compare the measurements of the two existing stations. The stations made samples in non-overlapping time periods. Therefore, to derive information from these data, one must work on a different scale than that of the station. Aggregating the data from the two stations results in a time series that is more evenly sampled over time. Thus, there is a trade-off between the number of data available to make a statistical statement about a spatial area and the accuracy of that spatial extent. 
 
 \begin{figure}[ht]
     \centering
@@ -99,7 +99,7 @@ Figure \ref{fig:het_samp_ex} shows that for two spatially neighbouring stations 
     \label{fig:het_samp_ex}
 \end{figure}
 
-Figure \ref{fig:het_spa_ex} illustrates that alongside heterogeneity in the stations sampling rhythms, spatio temporal data are not distributed in a homogeneous way over the territory. Depending on which region of the area of study the samples originate, the underlying distribution differ. Thus, the data are heterogeneous in space. This Figure also illustrates that the distribution of concentration values can drastically change over time. Looking at the samples of station 03189000, there is a break point just before the year 2015 in the station concentration values. The same can be saif for the year 2016 in Figure \ref{fig:cens_ex}. Thus the data are heterogeneous in time. The spatio-temporal heterogeneity affects the sampling rhythms and the distribution of the concentrations. 
+Figure \ref{fig:het_spa_ex} illustrates that alongside temporal heterogeneity induced by the stations different sampling rhythms, spatio temporal data are not distributed in a homogeneous way over the territory. The concentrations value seem to completely differ according to their spatial area of origin. Thus, the data are heterogeneous in space. Figure \ref{fig:het_spa_ex} also illustrates that the distribution of concentration values can drastically change over time. Looking at the samples of station 03189000, there is a break point just before the year 2015 in the station concentration values. The same can be said for the year 2016 in Figure \ref{fig:cens_ex}. Thus the data are heterogeneous in space and in time.  
 
 \begin{figure}[ht]
     \centering
@@ -108,62 +108,101 @@ Figure \ref{fig:het_spa_ex} illustrates that alongside heterogeneity in the stat
     \label{fig:het_spa_ex}
 \end{figure}
 
-
-
 \subsection{Indirect measurments information}
 
 \subsubsection{Surveys on farming pratices}
 
-A final source of available information is cultural practice studies. They are conducted in the form of a questionnaire and are used to describe and characterize how farmers work on their land. These studies are very specific and focus only on certain types of crops when conducted. Three topics are addressed in the questionnaires. The first captures general information about the farm, such as commitment to a pesticide use reduction approach or related to agroecology. The second questionnaire is used to reconstruct the technical process on the plot. In other words, we examine the layout of the plot, its preceding crops or its irrigation. Finally, the use of plant protection products on the whole farm is investigated. The type and settings of the sprayer for the substance or the handling and protection of the user are criteria that are interrogated. In summary, cropping practice surveys provide much qualitative (rather than quantitative) information about the source of substance emissions. However, these surveys are conducted on an ad hoc basis and cover only certain types of crops. Only the results of the statistical departments of Agricultural ministry analyses \footnote{An example can be found at :\url{https://agreste.agriculture.gouv.fr/agreste-web/disaron/Chd2009/detail/}.} are available as open source, but not the raw data.  
+Additional clues to the substance presence can be obtained from surveys of agricultural practices. They are conducted in the form of a questionnaire and are used to describe and characterize how farmers operate on their land. These studies are very specific and focus only on certain types of crops. Three topics are addressed in the questionnaires. The first captures general information about the farm, such as commitment to pesticide use reduction or agroecology. The second questionnaire is designed to capture all technical operations on the farm plot. In other words, we examine the structure of the plantation, its preceding crops or its irrigation. Finally, the use of pesticides on the whole farm is studied. The questionnaire goes over criterias such as the type and settings of the sprayer for the substance or the handling and protection of the user.  
+Figure \ref{fig:PK1} shows what kind of questions to expect in this survey\footnote{Document in French, find the full document at \url{https://agreste.agriculture.gouv.fr/agreste-web/download/methode/S-PK\%20Viticulture\%202019/20191217_questionnaire_PK_Viti.pdf}}. In summary, farming practice surveys provide much qualitative (rather than quantitative) information about the source of substance emissions. However, these surveys are conducted on an ad hoc basis and cover only certain types of crops. Only the results of the statistical departments of Agricultural ministry analyses \footnote{An example can be found at :\url{https://agreste. agriculture.gouv.fr/agreste-web/disaron/Chd2009/detail/}.} are available as an open source, but not the raw data.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.75]{figs/Chap3/PK1.pdf}
+    \caption{Question extracted from the 2019 survey destined to vitivulture. The question asked is about the fertilization and protection of the crops and the use of any phyto-sanitary product.}
+    \label{fig:PK1}
+\end{figure}
 
 \subsubsection{Substances sales databank}
 
 The use of a substance can also be indirectly seen in the sales data of crop protection products. The National Bank for the Sale of Pesticides by Authorized Distributors \footnote{Available at \url{https://geo.data.gouv.fr/fr/datasets/bdc2c6f21f70acccfea73445f68a5f0d6ee5b7c1}.} (NBSD) lists and archives all such data. For the same reasons of anonymity, geographically fine resolution information is not available. The most accurate resolution corresponds to postal codes. It is the same for the temporal resolution that is not finer than the yearly resolution. Unlike CPL, this data set does not indicate the location and date of use of the substance. A purchaser may well be in a different location than the place of use of the substance they just purchased. Nevertheless, sales give a general indication of the intensity of use of a substance. A sudden increase in sales of a product may mean that its use is increasing in that area.  
 
-\subsubsection{Crops type cartography}
+\begin{table}[ht]\label{tab:bnvd}
+\centering
+\begin{tabular}{rlllrr}
+  \hline
+ & Year & Department & Substance & Quantity sold (in kg) & Annual rank \\ 
+  \hline
+1 & 2008 & INDRE & 2,4-db & 27.00 & 155 \\ 
+  2 & 2009 & INDRE & 2,4-db & 24.00 & 162 \\ 
+  3 & 2010 & INDRE & 2,4-db & 24.00 & 166 \\ 
+  4 & 2011 & INDRE & 2,4-db & 68.00 & 148 \\ 
+  5 & 2012 & INDRE & 2,4-db & 7.00 & 195 \\ 
+  6 & 2013 & INDRE & 2,4-db & 72.00 & 157 \\ 
+  7 & 2014 & INDRE & 2,4-db & 120.00 & 125 \\ 
+  8 & 2015 & INDRE & 2,4-db & 84.00 & 146 \\ 
+  9 & 2016 & INDRE & 2,4-db & 195.00 & 108 \\ 
+  10 & 2017 & INDRE & 2,4-db & 348.00 & 105 \\ 
+   \hline
+\end{tabular}
+   \caption{Annual sales of the weed killer 2,4-db in the Indre department. The last column indicates the national annual rank of the substance sales.}
+\end{table}
 
-Specific pest species can be observed for each crop type. Mapping the crop types in an area can therefore provide a preliminary idea of the areas and periods of application of the substance being monitored. Some of this information is available in the graphical land register (GLR) \footnote{Available at : \url{https://www.data.gouv.fr/fr/datasets/registre-parcellaire-graphique-rpg-contours-des-parcelles-et-ilots-culturaux-et-leur-groupe-de-cultures-majoritaire/}.}. This database corresponds to the application forms used by farmers to obtain financial aid under the Common Agricultural Policy of the European Union (CAP). To be eligible for these grants, the crops grown on the plots must be declared. This dataset is a partial information, since the query of CAP is not mandatory. Therefore, the owners of the plots who have not applied for aid are not informed. Moreover, this register is renewed every year. It is possible that the information for certain parcels is not included in all annual editions of the GLR. 
+\subsubsection{Crops cartography}
 
-\subsubsection{Adverse effects logs}
+Specific pest species can be observed for each crop type. Mapping the crop types in an area can therefore provide a preliminary idea of the areas and periods of application of the substance being monitored. Some of this information is available in the graphical land register (GLR) \footnote{Available at : \url{https://www.data.gouv.fr/fr/datasets/registre-parcellaire-graphique-rpg-contours-des-parcelles-et-ilots-culturaux-et-leur-groupe-de-cultures-majoritaire/}.}. This database corresponds to the application forms used by farmers to obtain financial aid under the Common Agricultural Policy of the European Union (CAP). To be eligible for these grants, the crops grown on the plots must be declared. This dataset is a partial information, since asking for CAP funds is not mandatory. Therefore, the owners of the crops who have not applied for aid are not present in the database. Moreover, this register is renewed every year. It is possible that the information for certain parcels is not included in all annual editions of the GLR. Crops maps of barley and wheat are diplayed in Figure \ref{fig:crops} of Annex \ref{annex:chap:5}.
 
-The databases for monitoring potential adverse events are medical registries. There are human and animal health databases. For human health, the Phytattitude network was developed by the Mutual Agricultural Health Insurers (MSAs). It is a network where any professional who comes into contact with phytosanitary products can indicate if he/she has health problems. This organization collects data through spontaneous reports from agricultural actors or during scheduled visits by nurses or doctors. Another source is the medical-administrative databases of the MSA. They collect information on farmers' health care reimbursements. Second, poison control centers are involved in adverse effect surveillance. They provide toxicovigilance information on toxicovigilance for the entire population. Much information about acute health problems comes up through these information channels. For chronic health problems, there is the National network of vigilance and prevention of professional pathologies (RNV3P), whose role is to identify emerging or re-emerging occupational health risks. Finally, the AGRICAN cohort (AGRIculture and CANcer) of the François Baclesse Center is used to measure the health status of the agricultural population compared to the general population (especially in terms of cancer burden). It is therefore also part of the Anses partner network of partners. Regarding animal health, INRAE provides a database on veterinary toxicovigilance (GIS Toxinelle), and the Biodiversity French Office (OFB) on wildlife toxicovigilance of wildlife. The Department of Agriculture provides additional information, such as acute mortality in bees, and its 500 ENI biovigilance program is also part of the available databases. This is a program to monitor the impact of agricultural practices on biodiversity.
+\subsubsection{Adverse effects databases}
+
+The last example of data that can highlight clues of a substance usage are the databases for monitoring potential adverse events. They consist in medical registries providing informations on human and animal health.  
+For human health, several information sources can be cited: 
+\begin{itemize}
+\item the Phytattitude network was developed by the Mutual Agricultural Health Insurers (MSAs). It is a network where any professional who comes into contact with phytosanitary products can indicate if he/she has health problems. This organization collects data through spontaneous reports from agricultural actors or during scheduled visits by nurses or doctors.
+\item the medical-administrative databases of the MSA. They collect information on farmers' health care reimbursements.
+\item the poison control centers are involved in adverse effect surveillance. They provide toxicovigilance information on toxicovigilance for the entire population. Much information about acute health problems comes up through these information channels.
+\item the National network of vigilance and prevention of professional pathologies (RNV3P), whose role is to identify emerging or re-emerging occupational health risks constitutes a good source for chronic health problems.
+\item the AGRICAN cohort (AGRIculture and CANcer) of the François Baclesse Center is used to measure the health status of the agricultural population compared to the general population (especially in terms of cancer burden).
+\end{itemize}
+
+Regarding animal health, INRAE provides a database on veterinary toxicovigilance (GIS Toxinelle), and the Biodiversity French Office (OFB) on wildlife toxicovigilance of wildlife. The Department of Agriculture provides additional information, such as acute mortality in bees, and its 500 ENI biovigilance program is also part of the available databases. This is a program to monitor the impact of agricultural practices on biodiversity.
+
+\section{Additional useful data}\label{chp:2:4}
 
 
-\section{Informations on environmental compartments}\label{chp:2:4}
 
 
 
+\section{Surveillance of pesticides data}\label{chp:2:5}
 
-
-\section{Objectives targeted}\label{chp:2:5}
-
-The final problem associated with spatiotemporal data is their representation. The minimum number of dimensions to describe them is three: two for space as a pair of longitudes and latitudes; one for time. \cite{cressie2015} presents in his book several methods of descriptive statistics for the representation of such data. The most intuitive method to plot spatiotemporal data are marginal and conditional plot. There are several ways to make them.
-
- The first one are \textbf{time-series plot}. The figures presented so far in this section are one possible example of this representation where one commits to a geographic position for observing a time series. Figure \ref{fig:tsplot_ex} displays the daily maximal concentrations of prosulfocarbe in three adjacent hydroecoregions (report to Figure \ref{fig:esu_ex} for spatial representations of the HER). Clear correlation is observed between the time series. However, the signal of HER 4 doesn't seem to be exactly the same and shows earlier signs of a seasonal pattern and of higher quantified values. Another example is shown in Figures \ref{fig:het_spa_ex} and \ref{fig:het_samp_ex} that allowed to see the spatial heterogeneity of sampling rates and distribution. The problem is that we cannot get a complete view of the spatial distribution of the data. The stations compared in both figures were hand-selected, and no information is available about the others. By selecting the HER scale, we insert expert information in the visualisation. Note that each choice has its advantages and its drawbacks. For instance, if looking at HER 4 in Figure \ref{fig:esu_ex}, stations that belong to it are separated in three clear clusters (one in the north, the other in the east and last one in the south west of the HER). As though they belong to the same HER, grouping the data of these stations is not necessarily an ideal choice as they are still far away.. 
+This section proposes a first exploratory approach to monitore pesticides concentrations using the data of Sections \ref{chp:2:3} and \ref{chp:2:4}. The objectives fixed in section \ref{chp:2:2} can be difficult to meet because of the French specific administrative organisation discussed in \ref{chp:2:1}. The spatio-temporal nature of concentrations data necessits appropriate techniques for its representation which have been thoroughly investigated in \cite{Andrienko2003,cressie2015}. The objective of such an application is to provide support to the experts analysis of concentration data. This entails the design of visualization tools. As mentionned in \cite{Ansari2019}, the creation of geovisualization tools is application specific.    
  
- \begin{figure}[ht]
-    \centering
-    \includegraphics{Chap3/TS_plot.pdf}
-    \caption{Time series plot of HER 8,5 and 4 daily maximum concentrations. The log scale was used for a easier visualization.}
-    \label{fig:tsplot_ex}
-\end{figure}
+
+%The minimum number of dimensions to describe them is three: two for space as a pair of longitudes and latitudes; one for time. \cite{cressie2015} presents in his book several methods of descriptive statistics for the representation of such data. The most intuitive method to plot spatiotemporal data are marginal and conditional plot. There are several ways to make them.
+
+%The first one are \textbf{time-series plot}. The figures presented so far in this section are one possible example of this representation where one commits to a geographic position for observing a time series. Figure \ref{fig:tsplot_ex} displays the daily maximal concentrations of prosulfocarbe in three adjacent hydroecoregions (report to Figure \ref{fig:esu_ex} for spatial representations of the HER). Clear correlation is observed between the time series. However, the signal of HER 4 doesn't seem to be exactly the same and shows earlier signs of a seasonal pattern and of higher quantified values. Another example is shown in Figures \ref{fig:het_spa_ex} and \ref{fig:het_samp_ex} that allowed to see the spatial heterogeneity of sampling rates and distribution. The problem is that we cannot get a complete view of the spatial distribution of the data. The stations compared in both figures were hand-selected, and no information is available about the others. By selecting the HER scale, we insert expert information in the visualisation. Note that each choice has its advantages and its drawbacks. For instance, if looking at HER 4 in Figure \ref{fig:esu_ex}, stations that belong to it are separated in three clear clusters (one in the north, the other in the east and last one in the south west of the HER). As though they belong to the same HER, grouping the data of these stations is not necessarily an ideal choice as they are still far away.. 
  
- Second, the \textbf{spatial maps plot} can also be an effective way of extracting information from these data. It consists in a temporal sequence of maps as in Figure \ref{fig:spa_ex}. A clear seasonal pattern can be identified from this Figure. Two problems emerge from this representation method. First, it takes an extensive number of maps to exhibit significant patterns. Secondly, the four seasons of the year were chosen to make a temporal segmentation of the two observations year. We introduced external knowledge to our analysis, Same as previously, even though it is a coherent choice, it has it s drawbacks. For instance, it cannot take into account the years where treatment started earlier or later due to climatic conditions. Furthermore, it can't help to determine precisely the nature of what is temporally changing in the signal. only the summarised indicator of quantification rate is used. Nothing is known about the maximum or the mean concentrations. Plotting all the maps displaying other indicators would be a tedious task.   
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics{Chap3/TS_plot.pdf}
+%    \caption{Time series plot of HER 8,5 and 4 daily maximum concentrations. The log scale was used for a easier visualization.}
+%    \label{fig:tsplot_ex}
+%\end{figure}
+ 
+%Second, the \textbf{spatial maps plot} can also be an effective way of extracting information from these data. It consists in a temporal sequence of maps as in Figure \ref{fig:spa_ex}. A clear seasonal pattern can be identified from this Figure. Two problems emerge from this representation method. First, it takes an extensive number of maps to exhibit significant patterns. Secondly, the four seasons of the year were chosen to make a temporal segmentation of the two observations year. We introduced external knowledge to our analysis, Same as previously, even though it is a coherent choice, it has it s drawbacks. For instance, it cannot take into account the years where treatment started earlier or later due to climatic conditions. Furthermore, it can't help to determine precisely the nature of what is temporally changing in the signal. only the summarised indicator of quantification rate is used. Nothing is known about the maximum or the mean concentrations. Plotting all the maps displaying other indicators would be a tedious task.   
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics{Chap3/Spatial_maps.pdf}
-    \caption{Spatial maps in time. The prosulfocarbe's quantification rate of each station was computed for each season of 2017 and 2018.}
-    \label{fig:spa_ex}
-\end{figure}
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics{Chap3/Spatial_maps.pdf}
+%    \caption{Spatial maps in time. The prosulfocarbe's quantification rate of each station was computed for each season of 2017 and 2018.}
+%    \label{fig:spa_ex}
+%\end{figure}
 
-Another example of representation is the \textbf{space (1-D)/time plots} shown in Figure \ref{fig:S1Dplot}. It consists in fixing a dimension in space whether longitude or latitude and to plot some indicators summarised on that dimension against time. In Figure \ref{fig:S1Dplot}, the longitude was cut into regular intervals and time was segmented in seasons. The plot shows once again a very clear temporal seasons that appears in time in the region. The location of those changes are not clearly displayed by those plots though. We are not able to determine if the large quantification rates are in the central areas of the region or not (given that we miss the latitude information). Although those plots provide an excellent first overview and can help to quickly understand the structure under spatiotemporal data, it does not provide sufficient precision to localize in space and time some interesting signals.    
+%Another example of representation is the \textbf{space (1-D)/time plots} shown in Figure \ref{fig:S1Dplot}. It consists in fixing a dimension in space whether longitude or latitude and to plot some indicators summarised on that dimension against time. In Figure \ref{fig:S1Dplot}, the longitude was cut into regular intervals and time was segmented in seasons. The plot shows once again a very clear temporal seasons that appears in time in the region. The location of those changes are not clearly displayed by those plots though. We are not able to determine if the large quantification rates are in the central areas of the region or not (given that we miss the latitude information). Although those plots provide an excellent first overview and can help to quickly understand the structure under spatiotemporal data, it does not provide sufficient precision to localize in space and time some interesting signals.    
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics{Chap3/T1Dplot.pdf}
-    \caption{Space (1-D)/Time plots. Grey tiles correspond to location and moment were no sample were collected.}
-    \label{fig:S1Dplot}
-\end{figure}
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics{Chap3/T1Dplot.pdf}
+%    \caption{Space (1-D)/Time plots. Grey tiles correspond to location and moment were no sample were collected.}
+%    \label{fig:S1Dplot}
+%\end{figure}
 
-All of those representation methods can't capture all the information carried by the data set. We propose to handle it in a dynamic way using the application environment R-shiny. Integrating dynamic response to a user's requests is an efficient way to combine a descriptive view with models results. The application overview will be given in section 6.
+%All of those representation methods can't capture all the information carried by the data set. We propose to handle it in a dynamic way using the application environment R-shiny. Integrating dynamic response to a user's requests is an efficient way to combine a descriptive view with models results. The application overview will be given in section 6.
