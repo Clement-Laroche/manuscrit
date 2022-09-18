@@ -90,7 +90,7 @@ The second feature is a direct consequence of Section \ref{chp:2:1}. We mentione
 
 \subsubsection{Spatio-temporal heterogeneity}
 
-Another main chgaracteristics mentionned in \cite{Baran2022} is the spatio-temporal heterogeneity in the data-sets. Figure \ref{fig:het_samp_ex} shows the temporal heterogeneity. For two spatially neighbouring stations the measured values are not synchronous in time. It can also be seen that the stations take very few measurements and do not take the same number of measurements. In Figure \ref{fig:het_samp_ex} we see that it is not possible to compare the measurements of the two existing stations. The stations made samples in non-overlapping time periods. Therefore, to derive information from these data, one must work on a different scale than that of the station. Aggregating the data from the two stations results in a time series that is more evenly sampled over time. Thus, there is a trade-off between the number of data available to make a statistical statement about a spatial area and the accuracy of that spatial extent. 
+Another main chgaracteristics mentionned in \cite{Baran2022} is the spatio-temporal heterogeneity in the data-sets. Figure \ref{fig:het_samp_ex} shows the temporal heterogeneity. For two spatially neighbouring stations the measured values are not synchronous in time. It can also be seen that the stations take very few measurements and do not take the same number of measurements. In Figure \ref{fig:het_samp_ex} we see that it is not possible to compare the measurements of the two existing stations. The stations made samples in non-overlapping time periods. One may notice that aggregating the data from the two stations results in a time series that is more evenly sampled over time. More details on this issue are provided in Section \ref{chp:2:4}. 
 
 \begin{figure}[ht]
     \centering
@@ -165,20 +165,61 @@ For human health, several information sources can be cited:
 
 Regarding animal health, INRAE provides a database on veterinary toxicovigilance (GIS Toxinelle), and the Biodiversity French Office (OFB) on wildlife toxicovigilance of wildlife. The Department of Agriculture provides additional information, such as acute mortality in bees, and its 500 ENI biovigilance program is also part of the available databases. This is a program to monitor the impact of agricultural practices on biodiversity.
 
-\section{Additional useful data}\label{chp:2:4}
+\section{Example of additional useful data}\label{chp:2:4}
 
+We discussed in Section \ref{chp:2:2} the exposure factor in monitoring a health risk. Exposure includes the ways in which the population may come into contact with the substance. The environment has a major influence on how exposure can occur. Therefore, it is important to include environmental information in the monitoring system. Since an exhaustive list of all possible data sets would prove lengthy, this section provides examples of interesting additional data sets for surface water and air quality monitoring.
 
+\subsection{Surface water quality}
 
+In surface water quality monitoring, stations are positionned on streams of water or lakes.  Their precise GPS location can bring insight on how a substance could diffuse once introduced into the surface water system. This information is made available by the National Institute of Geographic and Forest Information (IGN) services in the BDTOPO database. Figure \ref{fig:esu_ex} displays the river system of the Centre-Val de Loire French region with the positions of all stations. With this information at hand, stations concentrations can be directly compared according to their distance in the river system.     
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics{Chap3/ESU_EX.pdf}
+    \caption{Stations monitoring water suface in the Centre-Val de Loire french region. Two different geographical resolutions are represented. The underlying hydrographic network linking all stations is plotted on the left, the stations are colored according to their hydroecoregion on the right.}
+    \label{fig:esu_ex}
+\end{figure}
+
+However, we mentionned in Section \ref{chp:2:3} that an individual station does not provide much measurments. Therefore, to derive information from these data, one can work on a different resolution than that of the station.  Thus, there is a trade-off between the number of data available to make a statistical statement about a spatial area and the spatial resolution accuracy. Another interesting level of resolution that was briefly mentionned in Section \ref{chp:2:2} are the hydro-ecoregions (HER). They are geographic units in which hydrographic ecosystems share common characteristics. The criteria by which they are delineated combine characteristics of geology, terrain, and climate \cite{wasson:hal-02580774}. INRAE services provides such information. Pooling all samples from the HERs can provide a satisfactory level of aggregation but it would be at the expense of the spatial resolution. Figure \ref{fig:esu_ex} shows how the stations are distributed in the HER.  
+
+\subsection{Air quality}
+
+Meteorological data is an important data set for monitoring air quality, especially any information that can be found about wind (wind direction, wind strength, etc.). Historical weather records are now available as open data on the Météo France website \footnote{\url{https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/table/?flg=fr&sort=date}}. Figure \ref{fig:air_ex} illustrates the cross-referencing of data from air quality monitoring stations with meteorological data. Note that in this example we chose to represent stations within the study region, but information from outlying areas can also provide interesting informations on air pollution in the selected area. This example also shows that concentration monitoring tasks depend on the application context. The coherence of any data set included in the analysis must be discussed.   
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics{Chap3/AIR_EX_DATA.pdf}
+    \caption{All active stations measuring air quality on March the 1st of 2021 coupled with meteorological stations active that day. The main wind direction and speed measured that day is mapped with the red arrows.}
+    \label{fig:air_ex}
+\end{figure}
 
 \section{Surveillance of pesticides data}\label{chp:2:5}
 
-This section proposes a first exploratory approach to monitore pesticides concentrations using the data of Sections \ref{chp:2:3} and \ref{chp:2:4}. The objectives fixed in section \ref{chp:2:2} can be difficult to meet because of the French specific administrative organisation discussed in \ref{chp:2:1}. The spatio-temporal nature of concentrations data necessits appropriate techniques for its representation which have been thoroughly investigated in \cite{Andrienko2003,cressie2015}. The objective of such an application is to provide support to the experts analysis of concentration data. This entails the design of visualization tools. As mentionned in \cite{Ansari2019}, the creation of geovisualization tools is application specific.    
+This section proposes an initial exploratory approach to monitoring pesticide concentrations using data from Sections \ref{chp:2:3} and \ref{chp:2:4}. The goals set in \ref{chp:2:2} may be difficult to achieve because of the specific French administrative organization discussed in \ref{chp:2:1}. The spatiotemporal nature of concentration data requires appropriate techniques for their representation, which were reviewed in \cite{Andrienko2003,cressie2015,Maimon2010}. As mentioned in \cite{Ansari2019}, spatial and temporal resolution is a key factor in the analysis and cannot be chosen automatically. Performing proper analysis of concentration data requires the involvement of domain. experts. This includes the development of visualization tools. Several methods are available for visualizing spatiotemporal data. This section presents some visualization techniques and discusses their limitations.
+
+The spatial map plots or iterative maps \cite{Andrienko2003} are an effective way to extract information from these data. They consist of maps of the same phenomenon at different times, as in Figure \ref{fig:spa_ex}. There is a clear seasonal pattern in this figure. We can conclude that prosulfocarb is applied in autumn, and this information is confirmed by the crops targeted by this substance, namely winter wheat crops. The two years of observation were segmented by the choice of temporal resolution of the seasons. Although this is a coherent choice, it has some limitations. For example, it cannot account for years in which treatment started earlier or later due to climatic conditions. In addition, it cannot help to determine precisely the nature of the temporal change in the signal. Only the summary indicator of quantification rate is used. Nothing is known about the maximum or average concentrations.
  
+\begin{figure}[ht]
+    \centering
+    \includegraphics{Chap3/Spatial_maps.pdf}
+    \caption{Spatial maps in time. Prosulfocarbe's quantification rate of each station was computed for each season of 2017 and 2018.}
+    \label{fig:spa_ex}
+\end{figure}
+
+Another conventional representation is the display of information with a map animation \cite{Andrienko2003}. In this method, the information displayed on the computer screen is updated depending on the selected spatial area. Figure \ref{fig:tsplot_ex} shows a practical example of this technique. Concentrations of prosulfocarbe in the Centre-Val de Loire French region of France are displayed according to the selected HER region. Two limitations arise with this visualization. The first is the choice of spatial resolution. The HER were chosen to cluster the geography of the region. However, it can be seen that these can be very large regions. Stations located at opposite corners of a single HER may not have similar concentration values. Spatial heterogeneity of agricultural practices may occur at finer resolution. HER may not accurately capture regions where concentrations are homogeneously distributed. We will show how we deal with spatial resolution in Chapter \ref{chp:5}. This presentation also raises the question of the choice of temporal resolution. All samples available in the study period are shown in Figure \ref{fig:tsplot_ex}. There is a clear break in the three series around 2015. There appears to be a change in concentration regimes. A finer temporal resolution combined with a comparison based on statistical inference of the selected geographic regions could better help experts in the interpretation. Chapters \ref{chp:3} and \ref{chp:4} will address the issue of temporal resolution.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics{Chap3/TS_plot.pdf}
+    \caption{Time series plot of HER 8,5 and 4 daily maximum concentrations. The log scale was used for a easier visualization.}
+    \label{fig:tsplot_ex}
+\end{figure}
+
+
+
 
 %The minimum number of dimensions to describe them is three: two for space as a pair of longitudes and latitudes; one for time. \cite{cressie2015} presents in his book several methods of descriptive statistics for the representation of such data. The most intuitive method to plot spatiotemporal data are marginal and conditional plot. There are several ways to make them.
 
-%The first one are \textbf{time-series plot}. The figures presented so far in this section are one possible example of this representation where one commits to a geographic position for observing a time series. Figure \ref{fig:tsplot_ex} displays the daily maximal concentrations of prosulfocarbe in three adjacent hydroecoregions (report to Figure \ref{fig:esu_ex} for spatial representations of the HER). Clear correlation is observed between the time series. However, the signal of HER 4 doesn't seem to be exactly the same and shows earlier signs of a seasonal pattern and of higher quantified values. Another example is shown in Figures \ref{fig:het_spa_ex} and \ref{fig:het_samp_ex} that allowed to see the spatial heterogeneity of sampling rates and distribution. The problem is that we cannot get a complete view of the spatial distribution of the data. The stations compared in both figures were hand-selected, and no information is available about the others. By selecting the HER scale, we insert expert information in the visualisation. Note that each choice has its advantages and its drawbacks. For instance, if looking at HER 4 in Figure \ref{fig:esu_ex}, stations that belong to it are separated in three clear clusters (one in the north, the other in the east and last one in the south west of the HER). As though they belong to the same HER, grouping the data of these stations is not necessarily an ideal choice as they are still far away.. 
  
 %\begin{figure}[ht]
 %    \centering
@@ -187,14 +228,7 @@ This section proposes a first exploratory approach to monitore pesticides concen
 %    \label{fig:tsplot_ex}
 %\end{figure}
  
-%Second, the \textbf{spatial maps plot} can also be an effective way of extracting information from these data. It consists in a temporal sequence of maps as in Figure \ref{fig:spa_ex}. A clear seasonal pattern can be identified from this Figure. Two problems emerge from this representation method. First, it takes an extensive number of maps to exhibit significant patterns. Secondly, the four seasons of the year were chosen to make a temporal segmentation of the two observations year. We introduced external knowledge to our analysis, Same as previously, even though it is a coherent choice, it has it s drawbacks. For instance, it cannot take into account the years where treatment started earlier or later due to climatic conditions. Furthermore, it can't help to determine precisely the nature of what is temporally changing in the signal. only the summarised indicator of quantification rate is used. Nothing is known about the maximum or the mean concentrations. Plotting all the maps displaying other indicators would be a tedious task.   
 
-%\begin{figure}[ht]
-%    \centering
-%    \includegraphics{Chap3/Spatial_maps.pdf}
-%    \caption{Spatial maps in time. The prosulfocarbe's quantification rate of each station was computed for each season of 2017 and 2018.}
-%    \label{fig:spa_ex}
-%\end{figure}
 
 %Another example of representation is the \textbf{space (1-D)/time plots} shown in Figure \ref{fig:S1Dplot}. It consists in fixing a dimension in space whether longitude or latitude and to plot some indicators summarised on that dimension against time. In Figure \ref{fig:S1Dplot}, the longitude was cut into regular intervals and time was segmented in seasons. The plot shows once again a very clear temporal seasons that appears in time in the region. The location of those changes are not clearly displayed by those plots though. We are not able to determine if the large quantification rates are in the central areas of the region or not (given that we miss the latitude information). Although those plots provide an excellent first overview and can help to quickly understand the structure under spatiotemporal data, it does not provide sufficient precision to localize in space and time some interesting signals.    
 
