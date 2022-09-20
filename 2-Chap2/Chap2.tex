@@ -52,7 +52,11 @@ These models are very common in litterature and were adapted to various types of
 
 \subsection{Non-Parametric setting}\label{chp2:sec:multrank}
 
-The cost function for a segment can also be adapted for nonparametric statistical inference. Several strategies have been developed in the literature over time. These include the nonparametric maximum likelihood method \cite{Zou2014,Einmahl2003}, kernel methods \cite{Harchaoui2008,li2015m}, and rank-based methods \cite{Pettitt1980,Wang2019}. We will focus on the latter here for two main reasons. First, the ranked based methods were already known from the experts working with the Anses. Second, the method we are presenting here can be adapted for left-censored observations.  
+The cost function for a segment can also be adapted for nonparametric statistical inference. Several strategies have been developed in the literature over time. These 
+
+
+
+ the nonparametric maximum likelihood method \cite{Zou2014,Einmahl2003}, kernel methods \cite{Harchaoui2008,li2015m}, and rank-based methods \cite{Pettitt1980,Wang2019}. We will focus on the latter here for two main reasons. First, the ranked based methods were already known from the experts working with the Anses. Second, the method we are presenting here can be adapted for left-censored observations.  
 
 Detecting a breakpoint in a signal can be done using a test statistic based on the ranks of the observations rather than their values. The rank of the ith observation is defined as $R_i = \sum_{j =1}^n\mathbbm{1}(X_j < X_i)$. Moreover, we note $\hat{F}_n(t) = \frac{1}{n}\sum_{i = 1}^n\mathbbm{1}(X_i < t)$ the empirical cumulative distribution function (c.d.f.). The cost function is derived from the Wilcoxon/Mann-Whitney rank criterion. This is equivalent to running the test under the following assumptions: 
 \begin{itemize}
