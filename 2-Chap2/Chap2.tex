@@ -138,6 +138,7 @@ for $t<s < n$, if
 holds, then $t$ can never be the last changepoint prior to $n$.   
 One can sequentially go through the signal $\bm y = \{y_s\}_{s=1}^n$ and obtain a set of potential breakpoints $\{t_0,...,t_k\}$ for each index $s \in {1,...,n}$. Then, one should proceed to eliminate candidates from this set using this pruning rule. This is the principle of Algorithm \ref{chp2:algo:pelt}.
 
+
 \begin{algorithm}[ht]
 \caption{PELT algorithm}\label{chp2:algo:pelt}
 \begin{algorithmic}
