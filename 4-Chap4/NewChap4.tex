@@ -95,7 +95,7 @@ We provide a practical example with the exponential distribution. We simulate a 
 
 Censoring in the data creates identification problems that we chose to deal by adding a new regularisation parameter $\theta_{max}$. Note that other ways to tackle this problem are possible. The modification of the pruning rule \ref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
 
-\section{Estimation procedure}\label{chp:4:3}
+\section{Multi-parameter estimation}\label{chp:4:3}
 
 We discuss here the procedure for the parameters estimates proposed in \ref{chp:4:estim}. When $\theta^* \in \mathbb{R}^P$ with $P > 1$, several optimization strategies are possible. We use the following notations in this section: 
 \begin{itemize}
@@ -103,7 +103,7 @@ We discuss here the procedure for the parameters estimates proposed in \ref{chp:
 \item $\bm \theta_{k,.} = (\theta_{k,1},\dots,\theta_{k,P})$ is the parameters vector of the k-th segment.
 \item $\theta_{k,m}$ is the m-th dimension of the parameters vector of the k-th segment.
 \end{itemize}
- 
+
 A common strategy is to opt for simultaneous changes detection in all $P$ parameters simultaneously. This implies detecting changes in different properties of $\bm y$. An example with $Q$ set as a Weibull distribution is provided in Figure \ref{fig:param_ex}. In practice, it depends on what parameters are optimized in the cost function. The optimization can be petformed with numerical methods (such as Newton-Raphson) on all dimensions of $\theta$ simultaneously. For the k-th segment, let $\widehat{\theta}_{NR} = (\widehat{\theta}_{k,1},\dots,\widehat{\theta}_{k,P})$ the estimates of $\theta_{k,.}$ obtained with Newton-Raphson. Using $\widehat{\theta}_{NR}$ as the supremum in \ref{chp:4:costfunc} provide a cost function that detects changes occuring in any of the parameters.  
 
 \begin{figure}[ht]
@@ -115,12 +115,6 @@ A common strategy is to opt for simultaneous changes detection in all $P$ parame
     \label{fig:param_ex}
 \end{figure}
 
-%\begin{figure}[ht]
-%    \centering
-%    \includegraphics{figs/Chap4/only_param_ex.pdf}
-%    \caption{Example of simulated signal $\bm y$ distributed according Weibull distributions with $(\lambda,\sigma)$ as the scale and shape parameters. $\sigma^* = 0.7$ is the fixed parameter throughout $\bm y$. The segments are drawned with black rectangles. The associated parameters to each segment are $\theta^*_{0,.} = (\lambda^*_0,\sigma^*) = (1,0.7)$, $\theta^*_{1,.} = (\lambda^*_1,\sigma^*) = (5,0.7)$, $\theta^*_{2,.} = (\lambda^*_2,\sigma^*) = (0.7,0.7)$, $\theta^*_{3,.} = (\lambda^*_3,\sigma^*) = (1,0.7)$ and the censoring threshold $a = 0.85$ in all segments.}
-%    \label{fig:only_param}
-%\end{figure}
 We propose a different estimation strategy. We are interested in models where changes occur only in some dimension $\bm\theta^*_{.,m}$. We denote $\mathcal{M} \subset \{1,\dots,P\}$ the set of indices of dimensions where the changes occur and $\overline{\mathcal{M}}$ the complementary set. Figure \ref{fig:param_ex} provides an illustration of signal $\bm y$ simulated from these assumptions. The parameters $(\bm\theta^*_{.,m})_{m \in \overline{\mathcal{M}}}$ are supposed to be fixed throughout the signal $\bm y$. In that setting, the estimation procedure changes. We can rewrite \ref{chp:4:estim} as: 
     
 \begin{dmath}\label{chp:4:estimproc}
@@ -129,63 +123,56 @@ We propose a different estimation strategy. We are interested in models where ch
 
 From \ref{chp:4:estimproc}, we can design a two-step iterative estimation strategy. The two steps of each iteration are:
 \begin{enumerate}
-\item Compute $\widehat{\bm\theta}_{{.,m\in\overline{\mathcal{M}}}}$ with fixed $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ with any optimization method that handles censored data. We use \texttt{R} package developped in \cite{delignette2015} in our procedure.  
+\item Compute the MLE $\widehat{\bm\theta}_{{.,m\in\overline{\mathcal{M}}}}$ with fixed $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ with any optimization method that handles censored data. We use \texttt{R} package developped in \cite{delignette2015} in our procedure.  
 \item Run the change-point procedure to estimate $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ using the values of $\widehat{\bm\theta}_{{.,m\in\overline{\mathcal{M}}}}$.
 \end{enumerate} 
 
-In the second step of the iteration, the estimates of $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ are computed with PELT. 
+In the second step of the iteration, the estimated segmentation $\widehat{\TT}$ and the fitted parameters on its segments $\widehat{\theta}_{.,m\in\mathcal{M}}$ are obtained by applying the PELT procedure \citep{Killick2012}. PELT is run several times on a penalty grid $(\beta_0,\dots,\beta_q,\dots,\beta_{B})$ where $\beta_0<\dots<\beta_{q}<\dots<\beta_{B}$ are evenly spaced. We obtain $B$ segmentations of $\bm{y}$. Eventually, the optimal penalty value for this step is selected using an elbow rule heuristic as proposed in Section \ref{chp:3:2}.
 
 The initialization is an important part of this procedure. We would like the initial estimate of the fixed parameters to be close to $\bm\theta^*_{{.,m\in\overline{\mathcal{M}}}}$ to ensure the convergence of the procedure. In order to do so, we intialise $\widehat{\bm\theta}$ assuming no change-point occured in $\bm y$.  More formally, we compute: 
 \begin{equation}\label{chp:4:init}
 \widehat{\bm\theta} = \arg\min_{\theta}\bigg\{ - \left(\sum_{j=1}^{n}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=1}^{n}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right)\bigg\}
 \end{equation}   
-We choose the initial values as the $\widehat{\bm\theta}_{.,m}$ such that $m\in\overline{\mathcal{M}}$. We show the efficiency of this procedure in Appendix \ref{app:chap4:3}.  
+We proceed using the MLE estimator for all parameters in $\bm \theta$, which implies using iterative methods again as stated in \cite{cohen1965maximum}. We choose the initial values as the $\widehat{\bm\theta}_{.,m}$ such that $m\in\overline{\mathcal{M}}$. It can be noted straight away that the value of $\widehat{\bm\theta}_{.,m\in\mathcal{M}}$ will be discarded since it was computed from a model that goes in direct contradiction with the assumption in \ref{chp:4:1} that they were change-points in the signal $\bm y$. We show the efficiency of this procedure in Appendix \ref{app:chap4:3}.  
 
-
-
-%= \arg\min_{\TT,\bm \theta} \left(- \sum_{i=0}^{\lvert \TT \rvert}  \left\{\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right\}+\beta KP\right)
-
-%We propose the following heuristic to estimate $\sigma$ and to calibrate the penalty term $\beta_n$. It consists in an iterative procedure where we alternate between optimizing \ref{mle:crit} with respect to $\sigma$ and $(L,\eta)$. The goal is to construct a sequence $\bm{\widehat{\sigma}} = (\widehat{\sigma})_{r=0}^R$ that converges to $\sigma^*$ when $R \to +\infty$ and then to retrieve the results of the best segmentation possible for the last $\widehat{\sigma}_r$ computed.
-%In the initialisation step, the estimate of $\sigma$ is computed from the whole signal $(\maxy_1,...,\maxy_K)$ by supposing that there is no change-point. More formally, it is equivalent to take the case where $L = 0$ and minimizing the cost: 
-%\begin{equation}\label{heu:init}
-%\mathcal{C}(\lambda,\sigma;   \overline{\mathcal{D}})= -\ln \mathcal L(\lambda,\sigma; \maxy_{1}, \ldots, \maxy_{K}) + \beta_K D,
-%\end{equation}
-%We proceed using the MLE estimator for both parameters $\lambda$ and $\sigma$, which implies using iterative methods again as stated in \cite{cohen1965maximum}, giving the estimators:
-%\begin{equation}\label{heu:sigma1}
-%(\widehat{\lambda}_0, \widehat{\sigma}_0) = \arg \min_{\lambda, \sigma} \mathcal{C}(\lambda, \sigma ;   \overline{\mathcal{D}}).
-%\end{equation}
-
-%It can be noted straight away that the value of $\widehat{\lambda}_0$ will be discarded since it was computed from a model that goes in direct contradiction with the assumptions we made in \ref{subsection:pwsm}. However, $\widehat{\sigma}_0$ is the starting point of our heuristic which can be described in two steps.
-%At the $r-$th iteration with $r \in [1:R]$:
-%\begin{enumerate}
-%    \item Minimise \ref{mle:crit} using the value of $\widehat{\sigma}_{r-1}$ to obtain:  
-%\begin{equation}\label{mle:crit2}
-%(\widehat{L}, \widehat{\bm{\eta}}) = \arg \min_{L, \bm{\eta}} \mathcal{C}(L,  \bm{\eta}, \widehat{\bm{\lambda}}_{MLE}(L, \bm{\eta}),\widehat{\sigma}_{r-1};   \overline{\mathcal{D}}).
-%\end{equation}
-%The change-points $\widehat{L}$ and the associated locations $\widehat{\bm{\eta}}$ are obtained by applying the PELT procedure \cite{Killick2012}, which improves the optimal partitioning approach through a lower, linear complexity. PELT is run several times on a penalty grid $(\beta_0,\dots,\beta_q,\dots,\beta_{Q})$ where $\beta_0<\dots<\beta_{q}<\dots<\beta_{Q}$. We obtain $Q$ (not necessarily unique) segmentations of $\overline{\mathcal{D}}$. Eventually, the optimal penalty value for this step is selected using an elbow rule heuristic as proposed in \cite{lung2015}: segmentation scores are plotted against their corresponding number of change-points $L$. One looks for the number of breaks $\hat L$ that minimizes the sums of squares of two linear models respectively fitted on the $L \geq \hat L$ and the $L \leq \hat L$. We define $(\widehat{L}_r,\widehat{\eta}_r,\widehat{\bm{\lambda}}^r_{MLE}(\widehat{L}_r,\widehat{\eta}_r))$ the estimators associated to the segmentation selected with the elbow heuristic. 
-%\item Compute $\widehat{\sigma}_r$. One can write the new negative log-%likelihood of the whole signal $\overline{\mathcal{D}}$ defined by $(\widehat{L}_r,\widehat{\eta}_r,\widehat{\bm{\lambda}}^r_{MLE}(\widehat{L}_r,\widehat{\eta}_r))$ as a function of $\sigma$ as follows:
-%\begin{equation}\label{new:lk}
-%g(\sigma;   \overline{\mathcal{D}})=\sum_{l=1}^{\widehat{L}_r+1}  -\ln \mathcal L(\widehat{\lambda}_{r,l},\sigma; \maxy_{\widehat{\eta}_{r,l-1}+1}, \ldots, \maxy_{\widehat{\eta}_{r,l}}),
-%\end{equation}
-%where $\widehat{\lambda}_{r,l}$ is the $l-$th estimator in $\widehat{\bm{\lambda}}^r_{MLE}(\widehat{L}_r,\widehat{\eta}_r))$. $\widehat{\sigma}_r$ is found by minimizing \ref{new:lk} which can be perform using iterative procedures. 
-%\end{enumerate}
-
-%Simulation studies are available in Appendix \ref{app:sim:chap5} showing the convergence of this heuristic. Once a suitable value of $\sigma$ is obtained, the choice of the final penalty term $\beta_K$ is driven by the CROPS algorithm \cite{haynes2017}, which computes all optimal segmentations as the penalty varies over some interval. Eventually, the final penalty value is selected using an elbow rule heuristic.
-
+We use this procedure estimation in Chapter \ref{chp:5}. We justify this choice with the observation of real data. We compare the efficiency of our method a state-of-the-art in the next section.
 
 \section{Simulation study}\label{chp:4:4}
 
-\subsection{Experiments on the minimal segment length}
+We test our method on simulated data and compare it with the \textit{Multrank} method \cite{lung2015}. This section aims at two objectives. First, we want to calibrate the parameters of our method to ensure good efficiency. Then, we want to test if that calibration really leads to better change-point results.  
 
-\textbf{The minimal segment length:} this argument is implicitly introduced when the number of changes $K^\star$ is not known. We want to calibrate this parameter by comparing the ability of our method to detect the presence of a change point in the data with the \textit{Multrank} method. In this context, comparing the non-parametric approach with the parametric approach is equivalent to using a likelihood ratio for the latter. It should be noted that performing a likelihood ratio test or maximising the penalised likelihood introduced in the Equation \ref{eq:ml-unknown-k} for $K_{max} = 1$ is equivalent whatever the choice of penalty might be. The statistics of the non-parametric test and the likelihood ratio test are calculated for each sample and will allow the calculation of the ROC curves \cite{Fawcett2006} and the corresponding areas under the curve (AUC) to compare the performances of the two approaches. The results obtained on the simulated data are shown in Figure \ref{fig:sim_minseg}. For both methods, the area under the ROC curve is calculated by varying the minimum number of observations before a change point. According to these results, the parametric method performs better when the interval between two interruptions contains enough observations. In addition, the performance of the two methods is also compared as a function of the censoring threshold. We choose to fix the minimum segment length value to 50 observations. We are assured that in a highly censored context the parametric method will perform correctly.   
-    \begin{figure}[ht]
-    \centering
-    \includegraphics{figs/Chap4/sim_minseg.pdf}
-    \caption{Choice of the minimal segment length: simulation results. Our method performance is Illustrated with the red line, the \textit{Multrank} method is drawn in blue. The results are illustrated for several censorship thresholds and the different minimal segment lengths used were $5,10,25,50$ and $75$ observations.}
-    \label{fig:sim_minseg}
+\subsection{Calibration of the minimal segment length}
+
+In section \ref{chp:2:2}, the PELT Algorithm \ref{chp:3:algopelt} introduces a minimal segment length $n_{min}$. We lead some simulation tests to calibrate its value. We need to identify $n_{min}$ so that the cost function defined in \ref{chp:4:costfunc} has sufficient data to make the difference between segments on which the parameters differ. 
+
+This task can be viewed as a classification one. We want to know if our method is able to classify correctly signals that have a change point or not. Since we use a parametric inference (see Section \ref{chp:4:1}), we use the log likelihood ratio test to assess the presence of a change-point. This is a very common test used in change-point that can be found in. The statistics of the likelihood ratio test are calculated on several simulated signals and and the ROC curves \citep{Fawcett2006} are derived from it. We compute the corresponding areas under the curve (AUC) to assess the ability to detect change-points of our method. A comparison of our method is made with the \textit{MultRank} method that is based on non parametric inference that we presented in Section \ref{chp:3:1}. We will use this comparison to calibrate our method performance.  
+
+The simulation procedure for the calibration of $n_{min}$ is the following. We use the Weibull distribution for the distribution $Q$. We test several configurations with different censoring levels $\alpha = (5\%,25\%,50\%,75\%,95\%)$. It is a global censoring level, meaning that for a given signal $\bm y$, $\alpha\%$ of the data is censored. The detection methods are run with different values of minimal segment size $n_{min} = (5,10,25,50,75)$. For each configuration, we simulate $M = 1000$ signals of size $n = 200$ among which half of them present a change point in position 100. The parameters of signals with a change-point are $(\sigma = 0.5,\lambda^*_0 = 1)$ on the first segment and $(\sigma = 0.5,\lambda^*_1 = 3)$ on the second. The parameters associated to signals with no change-point are $(\sigma = 0.5,\lambda = 1)$. We compute the AUC on these $M$ signals. The results are illustrated in Figure \ref{fig:sim_minseg}.      
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figs/Chap4/sim_minseg.pdf}
+\caption{Choice of the minimal segment length: simulation results. Our method performance is Illustrated with the red dots, the \textit{Multrank} method is drawn in blue.}
+\label{fig:sim_minseg}
 \end{figure}
 
+From the results of Figure \ref{fig:sim_minseg}, three comments can be made:  
+\begin{itemize}
+\item Both methods are efficient in their abilities to detect change-points in signal. The AUC are above 0.9 (except for the parametric method in a highly censored configuration with a low value minimal segment size). That make them both good classifiers. 
+\item The performance of the parametric method increases with the minimum segment length. 
+\item The more the censoring levels increase, the more data is needed in the minimal segment length of the parametric method to outclass the non parametric method. 
+\end{itemize}
+From this study, we can conclude that when working with real data, we should get the censoring level information information in order to calibrate the minimal segment length of the parametric method.  
+
 \subsection{Comparison with a non parametric method}
+
+
+\begin{enumerate}
+\item comment on décide d'une segmentation optimale.
+\item juste dire qu'on teste la méthode finale
+\item comment on simule les signaux
+\item commenter les résultats
+\end{enumerate}
 
 \textbf{The penalty calibration:} The last parameter to be set is the penalty $\beta$. While calibrating $\beta$, we want to compare the performance of the break detection with the Multrank method. The experimental framework is as follows: 
     \begin{enumerate}

@@ -170,12 +170,13 @@ The notation $F(s)$ corresponds to the best partition possible of the sub-signal
 \begin{algorithm}[ht]
 \caption{PELT algorithm}\label{chp:3:algopelt}
 \begin{algorithmic}
-\State \textbf{input} : the data $y_{1},...,y_{n}$, a cost function $W()$, and the penalty term $\beta$ \\
-  \State \textbf{initialisations} : $F(0)=-\beta$, $R_{1}=\lbrace 0\rbrace$, $CP(0)=NULL$  
-  \ForAll{$\tilde t=1,...,n$} :
+\State \textbf{input} : the data $y_{1},...,y_{n}$, a cost function $W()$, the penalty term $\beta$ and a minimal segment length $n_{min}$ \\
+  \State \textbf{initialisations} : $F$ a vector of size $n$, $R_{1}=\lbrace 0\rbrace$, $CP(0)=NULL$  
+  \State $F(i) = -\beta$, for all $i \in \{1,...,n_{min}\}$
+  \ForAll{$\tilde t=n_{min}+1,...,n$} :
   \State Compute 
-  $ F(\tilde t)=\min_{t\in R_{\tilde t}}\lbrace F(t)+W(y_{(t+1):\tilde t})+\beta\rbrace $
-  \State Compute $ \overline t=\arg \min_{t\in R_{\tilde t}}\lbrace F(t)+W(y_{(t+1):\tilde t})+\beta\rbrace $ 
+  $ F(\tilde t)=\min_{t\in R_{\tilde t}\vert \lvert t-\tilde{t}\rvert \geq n_{min}}\lbrace F(t)+W(y_{(t+1):\tilde t})+\beta\rbrace $
+  \State Compute $ \overline t=\arg \min_{t\in R_{\tilde t}\vert \lvert t-\tilde{t}\rvert \geq n_{min}}\lbrace F(t)+W(y_{(t+1):\tilde t})+\beta\rbrace $ 
   \State Set $CP(\tilde t)=[CP(\overline t), \overline t]$
   \State Set $R_{\tilde t+1}=\left\{t\in R_{\tilde t}\cup \lbrace\tilde t\rbrace \vert F(t)+W(y_{(t+1):\tilde t}) +\beta \le F(\tilde t)   \right\}$ 
 \EndFor 
@@ -183,6 +184,8 @@ The notation $F(s)$ corresponds to the best partition possible of the sub-signal
 \end{algorithmic}
 \end{algorithm} 
 
+Using the notations, the role of parameter $n_{min}$ writes as $\min_{i \in \{0,\dots,K\}}\lvert\tau_{i+1}-\tau_{i}\rvert \geq n_{min}$. It has a direct influence on the segmentation and acts as a compromise between the segmentation resolution and the cost function precision. Small values of $n_{min}$ lead to the detection of a large number of change-points. However, the statistical validity of these changes can be questionned. Large values of $n_{min}$ ensure satisfying convergence of the cost function, but one risks to miss changes that occured at near index locations.  
+  
 The complexity of PELT can reach $\OO(n)$ when the change points are supposed to be distributed uniformly over the signal $\bm y$. This constitues a major improvement compared to the optimal partionning method. However, as mentionned in \cite{Haynes2016}, the penalty value $\beta$ has an influence on the performance of PELT. For a single value of penalty, PELT returns a single segmentation of $\bm y$. Diverse strategies to calibrate $\beta$ exist as the BIC criterion which is widely used \cite{YAO1988181,faure2016comparison,Shi2022} or some data-driven heuristics \cite{Birge2006,Baudry2011,Bardet2012,arlot2009data}. Despite all that, there is no quantification possible for this parameter: we cannot predict the number of breakpoints resulting from a given fixed value of $\beta$. Thus, we don't know if the change point model resulting from the choice of $\beta$ is over or under fitting the signal $\bm y$. We need a more exploratory approach to tackle this problem.   
 
 \section{Exploratory research of segmentations}\label{chp:3:3}
