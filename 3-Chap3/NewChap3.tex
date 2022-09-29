@@ -4,7 +4,7 @@
 
 \clearpage
 
-Although the recommendations for the use of the substances are formulated in the marketing authorization issued by ANSES \cite{ephy}, their practical use is not subject to control by the agency. Cultivation practises depend on meteorological conditions and professional habits. This partly explains the spatiotemporal heterogeneity. Our goal is to find homogeneous time periods and geographic areas and make a statistical comparison of these regions in these stable time periods to support the expert analysis. In this chapter, we focus on identifying stable temporal patterns using change point detection methods. This mathematical area is covered by several surveys \cite{truong2020,basseville1993detection}. We have focused on methods that seem appropriate for the application domain of phytopharmacovigilance. For example, this work will focus only on the offline methods that we will develop in the following sections. This choice was motivated by the speed of data collection and storage of pesticide concentrations data. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \cite{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
+Although the recommendations for the use of the substances are formulated in the marketing authorization issued by ANSES \cite{ephy}, their practical use is not subject to control by the agency. Cultivation practises depend on meteorological conditions and professional habits. This partly explains the spatiotemporal heterogeneity. Our goal is to find homogeneous time periods and geographic areas and make a statistical comparison of these regions in these stable time periods to support the expert analysis. In this chapter, we focus on identifying stable temporal patterns using change point detection methods. This mathematical area is covered by several surveys \cite{truong2020,basseville1993detection,bardet2020}. We have focused on methods that seem appropriate for the application domain of phytopharmacovigilance. For example, this work will focus only on the offline methods that we will develop in the following sections. This choice was motivated by the speed of data collection and storage of pesticide concentrations data. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \cite{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
 
 \section{Model and cost functions}\label{chp:3:1}
 
@@ -68,7 +68,7 @@ The test statistic for $\mathcal{H}_0$ and $\mathcal{H}_1$ is defined as:
 where $\hat{\Sigma}_n = \frac{4}{n}\sum_{i=1}^n(\hat{F}_n(X_i)-1/2)^2$. Theorem 1 of \cite{lung2015} shows that under the null hypothesis the $S_n$ are distributed according to a $\chi^2$ distribution.
 
 The non parametric test statistic was extended to multiple changepoint detection by \cite{lung2015}. The cost function $W$ for a segment $y_{u:v}$ is defined as: 
-\begin{equation}
+\begin{equation}\label{chp2:costfuncnp}
   W(y_{u:v}) = -(v-u)\hat{\Sigma}^{-1}_n\overline{R}^2_{u:v},
 \end{equation}
 where $\overline{R}_{u:v} = \frac{1}{v-u}\sum_{i = u}^vR_i$ is the average rank of $y_{u:v}$.
@@ -235,12 +235,21 @@ As stated in \cite{haynes2017}, the theoritical upper bound for the number of ti
 
 \section{Change-points detection in environmental data}\label{chp:3:4}
 
-This section reviews the application of change-point detection methods applied in environmental studies. The applications domain being very specific, the span of the methods developped in these papers is very large. Several phenomenons are investigated such as resistance appearance to a substance \cite{Solla2010}, the evolution mortality rates and suicide by ingestion of pesticides \cite{Ko2017}, the evolution of the exposition of animal populations to pesticide \cite{Menger2022} or impacts of policies on air quality \cite{FOMBY2006}, evolution of annual streamflows \cite{Ryberg2020}. However, several common points can be distinguished:      
+Widely used in a variety of applications \cite{basseville1993detection, chen2012parametric, liu2017change, reeves2007review, levy2009detection}, and, in particular, for environmental pollution monitoring \cite{costa2016}, change-point detection is a reference technique for time series segmentation. However, the characteristics of concentration data are the censorship and the spatial heterogeneity. We are then looking for studies on the combination on these aspects.  
+
+How to handle left-censored and right-skewed data is therefore one aspect to consider when modelling environmental data. A rich literature has been developed on this topic during the last thirty years, and may be roughly divided into three categories of approaches: substitution methods (censored data is imputed using some values chosen \emph{a priori} or via a generative model), parametric methods (maximum likelihood estimates are computed under the hypothesis that the data comes from some log-normal, Weibull, Gamma, exponential, or other log-logistic distribution), and non-parametric methods (Kaplan-Meier or hazard function estimates). Detailed reviews of the various approaches are available  for instance in \cite{Authority2010,Hewett2007ACO,Mitra2008,Canales2018,Antweiler2008,Gillespie2010,shoari2018toward}. These studies are providing useful tools to analyse left-censored data but they do not treat change-points detection methods.
+
+The second aspect to consider is spatio-temporal heterogeneity. Air pollution data has received, for instance, a great deal of attention, and several modelling approaches have been proposed in the literature. Some are based on temporal regression models combined with kriging \cite{sampson2011,lindstrom2014flexible}, while others use latent variables and co-clustering approaches \cite{bouveyron2021co}. Nevertheless, these approaches do not include the fact that monitoring data is not normally distributed, and is usually left-censored. In the specific field of pesticide concentration monitoring, several recent papers address the spatio-temporal issue from an exploratory point of view see for instance \cite{masia2016,figueiredo2021spatio,aznar2017spatio}. 
+
+Other methods were found using search associating key words such as change-point, pesticide, left-censored or environment. The resulting applications domain being very specific, the span of the methods developped in these papers is very large. Several phenomenons are investigated such as resistance appearance to a substance \cite{Solla2010}, the evolution mortality rates and suicide by ingestion of pesticides \cite{Ko2017}, the evolution of the exposition of animal populations to pesticide \cite{Menger2022} or impacts of policies on air quality \cite{FOMBY2006}, evolution of annual streamflows \cite{Ryberg2020}. However, several common points can be distinguished:      
 \begin{itemize}
 \item Many papers focus on changse in trend. Given the data characteristics described in \ref{chp:2:3}, trend detection does not seem of interest in our case.
 \item Indicators on which change point detection is made often have a yearly temporal resolution. We are interested in a finer level of resolution. 
 \item We are also interested in censorship and none of these studies focus on censored indicators. The aggregation of temporal information into yearly informations or rates could explain the absence of censorship in the data.   
 \end{itemize}
+
+
+
 
 
 

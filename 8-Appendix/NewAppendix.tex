@@ -1,11 +1,136 @@
 \begin{appendices}
 \chapter{Chapter \ref{chp:4} supplementary material} \label{app:chap4}
 
-\section{Proof of convergence of the parametric change-point detection model}\label{app:chap4:1}
+This section discusses if the chosen estimators presented in Chapter \ref{chp:4:1} have satisfying proprieties in presence of left censored data. We will first present the hypothesis we mace on the change-point model and use some elements of the demonstration made in \cite{Lavielle1997} to proove that the estimators $\widehat{K}$ and $\widehat{\TT}$ still converge in the censored setting. Then, we study the convergence of a segment parameters and the importance of the initialization value in the Newton-Raphson method. In the third section, we will check if the necessary conditions to use the PELT algorithm are verified. The last part will be dedicated to the experiments on the estimation procedure proposed in \ref{chp:4:3}. 
+
+\section{Elements of proof of convergence of the parametric change-point detection model}\label{app:chap4:1}
+
+The hypothesis on the change-point model are the following:  
+\begin{itemize}
+\item[\textbf{H1:}] $\Theta$ is compact and there exists $\Delta_{\bm \theta}^{\star}>0$ such that $\vert \theta_{k+1}^{\star}-\theta_{k}^{\star}\vert > \Delta_{\bm \theta}^{\star}$, for all $k=0,...,K^{\star}$.
+\item[\textbf{H2:}] There exists $\Delta_{\bm \tau}^*>0$ such that $\vert \tau_{k}^{\star}-\tau_{k-1}^{\star}\vert > \Delta^*_{\bm \tau}$, for all $k=1,...,K^{\star}$.
+\item[\textbf{H3:}]  The maximum number of regimes may be written as $K_{\max} \geq \frac{n}{\Delta^*_{\bm \tau}}$. 
+\item[\textbf{H4:}] The penalty value is dependant of $n$. It can be written $\beta_{n}$ and verifies $\beta_{n}\xrightarrow[n\rightarrow \infty]{} \infty$ and $\frac{\beta_{n}}{n}\xrightarrow[n\rightarrow \infty]{} 0$.
+\end{itemize}
+
+These are classical hypothesis that one can find in \cite{Lavielle1997} or \cite{He2010}. Hypothesis \textbf{H1} mainly aims at ensuring sufficient conditions for the identifiability of the model, by imposing a minimum gap between two consecutive $\theta$'s. We have seen in Section \ref{chp:4:2} that censorship could cause some problem with the identifiability. However, the introduction of a maximum value for parameter $\theta$ solved this problem. Hypothesis \textbf{H2} checks that each regime contains sufficient data for obtaining reliable estimates for the $\theta$'s and Hypothesis \textbf{H3} states the number of regimes is bounded from above. Hypothesis \textbf{H4} is verified by a large range of penalties. The penalty value is not set in our procedure since we explore a range of values $[\beta_{min},\beta_{max}]$ with the CROPS algorithm. However, this range of values is chosen using the BIC criterion \citep{YAO1988181} which verifies assumption \textbf{H4}. In change point detection, the BIC penalty can be written as: 
+$$\beta_{BIC} = \frac{D\log(n)}{2},$$
+with $D$ the dimension of the parameters $\theta$ and $n$ the length of signal $\bm y$. The penalty range value explored in this thesis writes under the form: 
+$$[\beta_{min},\beta_{max}] = [\frac{\beta_{BIC}}{j},\beta_{BIC}\times j],$$
+with $j\in\mathbb{N}$. Hence, our penalty range is calibrated accordingly to Hypothesis \textbf{H4} because $\beta_{min}$ and $\beta_{max}$ also verifies its conditions.  
+
+An additionnal hypothesis, which is also the strongest one, implies that change-point locations are independent of the scale and frequency at which the data is sampled. This hypothesis will also allow us to derive the asymptotic behaviour of the estimate, when the sample size is sufficiently large. One should note here that a larger sample means a finer scale for sampling the data and not an extension of the period of observation. The scale of sampling being one of the main problem of the data we are working with, it is hard to verify. However, we can suppose that the change-points occuring in concentration data are linked with the farming activities and the phyto-pharmaceutical uses. Those events happen in fixed moments in times, thus invariant with the sampling rate. 
+
+
+The proof of convergence of \ref{chp:4:estim} is based our demonstration entirely on the approach developped in \cite{Lavielle1997}. The most critical element in the proof is the condition C0(h) of \cite{Lavielle1997}. We introduce another condition. But first let's denote $\eta_i = \ln f(Y_i,\theta_{k})-\mathbbm{E}[\ln f(Y_i,\theta_{k})]$ for $i$ belonging to the $k$-th segment and associated to the parameters $\theta_{k}$. We have the following proposition: 
+ 
+\begin{proposition}
+     There exists $C < \infty$ such that for any $t\geq 0$ and any $s > 0$,
+     \begin{equation}\label{app:C0}
+     \mathbbm{E}[\sum_{i=t+1}^{t+s}\eta_i]^2\leq Cs^h,    
+     \end{equation}
+     for some $1\leq h\leq 2$.
+\end{proposition}
+
+In \citep{Lavielle1997}, an indication is given that this condition is indeed verified in our case. It explains that in the application framework, if the base signal of $(Y_1,...,Y_n)$ is generated by independent variables, then the variable $\eta_i$ is also a sequence of random variables and the proposition is verified for $h = 1$. Then from Theorem 2.2 of \cite{Lavielle1997}, we have the consistency of the estimator: 
+$$ (\widehat{\TT}, \widehat{\bm \theta}) \xrightarrow[n\rightarrow \infty]{\PP^{\star}}   (\bm\TT^{\star}, \bm \theta^{\star})$$
+Although $(Y_1,...,Y_n)$ is not i.i.d., the censoring threshold makes the support of this random variables differ, the base signal is emanating from $(C_1,...,C_n)$ that is defined in \ref{chp:4:1} and that is i.i.d..  
 
 \section{Newton-Raphson initialization experiments}\label{app:chap4:2}
 
-\section{Convergence of \texorpdfstring{$\hat\sigma$}{s}}\label{app:chap4:3}
+Four initialisation values are available in our implementation. We can choose between the classical techniques such as the moment method estimator $\lambda_{init}^{MM}$ \cite{Johnson1994}, the quantile inversion estimator $\lambda_{init}^{QI}$, the weighed maximum likelihood estimator $\lambda_{init}^{WMLE}$ \cite{sadani2019new} or the classical maximum likelihood estimator $\lambda_{init}^{MLE}$ of a Weibull scale parameter. Supposing a sample of observations $\bm x = (x_1,...,x_n)$ generated from a left censored Weibull of parameters $(\lambda,\sigma)$ and censoring threshold $a$, we can define them as follow : 
+    %\begin{align*}
+    \begin{itemize}
+        \item[$\circ$] $\lambda_{init}^{MM} =\frac{\Gamma(1+\frac{1}{\sigma})}{\bar{\bm x}}$ 
+        \item[$\circ$] $\lambda_{init}^{QI} = \frac{\bigg(-\ln(1-\alpha)\bigg)^{\frac{1}{\sigma}}}{q_{\bm x}^\alpha}$
+        \item[$\circ$] $\lambda_{init}^{WMLE} = \bigg(\frac{1}{nq^{0.5}_{\mathcal{W}(n,n)}}\sum_{i = 1}^nx_i^\sigma \bigg)^{-\frac{1}{\sigma}}$
+        \item[$\circ$] $\lambda_{init}^{MLE} = \bigg(\frac{1}{n}\sum_{i = 1}^nx_i^\sigma \bigg)^{-\frac{1}{\sigma}}$, 
+    \end{itemize}
+    %\end{align*}
+    where $q^{0.5}_{\mathcal{W}(n,n)}$ is the median of Weibull with parameters $(n,n)$, $q_{\bm x}^\alpha$ is the $\alpha$-th empirical quantile of the sample $\bm x$. \\
+     Two important points must be noted. First, all the initialisation values depend on $\sigma$. It is not problematic in our simulation tests because it is supposed known and fixed. However it stresses again the necessity of its estimation in the future (see Chapter \ref{chp:5}). Second, those estimators do not take the censorship into account. They are all biased (except if the sample $\bm x$ does not bear any censored values). \\
+     We tested all possible configurations with the varying values of $n = (20,100,500)$, $\lambda = (1/100,1,100)$ and $a$ depending on a censoring rate $\alpha = (0.05,0.25,0.5,0.75,0.95)$. $a$ was the threshold such that $\alpha \%$ of the sample was censored. The shape parameter is supposed known and fixed at $\sigma = 0.5$. For each cases, we simulated $N = 1000$ samples of left censored Weibull with shape parameter $\lambda$ and censored rate $\alpha$. We then compute the mean of all estimates for each initialisation values. All the results are stored into Tables \ref{tab:sim:init1} and \ref{tab:sim:init2}. The simulations show that all initialisation values lead to extremely similar results. It is worth mentioning that the quantile is not reliable for low values of $n$. In the rest of this work, the initialisation value will be defined as the weighed maximum likelihood. The table for the case where $n = 500$ is not displayed because all methods gave the same results. However, the most important result of this experiment is that the method converges and that the choice of the initialization point is important. From now on, we choose to initialize the method with the weighed Maximum Likelihood Estimator. More experiences are provided in Appendix \ref{app:chap4}.
+
+\begin{table}[ht] 
+\centering
+\begin{tabular}{|rr||rrrr|}
+ \hline
+ $\alpha$ & $\lambda$ & $\overline{\hat\lambda}_{WMLE}$ & $\overline{\hat\lambda}_{MLE}$ & $\overline{\hat\lambda}_{QI}$ & $\overline{\hat\lambda}_{MM}$ \\
+  \hline
+  \hline
+ 0.05 & 100.00 & 116.77 & 116.77 & 1963.08 & 116.77 \\ 
+   0.05 & 1.00 & 1.16 & 1.16 & 1.47 & 1.16 \\ 
+   0.05 & 0.01 & 0.01 & 0.01 & 1790.22 & 0.01 \\ 
+   0.25 & 100.00 & 119.24 & 119.24 & 151.37 & 119.24 \\ 
+   0.25 & 1.00 & 1.16 & 1.16 & 2362.08 & 1.16 \\ 
+   0.25 & 0.01 & 0.01 & 0.01 & 6038.39 & 0.01 \\ 
+   0.50 & 100.00 & 118.07 & 118.07 & 3687.48 & 118.07 \\ 
+   0.50 & 1.00 & 1.18 & 1.18 & 1.48 & 1.18 \\ 
+   0.50 & 0.01 & 0.01 & 0.01 & 0.02 & 0.01 \\ 
+   0.75 & 100.00 & 122.44 & 122.44 & 1724.86 & 122.44 \\ 
+   0.75 & 1.00 & 1.25 & 1.25 & 2602.37 & 1.25 \\ 
+   0.75 & 0.01 & 0.01 & 0.01 & 1189.03 & 0.01 \\ 
+   0.95 & 100.00 & 163.51 & 163.51 & 165.04 & 163.51 \\ 
+   0.95 & 1.00 & 1.62 & 1.62 & 1.63 & 1.62 \\ 
+   0.95 & 0.01 & 0.02 & 0.02 & 0.02 & 0.02 \\ 
+   \hline
+\end{tabular}
+\caption{Choice of initialisitation value: simulation results for $n = 20$.}\label{tab:sim:init1}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|rr||rrrr|}
+\hline
+ $\alpha$ & $\lambda$ & $\overline{\hat\lambda}_{WMLE}$ & $\overline{\hat\lambda}_{MLE}$ & $\overline{\hat\lambda}_{QI}$ & $\overline{\hat\lambda}_{MM}$ \\ 
+  \hline
+  \hline
+0.05 & 100.00 & 102.65 & 102.65 & 102.98 & 102.65 \\ 
+  0.05 & 1.00 & 1.03 & 1.03 & 1.03 & 1.03 \\ 
+  0.05 & 0.01 & 0.01 & 0.01 & 0.01 & 0.01 \\ 
+  0.25 & 100.00 & 102.97 & 102.97 & 103.52 & 102.97 \\ 
+  0.25 & 1.00 & 1.03 & 1.03 & 1.03 & 1.03 \\ 
+  0.25 & 0.01 & 0.01 & 0.01 & 0.01 & 0.01 \\ 
+  0.50 & 100.00 & 104.23 & 104.23 & 104.40 & 104.23 \\ 
+  0.50 & 1.00 & 1.03 & 1.03 & 1.03 & 1.03 \\ 
+  0.50 & 0.01 & 0.01 & 0.01 & 0.01 & 0.01 \\ 
+  0.75 & 100.00 & 104.41 & 104.41 & 104.49 & 104.41 \\ 
+  0.75 & 1.00 & 1.04 & 1.04 & 1.04 & 1.04 \\ 
+  0.75 & 0.01 & 0.01 & 0.01 & 0.01 & 0.01 \\ 
+  0.95 & 100.00 & 110.90 & 110.90 & 110.90 & 110.90 \\ 
+  0.95 & 1.00 & 1.10 & 1.10 & 1.10 & 1.10 \\ 
+  0.95 & 0.01 & 0.01 & 0.01 & 0.01 & 0.01 \\ 
+   \hline
+\end{tabular}
+\caption{Choice of initialisitation value: simulation results for $n = 100$.}\label{tab:sim:init2}
+\end{table}
+
+\section{Verifying PELT assumptions}\label{app:chap4:3}
+
+Some necessary conditions must be met before using the PELT algorithm. It can be found in Theorem 3.1 of \cite{Killick2012} and can be stated as follow:  
+\begin{proposition}
+    We assume that  when  introducing a changepoint into a sequence of observations the  cost, $\mathcal{C}$, of the sequence reduces. More formally, we assume there exists a constant $K$ such that for all $t<s<T$,
+    \begin{equation}\label{app:pelt}
+      W(y_{t:s}) + W(y_{s:T}) + K \leq W(y_{t:T})  
+    \end{equation}
+    Then if
+    \begin{equation}\label{app:pelt2}
+      F(t)+W(y_{t:s})+K \geq F(s)  
+    \end{equation}
+    holds, at a future time $T>s$, $t$ can never be the optimal last change point prior to $T$.
+\end{proposition}
+
+\textbf{Proof:} The equation \ref{app:pelt} is always verified with working with additive criterion such as the log likelihood. We can see that in the case of our cost function: 
+$$W(y_{t:s},\hat\lambda_{t:s})+W(y_{s:T},\hat\lambda_{s:T})+K\leq W(y_{t:T},\hat\lambda_{t:T})$$
+It is a direct consequence of using the maximum likelihood estimator. Suppose now that \ref{app:pelt2} is true. Adding $W(y_{s:T},\hat\lambda_{s:T})$ on both sides of the inequation gives : 
+\begin{align*}
+  F(t)+W(y_{t:s},\hat\lambda_{t:s})+W(y_{s:T},\hat\lambda_{s:T})+K &\geq F(s)+W(y_{s:T},\hat\lambda_{s:T}) \\
+  \implies F(t)+W(y_{t:T},\hat\lambda_{t:T}) &\geq F(s)+W(y_{s:T},\hat\lambda_{s:T}),
+\end{align*}
+We can conclude that the segmentation with the smallest cost is the one with $s$ as the last change-point. So $t$ cannot be the last change-point prior to $T$.
+
+
+\section{Convergence of \texorpdfstring{$\hat\sigma$}{s}}\label{app:chap4:4}
 
 The experimental protocol is the following. We simulated $N = 100$ samples of size $n = 320$ of left censored Weibull realisations. 3 change points are present in the samples at position $80$, $160$ and $240$. The associated parameters for each segment are $(1,1/100,1/100,1)$. Four scenarios are proposed where the $\sigma^*$ and the censoring rate $\alpha$ varies. We test all configuration possible for $\sigma^* = (0.4,0.8)$ and $\alpha = (25\%,75\%)$. All the results are presented in Figures \ref{fig:sim:sigma1} and \ref{fig:sim:sigma2}.     
 
@@ -169,6 +294,21 @@ Prosulfocarb sales figures used to build Figure \ref{fig:sale} are made availabl
 \end{figure}
 
 \chapter{Chapter \ref{chp:6} supplementary material} \label{app:chap6}
+
+\section{Clustering selected for the application}\label{app:chap6:1}
+
+In order to choose the clusterings that are imported in to the application, we use the elbow method described in Algorithm \ref{chp:3:algoelbow}. Instead of plotting the clustering inertia values against their number of clusters, we use the logarithm of the inertia. The decrease of the inertia don't seem to have any linera behaviour. Two elbows appeared in the dicrease of the logratihm though.  
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[]{figs/App/NB_CLUST.pdf}
+  \caption{Clustering candidates selected in the application.}
+  \label{fig:elb:clust}
+\end{figure}
+
+Instead of fitting a bipartite model, we fitted the best piece-wise linear model composed of three regression models as drawned in Figure \ref{fig:elb:clust}. All the clustering that had their log-inertia located on the middle regression line were selected. They are coloredin blue in Figure \ref{fig:elb:clust}.    
+
+\section{Application explanatory note}\label{app:chap6:2}
 
 \includepdf[pages=-, pagecommand={}]{8-Appendix/notice.pdf}
 

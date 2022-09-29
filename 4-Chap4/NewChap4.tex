@@ -23,7 +23,7 @@ The observations are subject to censorship. We focus on left-censorship because 
 \begin{equation}\label{chp:4:defy}
 Y_i = \sup(C_i,a_i)
 \end{equation}
-Since the $C_i$ are independant and the $a_i$ are known deterministic values, the $Y_i$ are independant as well. Noting $F$ the cumulative distribution function (cdf) of $Q$, we can write the cost function associted to segment $y_{u:v}$ as:  
+Since the $C_i$ are independant and the $a_i$ are known deterministic values, the $Y_i$ are independant as well. The observations of $Y_i$ are denoted $y_i$. Noting $F$ the cumulative distribution function (cdf) of $Q$, we can write the cost function associted to segment $y_{u:v}$ as:  
 \begin{equation}\label{chp:4:costfunc}
 W(y_{u:v}) = -\sup_{\theta \in \Theta}\{\sum_{i=u}^v\log(F(y_i,\theta))\mathbbm{1}_{y_i=a_i}+\sum_{i=u}^v\log(f(y_i,\theta))\mathbbm{1}_{y_i>a_i}\}
 \end{equation}
@@ -166,24 +166,18 @@ From this study, we can conclude that when working with real data, we should get
 
 \subsection{Comparison with a non parametric method}
 
+We want to compare the performance of the change-point detection with the Multrank method developped in \cite{lung2015} since both methods are adapted to censored data. We examine the capacity to estimate the correct number of breaks in a signal and the precision of the change-point position. This section is illustrated using the Weibull distribution.   
 
-\begin{enumerate}
-\item comment on décide d'une segmentation optimale.
-\item juste dire qu'on teste la méthode finale
-\item comment on simule les signaux
-\item commenter les résultats
-\end{enumerate}
-
-\textbf{The penalty calibration:} The last parameter to be set is the penalty $\beta$. While calibrating $\beta$, we want to compare the performance of the break detection with the Multrank method. The experimental framework is as follows: 
+The experimental framework is as follows: 
     \begin{enumerate}
         \item we simulate $N=100$ samples $(x_1,...,x_n)$ of size $n=400$  following a left-censored Weibull distribution with $\alpha\%$ of censored data. We made tests for the different censorship rates $\alpha = (25,50,75,95)$. The shape parameter of the Weibull distribution is assumed to be known and set to $\sigma=0.5$. The scaling parameters $\bm{\lambda^\star}$ have $K^\star=4$ breaks at positions $p^\star_1 = 80$, $p^\star_2 = 160$, $p^\star_3 = 240$ and $p^\star_4 = 320$ and take the values $\bm{\lambda^\star}=(\lambda^\star_1 = 1, \lambda^\star_2 = 4, \lambda^\star_3 = 0.5, \lambda^\star_4 = 5, \lambda^\star_5 = 1)$. An example of a sample simulated in this way is shown in Figure \ref{fig:ex_sim}.
         \item For each of the $N$ samples, we perform the parametric change-point detection and the Multrank methods. For each sample, we obtain the estimated number of breaks $\hat K_{param}$ and $\hat K_{multrank}$ and their position $(\hat{p}_{k,param})_{k = 1}^{\hat K_{param}}$ (respectively $(\hat{p}_{k,multrank})_{k = 1}^{\hat K_{multrank}}$).
-        \item for both methods, we count the number of samples among the $N$ for which the correct number of breaks has been estimated (e.g. $\hat K_{param} = K^\star$). Also, for each of the samples for which the estimate of $K^\star$ is correct, we examine the distance between the estimated position of a change-point and its nearest true break $\min_{k,i \in [1:K^*]}(\hat{p}_{k} - p^\star_i)$. 
+        \item for both methods, we count the number of samples among the $N$ for which the correct number of breaks has been estimated (e.g. $\hat K_{param} = K^\star$). Also, for each of the samples for which the estimate of $K^\star$ is correct, we make an histogram of the change-points position. 
     \end{enumerate}
-    In the case where $K$ is not known, we proceed as follows for each method to estimate it:
+Since $K$ is not known, we proceed as follows for each method to estimate it:
     \begin{itemize}
-        \item For the parametric method: we use the algorithm CROPS, algorithm to scan a continuous range of penalty values $[\beta_{min},\beta_{max}]$. We obtain a set of $B$ values $(\hat \beta_1,...,\beta_B)$ and the optimal segmentations associated with these penalty values. We then plot the cost of the segmentations as a function of the number of breaks. We choose the optimal penalty using a elbow heuristic. This procedure is described in \cite{haynes2014}. The choice of $\beta_{min}$ and $\beta_{max}$ is inspired from linear penalties like the BIC criterion \cite{YAO1988181}. Note that when using the BIC penalty in change point detection, the penalty term written in section \ref{sub:pelt} becomes : $\beta_n = \frac{D}{2}\log(n) = \frac{1}{2}\log(n)$, where $D$ is the number of dimensions of the parameter. More precisely, we took a wide interval of penalty values defined by $\beta_{min} = \frac{\log(n)}{10}$ and $\beta_{max} = 5\log(n)$.
-        \item For the non parametric \textit{Multrank} method, we compute the optimal segmentation for $k$ breaks, where $k$ ranges from $1$ to $K_{max}$. For each of these segmentations, we can compute the value of the statistic $I_k(n)$ statistic described in \cite{lung2015}. As in the parametric method, we represent the values of this statistic as a function of $k$, and we determine the number of estimated breaks by an elbow heuristic. Here, $K_{max}$ is fixed at $2*K^\star = 8$.
+        \item For the parametric method: we use the algorithm CROPS, algorithm to scan a continuous range of penalty values $[\beta_{min},\beta_{max}]$. We obtain a set of $B$ values $(\hat \beta_1,...,\beta_B)$ and the optimal segmentations associated with these penalty values. We then plot the cost of the segmentations as a function of the number of breaks. We choose the optimal penalty using a elbow heuristic. This procedure is described in \cite{haynes2014}. The choice of $\beta_{min}$ and $\beta_{max}$ is inspired from linear penalties like the BIC criterion \cite{YAO1988181}. Note that when using the BIC penalty in change point detection, the penalty term written in section \ref{chp:4:1} becomes : $\beta_n = \frac{P}{2}\log(n) = \frac{1}{2}\log(n)$, where $P$ is the number of dimensions of the parameter. More precisely, we took a wide interval of penalty values defined by $\beta_{min} = \frac{\log(n)}{10}$ and $\beta_{max} = 5\log(n)$.
+        \item For the non parametric \textit{Multrank} method, we compute using the optimal segmentation search method presented in Algorithm \ref{chp:3:algoopt} for $k$ breaks, where $k$ ranges from $1$ to $K_{max}$. For each of these segmentations, we can compute the cost of the segmentations using the cost function explicited in \ref{chp2:costfuncnp}. As in the parametric method, we represent the costs as a function of $k$, and we determine the number of estimated breaks by an elbow heuristic. Here, $K_{max}$ is fixed at $2*K^\star = 8$.
     \end{itemize}
 The results of the simulations are shown in Table \ref{tab:simcomp} and in Figure \ref{fig:prec_sim}. It can be seen that in the ideal scenario, where the data are indeed distributed according to a left-censored Weibull distribution, the parametric method performs better both in detecting the correct number of breaks and in accurately estimating their position. However, this performance decreases as the censoring rate increases.
 
@@ -212,7 +206,8 @@ The results of the simulations are shown in Table \ref{tab:simcomp} and in Figur
 
 \begin{figure}[ht]
     \centering
-    \includegraphics{figs/Chap4/P_RUPT.pdf}
+    \includegraphics{figs/Chap4/detect_comp.pdf}
     \caption{Precision of the estimated change-points for both methods.}
     \label{fig:prec_sim}
 \end{figure}
+
