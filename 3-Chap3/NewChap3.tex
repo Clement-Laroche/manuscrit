@@ -4,7 +4,7 @@
 
 \clearpage
 
-Although the recommendations for the use of the substances are formulated in the marketing authorization issued by ANSES \cite{ephy}, their practical use is not subject to control by the agency. Cultivation practises depend on meteorological conditions and professional habits. This partly explains the spatiotemporal heterogeneity. Our goal is to find homogeneous time periods and geographic areas and make a statistical comparison of these regions in these stable time periods to support the expert analysis. In this chapter, we focus on identifying stable temporal patterns using change point detection methods. This mathematical area is covered by several surveys \cite{truong2020,basseville1993detection,bardet2020}. We have focused on methods that seem appropriate for the application domain of phytopharmacovigilance. For example, this work will focus only on the offline methods that we will develop in the following sections. This choice was motivated by the speed of data collection and storage of pesticide concentrations data. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \cite{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
+Although the recommendations for the use of the substances are formulated in the marketing authorization issued by ANSES \cite{ephy}, their practical use is not subject to control by the agency. Cultivation practices depend on meteorological conditions and professional habits. This partly explains the spatiotemporal heterogeneity. Our goal is to find homogeneous time periods and geographic areas and make a statistical comparison of these regions in these stable time periods to support the expert analysis. In this chapter, we focus on identifying stable temporal patterns using change point detection methods. This mathematical area is covered by several surveys \cite{truong2020,basseville1993detection,bardet2020}. We have focused on methods that seem appropriate for the application domain of phytopharmacovigilance. For example, this work will focus only on the offline methods that we will develop in the following sections. This choice was motivated by the speed of data collection and storage of pesticide concentrations data. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \cite{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
 
 \section{Model and cost functions}\label{chp:3:1}
 
@@ -45,8 +45,6 @@ $$y_t \sim (x'_t\theta^*_k + \epsilon_t)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \ta
 where $\theta^*_k \in \mathbb{R}^p$ are the regression parameters and $\epsilon_t$ is the noise of the signal. The adapted cost function in this configuration uses the least squares estimation and is expressed as:
 $$W(y_{u:v}) = \min_{\theta \in \mathbb{R}^p}\sum_{t=u+1}^v(y_t-x'_t\theta)^2$$ 
 This modeling is perfectly suited for the detection of the changes in the left example of Figure \ref{fig:ex_cp}. 
-
-
 
 \subsection{Non-parametric inference}
 
@@ -97,7 +95,7 @@ In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in
 \State \textbf{input} : signal $y_{1:n}$, cost function $W()$, number of changepoints $K \geq 1$
 \State Create $C_1$ a $n\times n$ empty matrix
 \ForAll{$(u,v)$ such that $1 \leq u < v \leq n$}
-  \State $C(u,v) \gets W(y_{u:v})$
+  \State $C_1(u,v) \gets W(y_{u:v})$
 \EndFor
 \If{$K+1 > 2$}
   \For{$k = 2,...,K$}
@@ -107,7 +105,7 @@ In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in
   \EndFor
 \EndIf
 \State $L \gets (0,...,0)$ vector of size $K+1$
-\State $L{K+1} \gets n$
+\State $L_{K+1} \gets n$
 \State $k \gets K+1$
 \While{$k > 1$}
   \State $s \gets L(k)$
@@ -190,17 +188,17 @@ The complexity of PELT can reach $\OO(n)$ when the change points are supposed to
 
 \section{Exploratory research of segmentations}\label{chp:3:3}
 
-We are looking for a compromise between the exhaustivity of the "brute-force" optimal partionning method and the computationnal cost of PELT. The algorithm CROPS: Changepoints for a Range Of PenaltieS algorithm \cite{haynes2017} allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find penalty values wihtin that range associated with new segmentations. The proccess to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_K(\bm y) = \min_{\lvert\TT\rvert} \CC(\bm y,\TT)$ the unpenalized cost of the optimal segmentation in $K$ changepoints of $\bm y$ and $m(\beta)$ the number of changepoints of the optimal segmentation result obtained using $\beta$ in problem \ref{chp:3:optKnknown}, the theorem writes as follows:
+We are looking for a compromise between the exhaustivity of the "brute-force" optimal partionning method and the computationnal cost of PELT. The algorithm CROPS: Changepoints for a Range Of PenaltieS algorithm \cite{haynes2017} allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find penalty values wihtin that range associated with new segmentations. The proccess to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_K(\bm y) = \min_{\lvert\TT\rvert} \CC(\bm y,\TT)$ the unpenalized cost of the optimal segmentation in $K$ changepoints of $\bm y$ and $K(\beta)$ the number of changepoints of the optimal segmentation result obtained using $\beta$ in problem \ref{chp:3:optKnknown}, the theorem writes as follows:
 
 \begin{theorem}
 Let $\beta_0 < \beta_1$, 3 cases are possible to uncover new penalty values:
 \begin{enumerate}
-  \item If $m(\beta_0) = m(\beta_1)$ then $m(\beta) = m(\beta_0)$ for all $\beta \in [\beta_0,\beta_1]$
-  \item If $m(\beta_0) = m(\beta_1)+1$ then $m(\beta) = m(\beta_0)$ for all $\beta\in[\beta_0,\beta_{int}[$ and $m(\beta) = m(\beta_1)$ for all $\beta\in[\beta_{int},\beta_1]$ with:
+  \item If $K(\beta_0) = K(\beta_1)$ then $K(\beta) = K(\beta_0)$ for all $\beta \in [\beta_0,\beta_1]$
+  \item If $K(\beta_0) = K(\beta_1)+1$ then $K(\beta) = K(\beta_0)$ for all $\beta\in[\beta_0,\beta_{int}[$ and $K(\beta) = K(\beta_1)$ for all $\beta\in[\beta_{int},\beta_1]$ with:
   \begin{equation}\label{chp:3:crit:crops}
-    \beta_{int} = \frac{U_{m(\beta_1)}(y_{1:n})-U_{m(\beta_0)}(y_{1:n})}{m(\beta_0)-m(\beta_1)}
+    \beta_{int} = \frac{U_{K(\beta_1)}(y_{1:n})-U_{K(\beta_0)}(y_{1:n})}{K(\beta_0)-K(\beta_1)}
   \end{equation}
-  \item If $m(\beta_0) > m(\beta_1)+1$ and $m(\beta_{int}) = m(\beta_1)$ where $\beta_{int}$ is defined in \ref{chp:3:crit:crops}, then $m(\beta) = m(\beta_0)$ if $\beta\in[\beta_0,\beta_{int}[$ and $m(\beta) = m(\beta_1)$ if $\beta\in [\beta_{int},\beta_1]$
+  \item If $K(\beta_0) > K(\beta_1)+1$ and $K(\beta_{int}) = K(\beta_1)$ where $\beta_{int}$ is defined in \ref{chp:3:crit:crops}, then $K(\beta) = K(\beta_0)$ if $\beta\in[\beta_0,\beta_{int}[$ and $K(\beta) = K(\beta_1)$ if $\beta\in [\beta_{int},\beta_1]$
 \end{enumerate}
 \end{theorem} 
 
@@ -216,11 +214,11 @@ the bounds of the initial interval of penalties $\beta_{min}$ and $\beta_{max}$,
 \State Define $\beta^* \gets \{(\beta_{min},\beta_{max})\}$ a list of vectors.  
 \While{$\beta^*\neq \emptyset$}
   \State Define $(\beta_0, \beta_1) \gets \beta^*(1)$
-  \If{$m(\beta_0) > m(\beta_1)+1$}
-    \State $\beta_{int} \gets \frac{\mathcal{Q}_{m(\beta_1)}(y_{1:n})-\mathcal{Q}_{m(\beta_0)}(y_{1:n})}{m(\beta_0)-m(\beta_1)}$
+  \If{$K(\beta_0) > K(\beta_1)+1$}
+    \State $\beta_{int} \gets \frac{U_{K(\beta_1)}(y_{1:n})-U_{K(\beta_0)}(y_{1:n})}{K(\beta_0)-K(\beta_1)}$
     \State $res \gets$ \texttt{PELT}$(y_{1:n},\beta_{int})$
-    \State From $res$ store $m(\beta_{int})$
-    \If{$m(\beta_{int})\neq m(\beta_1)$}
+    \State From $res$ store $K(\beta_{int})$
+    \If{$K(\beta_{int})\neq K(\beta_1)$}
       \State $\beta^* \gets \{\beta^*,(\beta_0,\beta_{int}),(\beta_{int},\beta_1)\}$
     \EndIf
   \EndIf

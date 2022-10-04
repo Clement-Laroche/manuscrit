@@ -4,19 +4,19 @@
 
 \clearpage
 
-In this Chapter, we build a change-point detection algorithm specially adapted for concentration data. We will use that algorithm to detect homogeneous temporal periods of times on which spatial statistical inferences will be possible. Several elements presented in Chapter \ref{chp:3} are used to build this method:  
+In this Chapter, we build a change-point detection algorithm specially adapted for concentration data. We will use that algorithm to detect homogeneous temporal periods on which spatial statistical inferences will be possible. Several elements presented in Chapter \ref{chp:3} are used to build this method:  
 \begin{itemize}
 \item We use a parametric change-point detection, more precisely a maximum likelihood based method. The cost function $W$ is defined as the negative log likelihood of a distribution $Q$. The choice of $Q$ is motivated by the observation of the data, see Chapter \ref{chp:5} for an illustration on pesticide concentration data modeling.  
 \item We use the PELT search method to obtain optimal solution to the change-point detection problem. Several penalty values $\beta$ are explored with the CROPS algorithm. The elbow method is applied when it is necessary to estimate an optimal number of change-points.   
 \end{itemize}
-We first describe the model integrating the censorship information in Section \ref{chp:4:1}. However, we don't known how much the censorship can affect a parametric change-point model. We provde a study of censoring effects in Section \ref{chp:4:2}. Futhermore, we need to devise a estimation procedure that is adapted to the observations of pesticide concentrations. The question sums up to detecting breaks in all dimensions of the parameters of $Q$ or not. We devise our estimation scheme in Section \ref{chp:4:3}. Finally we test our method with a change-point method adapted for censored data in Section \ref{chp:4:4}.  
+We first describe the model integrating the censorship information in Section \ref{chp:4:1}. However, we don't known how much the censorship can affect a parametric change-point model. We provide a study of censoring effects in Section \ref{chp:4:2}. Futhermore, we need to devise an estimation procedure that is adapted to the observations of pesticide concentrations. The question sums up to detecting breaks in all dimensions of the parameters of $Q$ or not. We devise our estimation scheme in Section \ref{chp:4:3}. Finally we test our method with a change-point method adapted for censored data in Section \ref{chp:4:4}.  
 
 
 \section{Generic model for censored data}\label{chp:4:1}
 
 We present here the underlying parametric model we are using. We condider $\bm c = c_1,\dots,c_n$ that are realizations of independant random variables $C_1,\dots,C_n$. The variables $C_i$ are recorded sequentially, and the recording times are not necessarily equidistant. Thus, the indices in $Y_i$ are only indicators of the order of occurrence in the sample and not of the observation times. We suppose that there exist $K^*$ changes in the distribution of $\bm c$ happening at index $0=\tau_0^*<\tau^*_1 <... < \tau^*_k <... < \tau^*_{K^*}<\tau^*_{K^*+1}=n$. Moreover, on the k-th segment, $C_{\tau^*_{k-1}+1:\tau^*_{k}}$ follows a distribution $Q$ with parameters defined by the vector $\theta^*_k\in\Theta$ with $\Theta\subset\mathbb{R}^P$. We denote $\bm{\theta^*} = (\theta^*_k)_{k=0}^{K^*}$. More formally, we have that:  
 $$c_t \sim f(.;\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},$$
-with $f$ being the density function of distribution $Q$.  
+$f$ being the density function of distribution $Q$.  
 
 
 The observations are subject to censorship. We focus on left-censorship because it is adapted for modeling concentration data but similar models can be created for right censorship or a mix of both. To each $c_i$ is associated a known censoring threshold $a_i$. The resulting censored observations are defined by:  
@@ -37,7 +37,7 @@ where $P$ is the dimension of the parameters vector in the distribution $Q$. Gat
 (\widehat{\TT},\widehat{\bm \theta}) = \arg\min_{\TT,\bm \theta} \left(- \sum_{i=0}^{\lvert \TT \rvert}  \left\{\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right\}+\beta KP\right)
 \end{equation}
 
-Under this configuration, we know that the estimators computed \ref{chp:4:estim} have satisfying convergence properties \citep{Lavielle1997}. A small proof is provided in Appendix \ref{app:chap4:1}.
+Under this configuration, we know that the estimators computed \ref{chp:4:estim} have satisfying convergence properties \citep{Lavielle1997}. Elements of proof are provided in Appendix \ref{app:chap4:1}.
 
 \section{Censorship effects}\label{chp:4:2}
 
