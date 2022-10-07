@@ -95,7 +95,7 @@ We provide a practical example with the exponential distribution. We simulate a 
 
 Censoring in the data creates identification problems that we chose to deal by adding a new regularisation parameter $\theta_{max}$. Note that other ways to tackle this problem are possible. The modification of the pruning rule \ref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
 
-\section{Multi-parameter estimation}\label{chp:4:3}
+\section{Multi-dimensional parameter estimation}\label{chp:4:3}
 
 We discuss here the procedure for the parameters estimates proposed in \ref{chp:4:estim}. When $\theta^* \in \mathbb{R}^P$ with $P > 1$, several optimization strategies are possible. We use the following notations in this section: 
 \begin{itemize}
@@ -211,3 +211,14 @@ The results of the simulations are shown in Table \ref{tab:simcomp} and in Figur
     \label{fig:prec_sim}
 \end{figure}
 
+\clearpage
+
+\section{Chapter summary}
+
+This Chapter designs and tests an adapted method for change-point detection for concentration data. The censorship is dealt with the cost function choice in Section \ref{chp:4:2}. More precisely, using a parametric approach as presented in Chapter \ref{chp:3}, the likelihood is adapted to distinguish cases were a measure is censored or not. The censorship becomes critical for computing the maximum likelihood estimate of a segment when all observations are censored. This could cause issues in the identification of segments parameters which would compromise the detection method capacity. However, one way to circumvent this problem is to indroduce a new regularization parameter in the detection that is a maximum value for the parameter value. The estimation strategy is also discussed in this Section \ref{chp:4:3}. An esitmation scheme where some parameters dimension are fixed in time and other can vary accross segments is devised. In practice, this modeling choice can be justified if some parameters values are supposed to control the intrinsic diffusion properties of a chemical substance in the environment. Then, these parameters should be invariant in time. The parameters changing at each segment could represent the different use intensity of the substance in time for example. Experiments of Section \ref{chp:4:4} ensures that, if enough data is availbale to evaluate a segment, the parametric method fares decently and can outclass a suited non parametric method for censored data. 
+
+Chapter \ref{chp:5} combines the results of temporal change-point detection using the parametric method developped in this Chapter with statistical methods to deal with the spatial heterogeneity. The obtention of homogenous temporal subsignal in the concentrations values provides the temporal context in which the spatial analysis is conducted. In particuliar, in this homogenous temporal setting, it is interesting to look for geographical areas that had concentration values that differ from others. Constructing these areas and comparing them is the main topic of Chapter \ref{chp:5}. Chapter \ref{chp:6} is the presentation of the results of Chapter \ref{chp:5} and \ref{chp:4} applied to the concentration data of substance. The results of all methods are all gathered using an interactive presentation tool.     
+
+       
+
+ 
