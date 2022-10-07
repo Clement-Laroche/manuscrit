@@ -127,7 +127,7 @@ Many target crops (cereal crops) are also concentrated in the region. These two 
 Thus, we expect significant variations in concentration values in this area during this period. 
 
 Data about surface water quality in France is available from the French Biodiversity Agency \cite{Naiade}. We collected from the site the data selected above\footnote{Data exported in September 2020 using \url{http://www.naiades.eaufrance.fr/acces-donnees\#/physicochimie/resultats?debut=09-01-2007&fin=08-09-2020&regions=24&parametres=1092&fractions=23&supports=3&qualifications=1}}. 
-These choices led to a data set $\mathcal D$ comprising 420 monitoring stations that performed 14,203 measurements. Each measurement is described by the monitoring station ID, the sampling date, the quantification limit (LOQ), and the concentration measurement value, if the concentration exceeds the LOQ. 
+These choices led to a data set $\mathcal D$ comprising $I = 420$ monitoring stations that performed 14,203 measurements. Each measurement is described by the monitoring station ID, the sampling date, the quantification limit (LOQ), and the concentration measurement value, if the concentration exceeds the LOQ. 
 %Indeed, as this is usually the case when measuring the concentration of a chemical substance \cite{Bernal2014,Currie1995}, the measurements are submitted to 
 %\begin{itemize}
 %    \item a limit of detection (LOD) which is the smallest concentration of the substance in a test sample that can be reliably distinguished from zero;
@@ -138,16 +138,16 @@ In the data used in this work, the LOD is unknown: the left censoring phenomenon
 
 Among the 14,203 recorded measurements during the period of interest, only 14.11\% were above the quantification limit. Figure \ref{fig:histogram} shows the distribution of the number of measurements per station: the mean (rounded to the closest integer) and median number of samples collected by each monitoring station are respectively 34 and 19. This illustrates that sampling rates are different across stations, most of them making few measures, and the monitoring process is heterogeneous.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap5/hist_samp_sta.pdf}
   \caption{Distribution of the number of measurements per station.}
   \label{fig:histogram}
 \end{figure}
 
-The coarse representation $\overline{\mathcal{D}}$ of the monitoring data $\mathcal{D}$ is obtained by computing the maximum daily values across the available stations. This yields the time series illustrated in Figure \ref{time:serie}. The aggregated series contains 2,150 values, among which 22.51\% are quantified. 
+The coarse representation $\overline{\mathcal{D}}$ of the monitoring data $\mathcal{D}$ is obtained by computing the maximum daily values across the available stations. This yields the time series illustrated in Figure \ref{time:serie}. The aggregated series contains $n =$ 2,150 values, among which 22.51\% are quantified. 
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap5/Max_temp-1.pdf}
   \caption{Plot of daily maximum concentrations}
@@ -170,7 +170,7 @@ The procedure used for computing the edges in the stations network based on the 
 %The data collected did not allow to build it directly because the geolocalisation information of the stations and the hygrographic network come from two disctinctive sources. 
 
 \begin{enumerate}
-    \item One starts by building a river network $R=(S,H)$, where the vertices $S$ are made of the connecting points between the river sections, and the edges $H$ contain all sections. Each edge is thus naturally weighted by the length (in meters) of the corresponding river section. 
+    \item One starts by building a river network $\mathcal{R}=(S,H)$, where the vertices $S$ are made of the connecting points between the river sections, and the edges $H$ contain all sections. Each edge is thus naturally weighted by the length (in meters) of the corresponding river section. 
     \item Each monitoring station $v_i$ in $V$ is assigned to the closest node $\tilde s_i$ in the river network $R$, by minimizing the geographical distance between the station $v_i$ and all connecting points
     \begin{equation*}
      \tilde s_i=\min_{s\in S} d(v_i, s).
@@ -180,7 +180,7 @@ The procedure used for computing the edges in the stations network based on the 
 
 One may notice at this point that the above procedure may result into an unconnected graph, with several connected components. For illustration, Figure \ref{fig:comp} displays the graph of all stations that made at least one sample during the obsetvation period. It is not fully connected and exhibits 9 distinct connected components.  
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap5/Graph_comp-1.pdf}
   \caption{Map of the non connex components in the station graph.}
@@ -193,24 +193,24 @@ One may notice at this point that the above procedure may result into an unconne
 
 First, the coarse-grained time series $\overline{\mathcal{D}}$ in Figure \ref{time:serie} is segmented using the change-point detection procedure described in Section \ref{chp:4:3}. We fitted a left censored Weibull distribution in the change-point model with parameters $(\lambda,\sigma)$. This was motivated by the observation of the data. We suppose $\sigma$ fixed in the time series and propose the heuristic \ref{chp:4:3} to estimate it. The results of its estimation are shown in Figure \ref{fig:sig}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap5/Sigma_heu.pdf}
-  \caption{Plot of successive $\widehat{\sigma}$ values. We stopped the to iterate when the $\lvert \widehat{\sigma}_b - \widehat{\sigma}_{b} \rvert \leq 10^{-3}$}
+  \caption{Plot of successive $\widehat{\sigma}$ values. We stopped the to iterate when the $\lvert \widehat{\sigma}_{b-1} - \widehat{\sigma}_{b} \rvert \leq 10^{-3}$}
   \label{fig:sig}
 \end{figure}
 
-The penalty grid $[\frac{\ln K}{4},4\ln K]$ was chosen for the heuristic where $K$ is the number of daily maximum concentrations available, here $K = 2150$.. This interval allowed to obtain various segmentation results with the number of change points varying from 1 to 30. With such kind of range in the results, it ensured a central position of the elbow in the plot of the cost of these segmentations against their respective number of change-points. The precision stopping criterion was set to $10^-3$.
+The penalty grid $[\frac{\ln n}{4},4\ln n]$ was chosen for the heuristic where $n$ is the number of daily maximum concentrations available, here $n = 2150$. This interval allowed to obtain various segmentation results with the number of change points varying from 1 to 30. With such kind of range in the results, it ensured a central position of the elbow in the plot of the cost of these segmentations against their respective number of change-points. The precision stopping criterion was set to $10^-3$.
 From the application point of view, the assumption that $\sigma$ is a fixed parameter throughout the series $\overline{\mathcal{D}}$ corresponds to the hypothesis that the differences in usage and diffusion of the prosulfocarb among the different users is captured by the shape parameter, and should not vary much over time. On the contrary, the overall average usage of prosulfocarb varies, and this dependency is captured by changes in the rate parameter. Let us remark here that the estimated value of the shape parameter is $\hat \sigma_{MLE}=0.4$. This confirms the data has a heavier tail than an exponential distribution ($\sigma$=1), and that the assumption of using Weibull distributions for our data is appropriate. 
 
 %Then, to detect temporal patterns the PELT algorithm was used with a minimal segment length of $50$ days. 
 
-In the change-point detection procedure, the penalty value for the PELT algorithm was calibrated using a large range of values explored according to the CROPS algorithm. The range, inspired by the BIC criterion, was set to $[\frac{\log(K)}{5},5\log(K)]$. Note that when using the BIC penalty in change point detection, the penalty term written becomes : $\beta_K(L+1)D = \frac{D}{2}\log(K)(L+1) = \frac{1}{2}\log(K)(L+1)$. The range chosen allows to screen an interval of penalties containing the BIC penalty.
+In the change-point detection procedure, the penalty value for the PELT algorithm was calibrated using a large range of values explored according to the CROPS algorithm. The range, inspired by the BIC criterion, was set to $[\frac{\log(n)}{5},5\log(n)]$. Note that when using the BIC penalty in change point detection, the penalty term written becomes : $\beta_n(K+1)|\mathcal{M}| = \frac{|\mathcal{M}|}{2}\log(n)(K+1) = \frac{1}{2}\log(n)(K+1)$ where $|\mathcal{M}|$ is the cardinal of the dimensions of the parameters $\bm\theta$ of $Q$ that are subject to changes across segments. Since $\bm\theta = (\lambda,\sigma)$ and the changes occur only on the $\lambda$ parameter, $|\mathcal{M}| = 1$. The range chosen allows to screen an interval of penalties containing the BIC penalty.
 
-The penalty calibration procedure resulted in 15 different segmentations, with a number of change-points ranging from 1 to 30. The best segmentation is selected using the elbow method, as illustrated in Figure \ref{fig:elb_seg} in Appendix \ref{section:elb}. This amounts to a temporal segmentation with $\hat L=13$ change-points, illustrated in Figure \ref{fig:seg}. 
+The penalty calibration procedure resulted in 15 different segmentations, with a number of change-points ranging from 1 to 30. The best segmentation is selected using the elbow method, as illustrated in Figure \ref{fig:elb_seg} in Appendix \ref{section:elb}. This amounts to a temporal segmentation with $\hat K=13$ change-points, illustrated in Figure \ref{fig:seg}. 
 %Some similar procedures are found in \cite{lung2015homogeneity}. 
  
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap5/Seg_opt.pdf}
   \caption{Best segmentation found by the change-point detection procedure with CROPS-based penalty tuning. The dates of the breaks are : October 20, 2012; May 25, 2016; October 13, 2016; February 7, 2017; October 5, 2017; January 19, 2018; October 5, 2018; January 18, 2019; October 11, 2019; May 6, 2020; October 7, 2020; December 20, 2020; July 27, 2021.The black rectangle corresponds to the selected temporal segment in section \ref{section:clust129}}\label{fig:seg}
@@ -226,7 +226,7 @@ During the whole observation period, 420 monitoring stations only produced at le
 %(the minimum number of clusters is equal to the number of connected components in the graph induced by the active stations)
 To check the relevance of the homogeneity assumption formulated in section \ref{section:spaceclust}, let us focus on a specific temporal segment. An off-peak period, spanning between February 8, 2017 and October 4, 2017 was selected. This period was identified as a homogeneous temporal segment by the change-point detection procedure.  This period is highlighted by the black rectangle in Figure \ref{fig:seg}. We proceeded in two steps. First we pooled all samples made during that specific period of time. From all those samples, we can identified the active clusters during that period of time, there were 13 out of 15. Then, for all active clusters, we computed the within average empirical pairwise Wasserstein distance of the active stations of a cluster and observe that for 10 clusters out of 13, this indicator is less than 0.0015, whereas the global average pairwise Wasserstein distance for the 149 stations is 0.003. This suggests that the distance chosen for our station graph is indeed a good proxy of the homogeneity in the concentration space. Additional comments can be made when we look at the geography of the region. Some clusters are overlapping with hydro-ecoregions. Hydro-ecoregions are geographic entities in which hydrographic ecosystems share common characteristics. The criteria defining them combine properties of geology, terrain and climate \cite{wasson:hal-02580774}. The borders of those regions are drawn in grey in Figure . This ensures that the substances will have homogeneous dispersion properties on these clusters (see clusters 7). As expected the biggest component in Figure \ref{fig:comp} is the most segmented. Some clusters are easy to identify, for instance clusters 12 corresponds to the Indre river. Cluster 10 is identified as the most western part of the Loire and its tributaries mainly the Vienne and the Creuse rivers. Clusters 1,7,9 and 10 are a little bit harder to identify. If one look closely at the map of the region, there is a high presence of small channels all across this part of the region. 
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap5/Graph_clust.pdf}
   \caption{Map of geographical clusters.}
@@ -237,7 +237,7 @@ To check the relevance of the homogeneity assumption formulated in section \ref{
 
 We now focus on locating spatial patterns during time segments identified in section \ref{sec:time_pattern}. Peak periods in prosulfocarb use are less likely to produce rich spatial patterns since they correspond to a intensive overall use in the region. This why an off-peak period was investigated instead. In the rest of this case study, we selected the segment highlighted in black in figure \ref{fig:seg}. It is delimited by the dates February 8, 2017 and October 4, 2017. This introduces a context to the anomaly detection: a global non use of the substance. 
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap5/Pareto_plot.pdf}
   \caption{Clusters pareto front.}
@@ -259,7 +259,7 @@ Following the methodology proposed in \ref{section:anomaly}, the scaling paramet
     %\ref{fig:graph}
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap5/Pareto_map.pdf}
   \caption{Mapped pareto front.}
