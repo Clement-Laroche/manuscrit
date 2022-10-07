@@ -189,6 +189,14 @@ One may notice at this point that the above procedure may result into an unconne
 
 \section{Results}\label{section:results}
 
+The results of the \textbf{three steps} are presented on a real data: 
+\begin{enumerate}
+\item We first present the change-point detection results on the daily maximum concentration levels of prosulfocarb.
+\item Then we show the results of clustering on the station graph using the river system of Centre-Val de Loire region. 
+\item We compute the Pareto front of these clusters in a selected time period derived from the first step. 
+\end{enumerate}
+Even though we chose to present it in this order, note that the first and second steps are independant. We could have chosen to start the presentation with the clustering results. 
+
 \subsection{Temporal segmentation}\label{sec:time_pattern}
 
 First, the coarse-grained time series $\overline{\mathcal{D}}$ in Figure \ref{time:serie} is segmented using the change-point detection procedure described in Section \ref{chp:4:3}. We fitted a left censored Weibull distribution in the change-point model with parameters $(\lambda,\sigma)$. This was motivated by the observation of the data. We suppose $\sigma$ fixed in the time series and propose the heuristic \ref{chp:4:3} to estimate it. The results of its estimation are shown in Figure \ref{fig:sig}.
@@ -267,6 +275,8 @@ Following the methodology proposed in \ref{section:anomaly}, the scaling paramet
 \end{figure}
 
 It is interesting to note that the Pareto front level is not uniformly distributed in the region. The three anomalous clusters are located in the north and east of the region. It could be related to the agricultural practices and land use. For the sake of the argument, we present in Appendix \ref{section:crops} the map of barley and wheat crops in Centre-Val de Loire. In future works, we shall investigate the spatial correlation between anomalous clusters and areas with high concentration of these crops. Figure  displays the Pareto front levels on the station map \ref{fig:pareto:map}.
+
+\clearpage
 
 \section{Chapter summary}
 
