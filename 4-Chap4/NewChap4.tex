@@ -52,7 +52,9 @@ Illustrating examples are provided in this section with $Q$ set as the exponenti
 
 In general, an explicit formula for the maximum likelihood estimator (MLE) is not available in presence of censored data, leading to the use of numerical methods for its computation. The Newton-Raphson method was used on each segment to compute the MLE estimate of $\theta$. The cost functions need to be twice differentiable in $\theta$. We search for the zeros of the first derivate of the cost function in order to find a global minimum. 
 
-Checking that the second derivative is strictly positive in presence of censored data, thus guaranteeing the unicity of the maximum likelihood estimate, can prove to be a difficult task as it is not always the case for all distribution $Q$. We provide an example of such a case in Appendix \ref{app:chap4:2} where we prove the existence of a global minimum without having the global convexity of the first derivate. This implies that a careful initialization of the Newton-Raphson method to obtain convergence. Appendix \ref{app:chap4:2} also provide experiments on the initialization of the Newton-Raphson method. 
+Checking that the second derivative is strictly positive in presence of censored data, thus guaranteeing the unicity of the maximum likelihood estimate, can prove to be a difficult task as it is not always the case for all distribution $Q$. 
+This implies that a careful initialization of the Newton-Raphson method to obtain convergence. Appendix \ref{app:chap4:2} also provide experiments on the initialization of the Newton-Raphson method. 
+%We provide an example of such a case in Appendix \ref{app:chap4:2} where we prove the existence of a global minimum without having the global convexity of the first derivate. 
 
 Specifically, the case where all data in the segment $y_{u:v}$ are censored is problematic. Looking at the analytical likelihood formula, we find that the $\theta$ realising the minimum of the cost function is still unique, but tends toward infinity. In this case the cost tends to zero. We illustrate in Figure \ref{fig:onlycens} with $Q$ set as an exponential distribution. 
 
