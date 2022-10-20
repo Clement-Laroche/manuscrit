@@ -1,5 +1,10 @@
-\usepackage{apacite} 
+\usepackage{apacite}
 \usepackage{natbib}
+\usepackage{bibentry}
+\makeatletter 
+ \renewcommand\BR@b@bibitem[2][]{\BR@bibitem[#1]{#2}\BR@c@bibitem{#2}}           
+ \makeatother
+\nobibliography*
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper, width=170mm,top=25mm,bottom=15mm]{geometry}
 \usepackage{graphicx}    
@@ -46,13 +51,13 @@
 \makeindex
 
 %title
-\title{Pesticides concentration monitoring from various heteregenous sources of informations}
+\title{Pesticides concentration monitoring from various heteregenous sources of information}
 \subtitle{A statistical approach and tool designing}
 \author{Clément LAROCHE}
 \date{\today}
 
 %keyword
-\keywords{Pesticides, environmental study, spatio-temporal heterogeneity, change points detection, spatial clustering, anomaly detection}
+\keywords{Pesticides, environmental study, spatio-temporal heterogeneity, change point detection, spatial clustering, anomaly detection}
 
 %logo
 \logo{figs/logo/logoAnses.png}

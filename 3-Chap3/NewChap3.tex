@@ -16,7 +16,7 @@ According to the nomenclature proposed by \cite{truong2020}, change point detect
 \CC(\bm y,\TT) = \sum_{k=0}^{\lvert \TT \rvert} W(y_{\tau_k+1:\tau_{k+1}}), 
 \end{equation}     
 
-With these notations and the knowledge of the number of change points $K^*$ that occurred in $\bm y$, the change point problem can be posed as an optimization problem:
+With these notations and the knowledge of $K^*$, to look for the change points is equivalent to the optimization problem:
 
 \begin{equation}\label{chp:3:optKknown}
  \widehat{\TT}  = \arg \min_{\lvert \TT \rvert = K^*}  \CC(\bm y, \TT) = \arg \min_{\lvert \TT \rvert = K^*} \sum_{k=0}^{K^*} W(y_{\tau_k+1:\tau_{k+1}})   
@@ -36,7 +36,7 @@ The choice of cost function determines the type of changes (in trend, mean, etc.
 In the parametric case, the detection depends heavily on what we are looking for in the signal $\bm y$. For example, searching for slope changes in a signal \cite{Bai1994,Fearnhead2018} does not require the same modelling as detecting changes in the mean \cite{Frick2014,chen2012parametric}. 
 
 A first classical cost function is based on the maximum likelihood estimation. In this setting, the observations located in the $k$-th segment is supposed to be following a distribution $Q$ depending on a vector of parameters $\theta^*_k$ with $\theta_k \in \Theta$ being a compact subset of $\mathbb{R}^p$. More formally, we have that:
-$$y_t \sim f(.;\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},$$
+$$y_t \sim _{k=0}^{K^*}f(.;\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},$$
 with $f$ being the density function of distribution $Q$. In other words, we suppose that all observations emanate from the same distribution $Q$ but the values of $\theta^*_k$ change abruptly at each change-point $\tau^*_k$. The cost function used to evaluate segments in this context is the negative log-likelihood. Hence, for a segment $y_{u:v}$ with $u < v$, we can write:  
 $$W(y_{u:v}) = -\sup_{\bm \theta \in \Theta} \sum_{i = u}^{v} \ln f(y_i; \bm \theta)$$
 This method would prove useful in the example presented in the right side of Figure \ref{fig:ex_cp}. Applying the maximum likelihood estimator on the mean of Gaussian distribution would provide satisfying results. Other distributions than the Gaussian were investigated since it is not always well suited for data (especially concentrations data),  
@@ -79,11 +79,11 @@ It is also possible to derive change detection in trend using non parametric inf
 
 Various search methods for finding breakpoints have been described in the litterature. They can be distinguished according to whether they provide an optimal solution to the problem of the research of change points or an answer in the form of an approximation. Approximation methods are not discussed, but there are plenty of them, such as sliding window methods \cite{Li2010,Liu2022}, bottom-up segmentation \cite{chen1998speaker}, and binary segmentation \cite{Yang2001,Fryzlewicz2014}. We choose to focus on optimal methods. This choice is motivated by the size of the datasets we apply change-point detection on. The number of samples is still in a reasonnable range to obtain satisfying computationnal times.  
 
-Since the pesticides uses are supposed to be spread at regular times during the years, we could expect a seasonnal behaviour of their concentrations and thus have a clue on the number of changes before-hand. However, the spatio-temporal heterogeneity discussed in Section \ref{chp:2:3} prevents us to be certain of this assumption. This section discusses the case where the number of change points $K^*$ is unknown. We present different ways to estimate the number of breaks and their positions.  
+Since the pesticides are supposed to be spread at regular times during the years, we could expect a seasonnal behaviour of their concentrations and thus have a clue on the number of changes before-hand. However, the spatio-temporal heterogeneity discussed in Section \ref{chp:2:3} prevents us to be certain of this assumption. This section discusses the case where the number of change points $K^*$ is unknown. We present different ways to estimate the number of breaks and their positions.  
 
 \subsection{Optimal partitioning method}
 
-The optimal segmentation algorithm brings an answer to problem \ref{chp:3:optKknown}. This is the "brute-force" search method. It necessits to compute the cost of all possible segments $y_{u:v}$ with $u<v$.  With a fixed $K$ number of change-points, one can recursivly solve the optimization problem. The recursion comes from the following relationship: 
+The optimal segmentation algorithm brings an answer to problem defined in Equation \ref{chp:3:optKknown}. It is a "brute-force" search method. It necessits to compute the cost of all possible segments $y_{u:v}$ with $u<v$.  With a fixed $K$ number of change-points, one can recursivly solve the optimization problem. The recursion comes from the following relationship: 
 \begin{equation}\label{chp:3:recurs}
 \min_{\lvert\TT\rvert = K}\mathcal{C}(\bm y, \TT) = \min_{t \leq n-K}\{W(y_{1:t})+\min_{\lvert\TT\rvert = K-1}\mathcal{C}(y_{t:n},\TT)\} 
 \end{equation}

@@ -4,38 +4,54 @@
 
 \clearpage
 
-In this Chapter, we build a change-point detection algorithm specially adapted for concentration data. We will use that algorithm to detect homogeneous temporal periods on which spatial statistical inferences will be possible. Several elements presented in Chapter \ref{chp:3} are used to build this method:  
+In this Chapter, we build a change-point detection algorithm specially adapted for concentration data. We will use that algorithm in the subsequent chapter to detect homogeneous temporal periods on which spatial statistical inferences will be possible. Several elements presented in Chapter \ref{chp:3} are used to build this method:  
 \begin{itemize}
 \item We use a parametric change-point detection, more precisely a maximum likelihood based method as described in Section \ref{chp:3:1}. The cost function $W$ is defined as the negative log likelihood of a distribution $Q$. The choice of $Q$ is motivated by the observation of the data, see Chapter \ref{chp:5} for an illustration on pesticide concentration data modeling.  
 \item We use the PELT search method presented in Section \ref{chp:3:2} to obtain optimal solution to the change-point detection problem. Several penalty values $\beta$ are explored with the CROPS algorithm shown in Section \ref{chp:3:3}. The elbow method is applied when it is necessary to estimate an optimal number of change-points.   
 \end{itemize}
-We first describe the model integrating the censorship information in Section \ref{chp:4:1}. However, we don't known how much the censorship can affect a parametric change-point model. We provide a study of censoring effects in Section \ref{chp:4:2}. Futhermore, we need to devise an estimation procedure that is adapted to the observations of pesticide concentrations. The question sums up to detecting breaks in all dimensions of the parameters of $Q$ or not. We devise our estimation scheme in Section \ref{chp:4:3}. Finally we test our method with a change-point method adapted for censored data in Section \ref{chp:4:4}.  
+We first describe the model integrating the censorship information in Section \ref{chp:4:1}. However, we don't know how much the censorship can affect a parametric change-point model. We provide a study of censoring effects in Section \ref{chp:4:2}. Futhermore, we need to devise an estimation procedure that is adapted to the observations of pesticide concentrations. The question sums up to detecting breaks in all dimensions of the parameters of $Q$ or not. We devise our estimation scheme in Section \ref{chp:4:3}. Finally we test our method against a change-point method adapted for censored data in Section \ref{chp:4:4}.  
 
 
 \section{Generic model for censored data}\label{chp:4:1}
 
-We present here the underlying parametric model we are using. We condider $\bm c = c_1,\dots,c_n$ that are realizations of independant random variables $C_1,\dots,C_n$. The variables $C_i$ are recorded sequentially, and the recording times are not necessarily equidistant. Thus, the indices in $Y_i$ are only indicators of the order of occurrence in the sample and not of the observation times. We suppose that there exist $K^*$ changes in the distribution of $\bm c$ happening at index $0=\tau_0^*<\tau^*_1 <... < \tau^*_k <... < \tau^*_{K^*}<\tau^*_{K^*+1}=n$. Moreover, on the k-th segment, $C_{\tau^*_{k-1}+1:\tau^*_{k}}$ follows a distribution $Q$ with parameters defined by the vector $\theta^*_k\in\Theta$ with $\Theta\subset\mathbb{R}^P$. We denote $\bm{\theta^*} = (\theta^*_k)_{k=0}^{K^*}$. More formally, we have that:  
-$$c_t \sim f(.;\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},$$
+We present here the underlying parametric model we are using. We condider $\bm c = c_1,\dots,c_n$ which are realizations of independent random variables $C_1,\dots,C_n$. The variables $C_i$ are recorded sequentially, and the recording times are not necessarily equidistant. Thus, the indices in $C_i$ are only indicators of the order of occurrence in the sample and not of the observation times. We suppose that there exist $K^*$ changes in the distribution of $\bm c$ happening at indices $0=\tau_0^*<\tau^*_1 <... < \tau^*_k <... < \tau^*_{K^*}<\tau^*_{K^*+1}=n$. Moreover, on the k-th segment, $C_{\tau^*_{k-1}+1:\tau^*_{k}}$ follows a distribution $Q$ with parameters defined by the vector $\theta^*_k\in\Theta$ with $\Theta\subset\mathbb{R}^P$. We denote $\bm{\theta^*} = (\theta^*_k)_{k=0}^{K^*}$. More formally, we have that:  
+$$c_t \sim \sum_{k=0}^{K^*} f(.\vert\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},$$
 $f$ being the density function of distribution $Q$.  
 
 
-The observations are subject to censorship. We focus on left-censorship because it is adapted for modeling concentration data but similar models can be created for right censorship or a mix of both. To each $c_i$ is associated a known censoring threshold $a_i$. The resulting censored observations are defined by:  
+The observations are subject to censorship. We focus on left-censorship because it is adapted for modeling concentration data but similar models can be created for right censorship or a mix of both. To each $c_i$ is associated a known censoring threshold $a_i \ge 0$. The resulting censored observations are defined by:  
 \begin{equation}\label{chp:4:defy}
 Y_i = \sup(C_i,a_i)
 \end{equation}
-Since the $C_i$ are independant and the $a_i$ are known deterministic values, the $Y_i$ are independant as well. The observations of $Y_i$ are denoted $y_i$. Noting $F$ the cumulative distribution function (cdf) of $Q$, we can write the cost function associted to segment $y_{u:v}$ as:  
+Since the $C_i$ are independent and the $a_i$ are known deterministic values, the $Y_i$ are independent as well. The observations of $Y_i$ are denoted $y_i$. Noting $F$ the cumulative distribution function (cdf) of $Q$, we can write the cost function associted to segment $y_{u:v}$ as:  
 \begin{equation}\label{chp:4:costfunc}
 W(y_{u:v}) = -\sup_{\theta \in \Theta}\{\sum_{i=u}^v\log(F(y_i,\theta))\mathbbm{1}_{y_i=a_i}+\sum_{i=u}^v\log(f(y_i,\theta))\mathbbm{1}_{y_i>a_i}\}
 \end{equation}
 Note that if one needs to integrate right censorship into the likelihood, one should simply replace the $\sup$ in the definition \ref{chp:4:defy} by the $\inf$ of both quantities and cdf function $F$ by the survival function $S(t)=1-F(t)$. 
-For a segmentation $\TT = \{\tau_1,...,\tau_K\}$, the penalised cost is given by: 
+For a segmentation $\TT = \{\tau_1,...,\tau_K\}$ of a given signal $\bm y$, the penalised cost is given by: 
 \begin{equation}\label{chp:4:pencost}
 \CC(\bm y,\TT)=\sum_{i=0}^{K}  W(y_{\tau_i+1:\tau_{i+1}}) + KP\beta,
 \end{equation}
-where $P$ is the dimension of the parameters vector in the distribution $Q$. Gathering \ref{chp:4:costfunc} and \ref{chp:4:pencost}, this resulting estimator can be expressed as:  
+where $P$ is the dimension of the parameters vector in the distribution $Q$ and $\beta$ the penalty value. Gathering \ref{chp:4:costfunc} and \ref{chp:4:pencost}, this resulting estimator can be expressed as:  
 \begin{equation}\label{chp:4:estim}
-(\widehat{\TT},\widehat{\bm \theta}) = \arg\min_{\TT,\bm \theta} \left(- \sum_{i=0}^{\lvert \TT \rvert}  \left\{\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right\}+\beta KP\right)
+(\widehat{\TT},\widehat{\bm \theta}) = \arg\min_{\TT,\bm \theta,K} \left(- \sum_{i=0}^{\lvert \TT \rvert}  \left\{\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right\}+\beta KP\right)
 \end{equation}
+
+The hypothesis on the change-point model are the following:  
+\begin{itemize}
+\item[\textbf{H1:}] $\Theta$ is compact and there exists $\Delta_{\bm \theta}^{\star}>0$ such that $\vert \theta_{k+1}^{\star}-\theta_{k}^{\star}\vert > \Delta_{\bm \theta}^{\star}$, for all $k=0,...,K^{\star}$.
+\item[\textbf{H2:}] There exists $\Delta_{\bm \tau}^*>0$ such that $\vert \tau_{k}^{\star}-\tau_{k-1}^{\star}\vert > \Delta^*_{\bm \tau}$, for all $k=1,...,K^{\star}$.
+\item[\textbf{H3:}]  The maximum number of regimes may be written as $K_{\max} \geq \frac{n}{\Delta^*_{\bm \tau}}$. 
+\item[\textbf{H4:}] The penalty value is dependant of $n$. It can be written $\beta_{n}$ and verifies $\beta_{n}\xrightarrow[n\rightarrow \infty]{} \infty$ and $\frac{\beta_{n}}{n}\xrightarrow[n\rightarrow \infty]{} 0$.
+\end{itemize}
+
+These are classical hypothesis that one can find in \cite{Lavielle1997} or \cite{He2010}. Hypothesis \textbf{H1} mainly aims at ensuring sufficient conditions for the identifiability of the model, by imposing a minimum gap between two consecutive $\theta$'s. We have seen in Section \ref{chp:4:2} that censorship could cause some problem with the identifiability. However, the introduction of a maximum value for parameter $\theta$ solved this problem. Hypothesis \textbf{H2} checks that each regime contains sufficient data for obtaining reliable estimates for the $\theta$'s and Hypothesis \textbf{H3} states the number of regimes is bounded from above. Hypothesis \textbf{H4} is verified by a large range of penalties. The penalty value is not set in our procedure since we explore a range of values $[\beta_{min},\beta_{max}]$ with the CROPS algorithm. However, this range of values is chosen using the BIC criterion \citep{YAO1988181} which verifies assumption \textbf{H4}. In change point detection, the BIC penalty can be written as: 
+$$\beta_{BIC} = \frac{D\log(n)}{2},$$
+with $D$ the dimension of the parameters $\theta$ and $n$ the length of signal $\bm y$. The penalty range value explored in this thesis writes under the form: 
+$$[\beta_{min},\beta_{max}] = [\frac{\beta_{BIC}}{j},\beta_{BIC}\times j],$$
+with $j\in\mathbb{N}$. Hence, our penalty range is calibrated accordingly to Hypothesis \textbf{H4} because $\beta_{min}$ and $\beta_{max}$ also verifies its conditions.  
+
+An additionnal hypothesis, which is also the strongest one, implies that change-point locations are independent of the scale and frequency at which the data is sampled. This hypothesis will also allow us to derive the asymptotic behaviour of the estimate, when the sample size is sufficiently large. One should note here that a larger sample means a finer scale for sampling the data and not an extension of the period of observation. The scale of sampling being one of the main problem of the data we are working with, it is hard to verify. However, we can suppose that the change-points occuring in concentration data are linked with the farming activities and the phyto-pharmaceutical uses. Those events happen in fixed moments in times, thus invariant with the sampling rate. 
 
 Under this configuration, we know that the estimators computed \ref{chp:4:estim} have satisfying convergence properties \citep{Lavielle1997}. Elements of proof are provided in Appendix \ref{app:chap4:1}.
 
@@ -48,12 +64,12 @@ We are interested in the effects of censorship on two main aspects:
 \end{itemize} 
 Illustrating examples are provided in this section with $Q$ set as the exponential distribution.
 
-\subsection{On the parameter estimation for one segment}
+\subsection{On the parameter estimation for one segment}\label{chp:4:cens_seg}
 
 In general, an explicit formula for the maximum likelihood estimator (MLE) is not available in presence of censored data, leading to the use of numerical methods for its computation. The Newton-Raphson method was used on each segment to compute the MLE estimate of $\theta$. The cost functions need to be twice differentiable in $\theta$. We search for the zeros of the first derivate of the cost function in order to find a global minimum. 
 
-Checking that the second derivative is strictly positive in presence of censored data, thus guaranteeing the unicity of the maximum likelihood estimate, can prove to be a difficult task as it is not always the case for all distribution $Q$. 
-This implies that a careful initialization of the Newton-Raphson method to obtain convergence. Appendix \ref{app:chap4:2} also provide experiments on the initialization of the Newton-Raphson method. 
+Checking that the second derivative is strictly positive in presence of censored data, thus guaranteeing the unicity of the maximum likelihood estimate, can prove to be a difficult task as it is not always the case for all distributions $Q$. 
+This implies a careful choice in the parameter initialization value of the Newton-Raphson method to obtain convergence. Appendix \ref{app:chap4:2} also provides experiments on the initialization of the Newton-Raphson method. 
 %We provide an example of such a case in Appendix \ref{app:chap4:2} where we prove the existence of a global minimum without having the global convexity of the first derivate. 
 
 Specifically, the case where all data in the segment $y_{u:v}$ are censored is problematic. Looking at the analytical likelihood formula, we find that the $\theta$ realising the minimum of the cost function is still unique, but tends toward infinity. In this case the cost tends to zero. We illustrate in Figure \ref{fig:onlycens} with $Q$ set as an exponential distribution. 
@@ -75,14 +91,14 @@ We show in the next part why it could be problematic to have fully censored segm
 
 \subsection{On the detection point method}
 
-The case of fully censored segment are questionning the identifiability of the change-point detection method. The usual assumption \citep{Lavielle1997} for the segment parameters is the following:   
+The case of fully censored segments are questionning the identifiability of the change-point detection method. The usual assumption \citep{Lavielle1997} for the segment parameters is the following:   
 \begin{itemize}
 \item[\textbf{H1:}] $\Theta$ is compact and there exists $\Delta_{\bm \theta}^{\star}>0$ such that $\vert \theta_{k+1}^{\star}-\theta_{k}^{\star}\vert > \Delta_{\bm \theta}^{\star}$, for all $k=0,...,K^{\star}$. 
 \end{itemize}
 
-We have seen in \ref{chp:4:costex} that, for the exponential distribution example, the optimal $\theta$ tends to infinity. If that is the case $\Theta$ is not compact. To solve this problem, we impose an upper bound $\theta_{max}$ on the possible values of $\theta$. Thus, we have that $\theta \in [0,\theta_{max}]$ which is a compact part of $\mathbbm{R}$. 
+We have seen in Section \ref{chp:4:cens_seg} that, for the exponential distribution example, the optimal $\theta$ tends to infinity. If that is the case $\Theta$ is not compact. To solve this problem, we impose an upper bound $\theta_{max}$ on the possible values of $\theta$. Thus, we have that $\theta \in [0,\theta_{max}]$ which is a compact part of $\mathbbm{R}$. 
 
-A new problem arises from this modeling choice. The value of $\theta_{max}$ must be chosen carefully. We must ensure that $\theta_{max}> \theta^*_k,$ for all $k \in \{0,\dots,K^*\}$. If it is not the case, the identification problem remains. For two $\theta^*_i$ and $\theta^*_j$    greater than $\theta_{max}$, their estimates will be set to $\theta_{max}$ and thus no segment identification will be possible. In order to avoid such problems, the value of $\theta_{max}$ is set according to the worst censoring case scenario possible. More precisely, we assume no change-point occured in $\bm y$ and that all observations are distributed according to $Q$ with parameter $\theta_{max}$. We set $\theta_{max}$ to the value such that: 
+A new problem arises from this modeling choice. The value of $\theta_{max}$ must be chosen carefully. We must ensure that $\theta_{max}> \theta^*_k,$ for all $k \in \{0,\dots,K^*\}$. If it is not the case, the identifiability problem remains. For two $\theta^*_i$ and $\theta^*_j$    greater than $\theta_{max}$, their estimates will be set to $\theta_{max}$ and thus no segment identifiability will be possible. In order to avoid such problems, the value of $\theta_{max}$ is set according to the worst censoring case scenario possible. More precisely, we assume no change-point occured in $\bm y$ and that all observations are distributed according to $Q$ with parameter $\theta_{max}$. We set $\theta_{max}$ to the value such that: 
 $$F(\min(\bm y),\theta_{max})^n = \alpha,$$
 with $\alpha$ being a desired percentage of censorship. 
 
@@ -91,11 +107,11 @@ We provide a practical example with the exponential distribution. We simulate a 
 \begin{figure}[ht]
     \centering
     \includegraphics{figs/Chap4/theta_max_ex.pdf}
-    \caption{Example of simulated signal $\bm y$ distributed according exponential distributions. The two segments are drawned with black rectangles. $\theta^*_0 = 1$ in the left segment, $\theta^*_1 = 4$ in the right one and the censoring threshold $a = 0.28$ in both segments}
+    \caption{Example of simulated signal $\bm y$ distributed according exponential distributions. The two segments are drawn with black rectangles. $\theta^*_0 = 1$ in the left segment, $\theta^*_1 = 4$ in the right one and the censoring threshold $a = 0.28$ in both segments}
     \label{fig:theta_max}
 \end{figure}
 
-Censoring in the data creates identification problems that we chose to deal by adding a new regularisation parameter $\theta_{max}$. Note that other ways to tackle this problem are possible. The modification of the pruning rule \ref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
+Censoring in the data creates identifiability problems that we chose to deal by adding a new regularisation parameter $\theta_{max}$. Note that other ways to tackle this problem are possible. The modification of the pruning rule \ref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
 
 \section{Multi-dimensional parameter estimation}\label{chp:4:3}
 
@@ -217,7 +233,7 @@ The results of the simulations are shown in Table \ref{tab:simcomp} and in Figur
 
 \section{Chapter summary}
 
-This Chapter designs and tests an adapted method for change-point detection for concentration data. The censorship is dealt with the cost function choice in Section \ref{chp:4:2}. More precisely, using a parametric approach as presented in Chapter \ref{chp:3}, the likelihood is adapted to distinguish cases were a measure is censored or not. The censorship becomes critical for computing the maximum likelihood estimate of a segment when all observations are censored. This could cause issues in the identification of segments parameters which would compromise the detection method capacity. However, one way to circumvent this problem is to indroduce a new regularization parameter in the detection that is a maximum value for the parameter value. The estimation strategy is also discussed in this Section \ref{chp:4:3}. An esitmation scheme where some parameters dimension are fixed in time and other can vary accross segments is devised. In practice, this modeling choice can be justified if some parameters values are supposed to control the intrinsic diffusion properties of a chemical substance in the environment. Then, these parameters should be invariant in time. The parameters changing at each segment could represent the different use intensity of the substance in time for example. Experiments of Section \ref{chp:4:4} ensures that, if enough data is availbale to evaluate a segment, the parametric method fares decently and can outclass a suited non parametric method for censored data. 
+This Chapter designs and tests an adapted change-point detection method for concentration data. The censorship is handled by the cost function choice in Section \ref{chp:4:2}. More precisely, using a parametric approach as presented in Chapter \ref{chp:3}, the likelihood is adapted to distinguish cases were a measure is censored or not. The censorship becomes critical for computing the maximum likelihood estimate of a segment when all observations are censored. This could cause issues in the identifiability of segments parameters which would compromise the detection method capacity. However, one way to circumvent this problem is to indroduce a new regularization parameter in the detection that is a maximum value for the parameter value. The estimation strategy is also discussed in this Section \ref{chp:4:3}. An estimation scheme where some parameters dimension are fixed in time and other can vary accross segments is devised. In practice, this modeling choice can be justified if some parameters values are supposed to control the intrinsic diffusion properties of a chemical substance in the environment. Then, these parameters should be invariant in time. The parameters changing at each segment could represent different intensities in the substance's use in time for example. Experiments of Section \ref{chp:4:4} ensure that, if enough data is availbale to evaluate a segment, the parametric method performs decently and can outclass a suited non parametric method for censored data. 
 
 Chapter \ref{chp:5} combines the results of temporal change-point detection using the parametric method developped in this Chapter with statistical methods to deal with the spatial heterogeneity. The obtention of homogenous temporal subsignal in the concentrations values provides the temporal context in which the spatial analysis is conducted. In particuliar, in this homogenous temporal setting, it is interesting to look for geographical areas that had concentration values that differ from others. Constructing these areas and comparing them is the main topic of Chapter \ref{chp:5}. Chapter \ref{chp:6} is the presentation of the results of Chapter \ref{chp:5} and \ref{chp:4} applied to the concentration data of substance. The results of all methods are all gathered using an interactive presentation tool.     
 

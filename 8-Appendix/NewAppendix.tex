@@ -5,21 +5,21 @@ This section discusses if the chosen estimators presented in Chapter \ref{chp:4:
 
 \section{Elements of proof of convergence of the parametric change-point detection model}\label{app:chap4:1}
 
-The hypothesis on the change-point model are the following:  
-\begin{itemize}
-\item[\textbf{H1:}] $\Theta$ is compact and there exists $\Delta_{\bm \theta}^{\star}>0$ such that $\vert \theta_{k+1}^{\star}-\theta_{k}^{\star}\vert > \Delta_{\bm \theta}^{\star}$, for all $k=0,...,K^{\star}$.
-\item[\textbf{H2:}] There exists $\Delta_{\bm \tau}^*>0$ such that $\vert \tau_{k}^{\star}-\tau_{k-1}^{\star}\vert > \Delta^*_{\bm \tau}$, for all $k=1,...,K^{\star}$.
-\item[\textbf{H3:}]  The maximum number of regimes may be written as $K_{\max} \geq \frac{n}{\Delta^*_{\bm \tau}}$. 
-\item[\textbf{H4:}] The penalty value is dependant of $n$. It can be written $\beta_{n}$ and verifies $\beta_{n}\xrightarrow[n\rightarrow \infty]{} \infty$ and $\frac{\beta_{n}}{n}\xrightarrow[n\rightarrow \infty]{} 0$.
-\end{itemize}
+%The hypothesis on the change-point model are the following:  
+%\begin{itemize}
+%\item[\textbf{H1:}] $\Theta$ is compact and there exists $\Delta_{\bm \theta}^{\star}>0$ such that $\vert \theta_{k+1}^{\star}-\theta_{k}^{\star}\vert > \Delta_{\bm \theta}^{\star}$, for all $k=0,...,K^{\star}$.
+%\item[\textbf{H2:}] There exists $\Delta_{\bm \tau}^*>0$ such that $\vert \tau_{k}^{\star}-\tau_{k-1}^{\star}\vert > \Delta^*_{\bm \tau}$, for all $k=1,...,K^{\star}$.
+%\item[\textbf{H3:}]  The maximum number of regimes may be written as $K_{\max} \geq \frac{n}{\Delta^*_{\bm \tau}}$. 
+%\item[\textbf{H4:}] The penalty value is dependant of $n$. It can be written $\beta_{n}$ and verifies $\beta_{n}\xrightarrow[n\rightarrow \infty]{} \infty$ and $\frac{\beta_{n}}{n}\xrightarrow[n\rightarrow \infty]{} 0$.
+%\end{itemize}
 
-These are classical hypothesis that one can find in \cite{Lavielle1997} or \cite{He2010}. Hypothesis \textbf{H1} mainly aims at ensuring sufficient conditions for the identifiability of the model, by imposing a minimum gap between two consecutive $\theta$'s. We have seen in Section \ref{chp:4:2} that censorship could cause some problem with the identifiability. However, the introduction of a maximum value for parameter $\theta$ solved this problem. Hypothesis \textbf{H2} checks that each regime contains sufficient data for obtaining reliable estimates for the $\theta$'s and Hypothesis \textbf{H3} states the number of regimes is bounded from above. Hypothesis \textbf{H4} is verified by a large range of penalties. The penalty value is not set in our procedure since we explore a range of values $[\beta_{min},\beta_{max}]$ with the CROPS algorithm. However, this range of values is chosen using the BIC criterion \citep{YAO1988181} which verifies assumption \textbf{H4}. In change point detection, the BIC penalty can be written as: 
-$$\beta_{BIC} = \frac{D\log(n)}{2},$$
-with $D$ the dimension of the parameters $\theta$ and $n$ the length of signal $\bm y$. The penalty range value explored in this thesis writes under the form: 
-$$[\beta_{min},\beta_{max}] = [\frac{\beta_{BIC}}{j},\beta_{BIC}\times j],$$
-with $j\in\mathbb{N}$. Hence, our penalty range is calibrated accordingly to Hypothesis \textbf{H4} because $\beta_{min}$ and $\beta_{max}$ also verifies its conditions.  
+%These are classical hypothesis that one can find in \cite{Lavielle1997} or \cite{He2010}. Hypothesis \textbf{H1} mainly aims at ensuring sufficient conditions for the identifiability of the model, by imposing a minimum gap between two consecutive $\theta$'s. We have seen in Section \ref{chp:4:2} that censorship could cause some problem with the identifiability. However, the introduction of a maximum value for parameter $\theta$ solved this problem. Hypothesis \textbf{H2} checks that each regime contains sufficient data for obtaining reliable estimates for the $\theta$'s and Hypothesis \textbf{H3} states the number of regimes is bounded from above. Hypothesis \textbf{H4} is verified by a large range of penalties. The penalty value is not set in our procedure since we explore a range of values $[\beta_{min},\beta_{max}]$ with the CROPS algorithm. However, this range of values is chosen using the BIC criterion \citep{YAO1988181} which verifies assumption \textbf{H4}. In change point detection, the BIC penalty can be written as: 
+%$$\beta_{BIC} = \frac{D\log(n)}{2},$$
+%with $D$ the dimension of the parameters $\theta$ and $n$ the length of signal $\bm y$. The penalty range value explored in this thesis writes under the form: 
+%$$[\beta_{min},\beta_{max}] = [\frac{\beta_{BIC}}{j},\beta_{BIC}\times j],$$
+%with $j\in\mathbb{N}$. Hence, our penalty range is calibrated accordingly to Hypothesis \textbf{H4} because $\beta_{min}$ and $\beta_{max}$ also verifies its conditions.  
 
-An additionnal hypothesis, which is also the strongest one, implies that change-point locations are independent of the scale and frequency at which the data is sampled. This hypothesis will also allow us to derive the asymptotic behaviour of the estimate, when the sample size is sufficiently large. One should note here that a larger sample means a finer scale for sampling the data and not an extension of the period of observation. The scale of sampling being one of the main problem of the data we are working with, it is hard to verify. However, we can suppose that the change-points occuring in concentration data are linked with the farming activities and the phyto-pharmaceutical uses. Those events happen in fixed moments in times, thus invariant with the sampling rate. 
+%An additionnal hypothesis, which is also the strongest one, implies that change-point locations are independent of the scale and frequency at which the data is sampled. This hypothesis will also allow us to derive the asymptotic behaviour of the estimate, when the sample size is sufficiently large. One should note here that a larger sample means a finer scale for sampling the data and not an extension of the period of observation. The scale of sampling being one of the main problem of the data we are working with, it is hard to verify. However, we can suppose that the change-points occuring in concentration data are linked with the farming activities and the phyto-pharmaceutical uses. Those events happen in fixed moments in times, thus invariant with the sampling rate. 
 
 
 The proof of convergence of \ref{chp:4:estim} is based our demonstration entirely on the approach developped in \cite{Lavielle1997}. The most critical element in the proof is the condition C0(h) of \cite{Lavielle1997}. We introduce another condition. But first let's denote $\eta_i = \ln f(Y_i,\theta_{k})-\mathbbm{E}[\ln f(Y_i,\theta_{k})]$ for $i$ belonging to the $k$-th segment and associated to the parameters $\theta_{k}$. We have the following proposition: 
@@ -304,7 +304,7 @@ In order to choose the clusterings that are imported in to the application, we u
   \centering
   \includegraphics[]{figs/App/NB_CLUST.pdf}
   \caption{Clustering candidates selected in the application.}
-  \label{fig:elb:clust}
+  \label{fig:elb:clust2}
 \end{figure}
 
 Instead of fitting a bipartite model, we fitted the best piece-wise linear model composed of three regression models as drawned in Figure \ref{fig:elb:clust}. All the clustering that had their log-inertia located on the middle regression line were selected. They are coloredin blue in Figure \ref{fig:elb:clust}.    
