@@ -1,71 +1,34 @@
 \chapter{Introduction}\label{chp:1}
 
-%This thesis is part of a series of works that investigate the pollution levels in different environmental fields. The aim is to help experts to summarise information from field measurements, to analyse these measurements and to warn of potential hazards. Monitoring the environmental pollution is of great interest for public authorities, important adverse health-effects being well documented nowadays \citep{khopkar2007,Marchant2018,NOUGADERE201432}. National health agencies are thus very concerned about monitoring ambient levels and quantifying the concentration of various pollutants in given environmental areas. 
+This thesis is the main result of a research and development agreement between the French Agency for Food, Environmental and Occupational Health and Safety (ANSES\footnote{Agence nationale de sécurité sanitaire de l'alimentation, de l'environnement et du travail}) and the laboratory SAMM\footnote{Statistique, Analyse et Modélisation Multidisciplinaire} of the University Paris 1 Panthéon-Sorbonne. One of the main tasks of ANSES is to monitor environmental data and provide tools which ensure the protection of the public and the environment.
 
-%This thesis is the main result of a research and development agreement financed by the French Agency for Food, Environmental and Occupational Health and Safety. One of the agency's mission is to observe environmental data and provide tools to ensure public and environmental protection. An example of such tool would be a monitoring system that is designed to detect patterns such as variations, trends or changes in important parameters \citep{Manly2008}. More precisely, the parameters of interest in this thesis are concentration levels of pesticides.
+In particular, national health authorities are very interested in monitoring and quantifying the concentration of various pollutants in specific environmental areas, as nowadays significant adverse health effects are well documented (\cite{khopkar2007,Marchant2018,NOUGADERE201432} for example). 
 
-%Hence, all discussions and works were conducted in close collaboration with the experts of the Phytopharmacovigilance Unit (UPPV). This unit collects and studies data of phytopharmaceutical products concentrations. Such data is collected by measuring stations that are positionned all over the territory. More precisely, this thesis focuses on the concentrations measures of a commonly used substance in France: the prosulfocarb. It is a herbicide used to protect wheat and barley from weeds. However, its presence in waters can be toxic for the aquatic fauna.       
+Within the Agency, the Phytopharmacovigilance Unit (UPPV) is entrusted with this task. This unit collects and monitors the concentrations of phytopharmaceuticals products. Therefore, all discussions and work were carried out in close cooperation with the experts of this unit. These data are collected in measuring stations distributed over the entire French territory. Indeed, the monitoring of pollutants in the environment involves the use of sensors at different sites that take samples at different times. Therefore, the data collected is spatio-temporal information. 
 
-%Monitoring the levels of such substance is very complex due to the way its concentrations are measured. Indeed, monitoring pollutant in the environment implies to use sensors at different locations that collect samples in different moments in time. Hence, the collected data is spatio-temporal information. Modelling such data is a complex issue, due to several reasons, some intrinsic to the characteristics of the collected data, some specific to the data collection process implemented in different countries. 
+%Therefore, all discussions and work were carried out in close cooperation with the experts of the Unit for Phytopharmacovigilance (UPPV). 
+%Specifically, this thesis is concerned with concentration measurements in surface waters of a substance commonly used in France: Prosulfocarb. It is a herbicide used to protect wheat and barley from weeds. However, its presence in water bodies can be toxic to aquatic fauna. 
 
-%Let us see some of these characteristics:
-%\begin{itemize}
-%\item Pollutant concentration levels are measured by sensors which have generally detection and quantification limits: the corresponding data are then left-censored.
-%\item The data is usually skewed to the right, with long tails hinting high concentrations.
-%\item In numerous situations the data is irregularly sampled because of measurement practices.
-%\item The data is often multivariate, since various pollutant levels are monitored. 
-%\item Pollution is monitored in various locations, each location possibly using different sensors, yielding a significant spatial heterogeneity.
-%\end{itemize} 
-
-%This thesis proposes a new approach to monitore concentrations of substances that present these characteristics. This demands a procedure that articulates different models and methods. The general principle is to find time periods and spatial areas where the information are the most homogeneous possible using the most coherent datasets possible. Once these moments and zones are identified, we aim at detecting the most anomalous zones in these time periods.  
-
-%More precisely, we devise a change-point detection method that we use for modelling temporal heterogeneity, by assuming a piece-wise stationary distribution on series of concentration values, for a given time resolution. Clustering is then used for modelling the expected spatial homogeneity while integrating geographical constraints such as river networks, wind directions, etc. Conditionally to the temporal segment detected by the change-point procedure, and to the spatial cluster detected by the clustering procedure, one may analyse the data and identify contextual anomalies. The identification of anomalies is made with multiple-criteria decision analysis. 
-
-%The work developped in this thesis led to several contributions such as two presentations in scientific conferences \footnote{Journées de Statistiques de la Société Française de Statistiques: \url{https://jds2021.sciencesconf.org/}}\footnote{International Conference on Operation Research: \url{https://rev-inv-ope.pantheonsorbonne.fr/2022-icor-conference}}, three presentations at the ANSES experts work groups and the one publication \citep{Laroche2022}. Furthermore, all the methods presented here were coded and stored in \texttt{Rcpp} scripts, the whole process to obtain monitoring results was centralized in a \texttt{R} script and a monitoring tool based on interactive programmation was implemented with a  \texttt{Rshiny} application.    
-
-%The manuscrit is organized as follows: 
-%\begin{itemize}
-%\item{\textbf{Chapter \ref{chp:2}}} is an introduction to the French national agency in charge of monitoring pollution data. A short description of the agency and its missions are given with an extensive description of the data available. Several datasets from different sources of information are useful to the analysis of environmental pollution. The last section presents a first example based on vizualisation techniques that allows to extract information from these data sets.        
-%\item{\textbf{Chapter \ref{chp:3}}} makes an inventory of change-point detection methods. Since extensive reviews on change-point detection methods already exist, we only focus on some specific elements that could be useful when applying such methods on environmental data. We cover the case where the number of changes in a signal is unknown. We provide search methods (or heuristics) that give an optimal solution to that problem. The last section discusses applications of change-point methods in environmental data that were previously published in the litterature. 
-%\item{\textbf{Chapter \ref{chp:4}}} builds a specific parametric change-point detection method. We are looking for an adapted method for the problems we are facing. More precisely, we study the effect of censorship on change-point detection in a signal. Then, we discuss different optimization strategies when estimating the parameters of our model. We derive an iterative procedure to estimate both piece-wise constant parameters and stationnary parameters over time. Simulation experiments are led to compare it with a non parametric method that is also adapted to censored data.        
-%\item{\textbf{Chapter \ref{chp:5}}} provides the case study of prosulfocarb concentrations in the Centre-Val de Loire french region. Both temporal and spatial analysis are made on this dataset. It uses the results of the change-point detection method developped in Chapter \ref{chp:4} on the temporal dimension. The spatial heterogeneity is handled using classical clustering methods. we manage to extract some useful information on the resulting geographical areas and time periods  with the final anomaly detection step. 
-%\item{\textbf{Chapter \ref{chp:6}}} describes the elaboration of an interactive application implemented in \texttt{Rshiny} that displays the results of the procedure of Chapter \ref{chp:5}. This application is illustrated with the prosulfocarb dataset. Since the results of Chapter \ref{chp:5} are presented in a static way (e.g. using Figures), we can only present the results for a single detected time segment. The application allows to store the results for all time segments detected and to explore them in an interactive manner. This application serves an operationnal purpose. It is specifically designed for the experts working in that area of expertise  
-%\end{itemize}
-
-
-This thesis is the main result of a research and development agreement financed by the French Agency for Food, Environmental and Occupational Health and Safety (ANSES\footnote{Agence nationale de sécurité sanitaire de l’alimentation, de l’environnement et du travail}). One of the main mission of  ANSES is to observe environmental data and to provide tools to ensure public and environmental protection.
-
-In particular, the national health agencies are very concerned about monitoring and quantifying the concentration of various pollutants in given environmental areas, since important adverse health-effects are well documented nowadays (\cite{khopkar2007,Marchant2018,NOUGADERE201432} for example). Our work aims to define news algorithms and statistical methods to control the environmental pollution, which  is of great interest for public authorities. 
-
-The goal is to help experts to summarise and analyse information from field measurements, to analyse these measurements, to detect potential anomalies and to issue   alerts  if  it  is  necessary.
-
-An example of such a tool could be for example a monitoring system that is designed to detect patterns such as variations, trends or changes in relevant series of environmental measures over time and space \citep{Manly2008}.
-
-More precisely, this thesis focuses on the concentrations measures of a commonly used substance in France: the prosulfocarb. It is a herbicide used to protect wheat and barley from weeds. However, its presence in waters can be toxic for the aquatic fauna.  
-
-Hence, all discussions and works were conducted in close collaboration with the experts of the Phytopharmacovigilance Unit (UPPV). This unit gathers and studies data of phytopharmaceutical products concentrations. Such data is collected in measuring stations that are positioned all over the French territory. 
-
-Indeed, monitoring pollutant in the environment involves using sensors at different locations that collect samples at different points in time. Hence, the collected data collected is spatio-temporal information. 
-
-Modelling such data is a complex issue, due to several reasons, some intrinsic to the characteristics of the collected data, some specific to the data collection process implemented in the different countries.
-
-Let us see some of these characteristics:
+Modelling such data is a complex issue. There are several reasons for this, some of which are related to the characteristics of the data collected, and some of which are related to the data collection procedure used in different countries.
+Let us look at some of these features:
 \begin{itemize}
-\item Pollutant concentration levels are measured by sensors which have generally detection and quantification limits: the corresponding data are then left-censored.
-\item The data is usually skewed to the right, with long tails hinting suggesting high concentrations.
-\item In many situations data is irregularly sampled due to measurement practices (measurements require human interventions).
-\item Pollution is monitored at various locations, with each location possibly using different sensors, resulting in significant spatial heterogeneity.
+\item Pollutant concentrations are measured by sensors, which usually have detection and quantification limits: The corresponding data are then left-censored.
+\item The data distribution is usually skewed to the right, with long tails indicating the occurence of high concentrations.
+\item In many situations, data are collected irregularly due to measurement practises (measurements require human intervention).
+\item Pollution is monitored at different locations, and different sensors may be used at each location, resulting in significant spatial heterogeneity.
 \end{itemize}
 
-This thesis proposes a new approach to deal with time series that present these characteristics. It requires a procedure that combines different models and methods. The basic principle is to find time periods and spatial areas where the information are the most homogeneous possible, using the most coherent datasets possible. Once these moments and these zones have been identified, we seek to detect the most anomalous zones in these periods of time. 
+All the information measured results in a considerable amount of data. Efforts have been made at national level to build public databases storing all this information is stored. UPPV now aims to make better use of these databases by defining new algorithms and statistical methods to achieve better pollution monitoring. The aim is to help experts to summarise and analyse information from field measurements, to evaluate these measurements, to detect possible anomalies and to issue warnings if necessary. An example of such a tool could be, for example, a monitoring system designed to detect patterns such as fluctuations, trends or changes in relevant series of environmental measurements over time and space \citep{Manly2008}.
 
-More precisely, let us summarize the procedure we define, which is the main contribution of our work. 
+This thesis proposes a new approach for dealing with time series that exhibit these characteristics. It requires a procedure that combines different models and methods. The basic principle is to find time periods and spatial zones where the information is as homogeneous as possible, using data sets that are as coherent as possible. Once these moments and these zones are identified, we try to identify the most anomalous zones in these time periods. 
 
-First we define a change-point detection method to model the temporal heterogeneity, by assuming a piece-wise stationary distribution of the series of concentration values, for a given time resolution. 
+%Let us summarise in more detail the procedure we are defining, which is the main contribution of our work.
 
-Clustering is then used for modelling the expected spatial homogeneity while integrating geographical constraints such as river networks, wind directions, etc. 
+%First, we define a change-point detection method to model the temporal heterogeneity by assuming, for a given temporal resolution, a piecewise stationary distribution of the series of concentration values. 
 
-Finally conditionally to the temporal segment detected by the change-point procedure, and to the spatial cluster built by the clustering procedure, we can analyse the data and identify contextual anomalies. Then the identification of anomalies is made with using multiple-criteria decision analysis.
+%Clustering is then used to model expected spatial homogeneity, taking into account geographical constraints such as river networks, wind directions, etc. 
+
+%Depending on the temporal segment detected by the change-point procedure and the spatial cluster formed by the clustering procedure, we can finally analyse the data and identify contextual anomalies. Anomalies are then identified using multi-criteria decision analysis.
 
 The manuscrit is organized as follows:
 \begin{itemize}
@@ -79,12 +42,11 @@ The spatial heterogeneity is handled using classical clustering methods. We mana
 
 {\Large\textbf{Contributions}}
 \begin{itemize}
-\item \textbf{Articles:} \\ 
+\item \textbf{Article:} \\ 
 \bibentry{Laroche2022} \\
+\item \textbf{Conferences:} \\
 \bibentry{JdS} \\
 \bibentry{ICOR}
-\item \textbf{Script:} \\
-Monitoring procedure with prosulfocarb dataset: \url{https://github.com/Clement-Laroche/special-issue}
 \item \texttt{Rshiny} \textbf{application:} \\
 \url{https://github.com/Clement-Laroche/Application_ANSES}
 \end{itemize}
