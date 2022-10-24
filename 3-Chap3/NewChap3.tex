@@ -5,13 +5,19 @@
 \clearpage
 
 %Although the recommendations for the use of the substances are formulated in the marketing authorization issued by ANSES \citep{ephy}, their practical use is not subject to control by the Agency. Cultivation practises depend on meteorological conditions and professional habits. This partly explains the spatio-temporal heterogeneity presented in Section \ref{chp:2:3}. Our aim is to find homogeneous time periods and geographical areas and to perform a statistical comparison of these regions in these stable periods to support the expert analysis. 
+%In this chapter we focus on the identification of stable temporal patterns using segmentation methods. This mathematical area is covered by several surveys \citep{truong2020,basseville1993detection,bardet2020}. More specifically, we have focused on certain types of methods that seem suitable for the application domain of phytopharmacovigilance, namely change point detection methods. Moreover, this work will focus only on the offline methods that we will develop in the following sections. This choice was motivated by the speed of data collection and storage of data on pesticide concentrations. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \citep{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
+%This chapter is structured as follows: Section \ref{chp:3:1} presents a classical modelling of change-point detection and explores the different ways to evaluate temporal sub-signals; Section \ref{chp:3:2} provides methods to estimate the number of change-points in a signal and their position; Section \ref{chp:3:3} gives an efficient way to obtain different results of segmentations; Section \ref{chp:3:4} searches for application of change- point detection methods to data that have the same characteristics as in Section \ref{chp:2:3}.
 
-In this chapter we focus on the identification of stable temporal patterns using segmentation methods. This mathematical area is covered by several surveys \citep{truong2020,basseville1993detection,bardet2020}. More specifically, we have focused on certain types of methods that seem suitable for the application domain of phytopharmacovigilance, namely change point detection methods. Moreover, this work will focus only on the offline methods that we will develop in the following sections. This choice was motivated by the speed of data collection and storage of data on pesticide concentrations. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \citep{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
-This chapter is structured as follows: Section \ref{chp:3:1} presents a classical modelling of change-point detection and explores the different ways to evaluate temporal sub-signals; Section \ref{chp:3:2} provides methods to estimate the number of change-points in a signal and their position; Section \ref{chp:3:3} gives an efficient way to obtain different results of segmentations; Section \ref{chp:3:4} searches for application of change- point detection methods to data that have the same characteristics as in Section \ref{chp:2:3}.
+First, we want to detect homogeneous temporal periods in a monitored substance use. This task can be viewed as a change point detection problem, where the change points delineate homogeneous time intervals. In this chapter, we propose to go over some available methods to solve this problem.  
+
+We have chosen to limit this chapter to offline methods, i.e. methods that search for changes in known features of fully acquired signals. choice is the speed of data collection and storage of pesticide concentrations, as they are not collected in real time. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \citep{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
+
+Our work draws on the following research \citep{truong2020,basseville1993detection,bardet2020}. This chapter is structured as follows: Section \ref{chp:3:1} presents a classical modelling of change point detection and explores the different ways to evaluate temporal sub-signals; Section \ref{chp:3:2} provides methods for estimating the number of change points in a signal and their position; Section \ref{chp:3:3} shows an efficient way to obtain different segmentation results; Section \ref{chp:3:4} looks at applying change point detection methods to data that have the same characteristics as in Section \ref{chp:2:3}.
 
 \section{Model and cost functions}\label{chp:3:1}
 
-We describe the most general configuration of a change-point model appropriate for concentration data. We consider a signal consisting of observations $\bm y = (y_1,...,y_n)$, which are the realisations of random variables $Y_1,...,Y_n$. The variables $Y_i$ are recorded sequentially, and the recording times are not necessarily equidistant. Thus, the indices in $Y_i$ are only indicators of the order of occurrence in the sample and not of the observation times. Some properties (trend, mean, variance, etc...) of the signal $\bm y$ are supposed to change at the $K^*$ times points $\tau^*_1 <... < \tau^*_k <... < \tau^*_{K^*}$. We use the following convention, let $\tau^*_0 = 0$ and $\tau^*_{K^*+1} = n$. The purpose of breakpoint detection is to estimate the positions $\tau^*_k$ and the number of breaks $K^*$ when they are unknown. The goal is to identify the data segments in which these properties are stable. We denote $y_{u:v}$ as a segment of the signal from the u-th coordinate to the v-th. \\
+We describe the most general framework for a change-point model. We consider a signal consisting of observations $\bm y = (y_1,...,y_n)$, which are the realisations of random variables $Y_1,...,Y_n$. The variables $Y_i$ are recorded sequentially, and the recording times are not necessarily equidistant. Thus, the indices in $Y_i$ are only indicators of the order of occurrence in the sample and not of the observation times. \\
+Some properties (trend, mean, variance, etc...) of the signal $\bm y$ are supposed to change at the $K^*$ index $\tau^*_1 <... < \tau^*_k <... < \tau^*_{K^*}$. We use the following convention, let $\tau^*_0 = 0$ and $\tau^*_{K^*+1} = n$. The purpose of breakpoint detection is to estimate the positions $\tau^*_k$ and the number of breaks $K^*$ when they are unknown. We denote $y_{u:v}$ as a segment of the signal from the u-th coordinate to the v-th. The goal is to identify the data segments in which these properties are stable. \\
 According to the nomenclature proposed by \cite{truong2020}, change point detection methods operate on a cost function $W$. This function associates a cost to the segment it is evaluated on. Intuitively, the more properties (on which changes are investigated) of the segment $y_{u:v}$ are homogeneous, the lower the cost $W(y_{u:v})$ is. We define, for any $y_{u:v}$, $\TT = \{\tau_1,\dots,\tau_K\} \subset \{u,\dots,v\}$ a set of ordered indices and $\lvert \TT \rvert$ its cardinal. Implicitly, we define $\tau_0 = u$ and $\tau_{K+1} = v$. Although this notation is often used for the full signal $\bm y$, we will always indicate the data segment from which $\TT$ is drawn in the parameters of the functions using the notation $\TT$. The total cost $\CC(\bm y,\TT)$ associated with a segmentation defined by $\TT$ is given as the sum of the costs of all segments:
 
 \begin{equation}\label{chp:3:costfunc}
@@ -39,7 +45,7 @@ In the parametric case, the detection depends heavily on what we are looking for
 
 A first classical cost function is based on the maximum likelihood estimation. In this setting, the observations located in the $k$-th segment are supposed to be following a distribution $Q$ depending on a vector of parameters $\theta^*_k$ with $\theta_k \in \Theta$ being a compact subset of $\mathbb{R}^p$. More formally, we have that:
 $$y_t \sim \sum_{k=0}^{K^*}f(.;\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},$$
-with $f$ being the density function of distribution $Q$. In other words, we suppose that all observations emanate from the same distribution $Q$ but the values of $\theta^*_k$ change abruptly at each change-point $\tau^*_k$. The cost function used to evaluate segments in this context is the negative log-likelihood. Hence, for a segment $y_{u:v}$ with $u < v$, we can write:  
+with $f$ being the density function of distribution $Q$. In other words, we suppose that all observations are sampled from the same distribution $Q$ but the values of $\theta^*_k$ change abruptly at each change-point $\tau^*_k$. The cost function used to evaluate segments in this context is the negative log-likelihood. Hence, for a segment $y_{u:v}$ with $u < v$, we can write:  
 $$W(y_{u:v}) = -\sup_{\bm \theta \in \Theta} \sum_{i = u}^{v} \ln f(y_i; \bm \theta)$$
 This method would prove useful in the example presented in the right side of Figure \ref{fig:ex_cp}. Applying the maximum likelihood estimator on the mean of Gaussian distribution would provide satisfying results. Other distributions than the Gaussian were investigated since it is not always well suited for data (especially concentrations data),  
 
@@ -73,37 +79,36 @@ The non parametric test statistic was extended to multiple changepoint detection
   W(y_{u:v}) = -(v-u)\hat{\Sigma}^{-1}_n\overline{R}^2_{u:v},
 \end{equation}
 where $\overline{R}_{u:v} = \frac{1}{v-u}\sum_{i = u}^vR_i$ is the average rank of $y_{u:v}$.
-This methods allows the identification of segments where the ranks of the obsevations are homogenous. It would be very efficient in the case of mean change detection as presented in the right panel of Figure \ref{fig:ex_cp}.  
+This methods allows the identification of segments where the ranks of the observations are homogenous. It would be very efficient in the case of mean change detection as presented in the right panel of Figure \ref{fig:ex_cp}.  
 
 It is also possible to derive change detection in trend using non parametric inference. The experiments of \cite{Haynes2016} show that a non-parametric likehood method finds similar results to a piece-wise regression change-point model. The Mann-Kendall test statistic \citep{Pohlert2020,1994a} seems to be also a good candidate cost function to derive a detection method for changes in trend.  
 
-\section{Estimating an unknown number of change points}\label{chp:3:2}
+%\section{Estimating an unknown number of change points}\label{chp:3:2}
 
-Various search methods for finding breakpoints have been described in the litterature. They can be distinguished according to whether they provide an optimal solution to the problem of the research of change points or an answer in the form of an approximation. Approximation methods are not discussed, but there are plenty of them, such as sliding window methods \citep{Li2010,Liu2022}, bottom-up segmentation \citep{chen1998speaker}, and binary segmentation \citep{Yang2001,Fryzlewicz2014}. We choose to focus on optimal methods. This choice is motivated by the size of the datasets we apply change-point detection on. The number of samples is still in a reasonnable range to obtain satisfying computationnal times.  
 
-Since the pesticides are supposed to be spread at regular times during the years, we could expect a seasonnal behaviour of their concentrations and thus have a clue on the number of changes before-hand. However, the spatio-temporal heterogeneity discussed in Section \ref{chp:2:3} prevents us to be certain of this assumption. This section discusses the case where the number of change points $K^*$ is unknown. We present different ways to estimate the number of breaks and their positions.  
+%
 
-\subsection{Using the Optimal partition method}
+\section{Using the Optimal partition method with given $K$}
 
-\subsubsection{Optimal partition method description}
+Various search methods for finding change points have been described in the literature. They can be distinguished according to whether they provide an optimal solution to the problem of the search of change points or an answer in the form of an approximation. Approximation methods are not discussed, but there are plenty of them, such as sliding window methods \citep{Li2010,Liu2022}, bottom-up segmentation \citep{chen1998speaker}, and binary segmentation \citep{Yang2001,Fryzlewicz2014}. We choose to focus on optimal methods. This choice is motivated by the size of the datasets we apply change-point detection on. The number of samples is still in a reasonnable range to obtain satisfying computationnal times.  
 
-The optimal segmentation algorithm brings an answer to problem defined in Equation \ref{chp:3:optKknown}. It is a "brute-force" search method. It necessits to compute the cost of all possible segments $y_{u:v}$ with $u<v$.  With a fixed $K$ number of change-points, one can recursivly solve the optimization problem. The recursion comes from the following relationship: 
+The optimal segmentation algorithm brings an answer to problem defined in Equation \ref{chp:3:optKknown}. It is a search method based on dynamic programming. It requires to compute the cost of all possible segments $y_{u:v}$ with $u<v$.  With a fixed $K_{max}$ number of change-points, one can recursively solve the optimization problem. The recursion comes from the following relationship: 
 \begin{equation}\label{chp:3:recurs}
-\min_{\lvert\TT\rvert = K}\mathcal{C}(\bm y, \TT) = \min_{t \leq n-K}\{W(y_{1:t})+\min_{\lvert\TT\rvert = K-1}\mathcal{C}(y_{t:n},\TT)\} 
+\min_{\lvert\TT\rvert = K_{max}}\mathcal{C}(\bm y, \TT) = \min_{t \leq n-K_{max}}\{W(y_{1:t})+\min_{\lvert\TT\rvert = K_{max}-1}\mathcal{C}(y_{t:n},\TT)\} 
 \end{equation}
-In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in $K-1$ segments, one can compute the optimal segmentation of the whole signal $\bm y$ in $K$ segments. This results in a computationnal cost in order of $\mathcal{O}(Kn^2)$ \citep{haynes2017}. Algorithm \ref{chp:3:algoopt} shows the implementation of \ref{chp:3:recurs}. 
+In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in $K_{max}-1$ segments, one can compute the optimal segmentation of the whole signal $\bm y$ in $K_{max}$ segments. This results in a computationnal cost in order of $\mathcal{O}(K_{max}n^2)$ \citep{haynes2017}. Algorithm \ref{chp:3:algoopt} shows the implementation of \ref{chp:3:recurs}. 
 
 \begin{algorithm}[ht]
 \caption{Optimal partition algorithm:}\label{chp:3:algoopt}
 \begin{algorithmic}
 
-\State \textbf{input} : signal $y_{1:n}$, cost function $W()$, number of changepoints $K \geq 1$
+\State \textbf{input} : signal $y_{1:n}$, cost function $W()$, number of changepoints $K_{max} \geq 1$
 \State Create $C_1$ a $n\times n$ empty matrix
 \ForAll{$(u,v)$ such that $1 \leq u < v \leq n$}
   \State $C_1(u,v) \gets W(y_{u:v})$
 \EndFor
-\If{$K+1 > 2$}
-  \For{$k = 2,...,K$}
+\If{$K_{max}+1 > 2$}
+  \For{$k = 2,...,K_{max}$}
     \ForAll{$u,v \in \{1,..,n\}$ such that $v-u > k$}
       \State $C_k(u,v) \gets \min_{u+k-1 \leq t < v} C_{k-1}(u,t) + C_1(t+1,v)$ 
     \EndFor
@@ -111,20 +116,22 @@ In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in
 \EndIf
 \State $L \gets (0,...,0)$ vector of size $K+1$
 \State $L_{K+1} \gets n$
-\State $k \gets K+1$
+\State $k \gets K_{max}+1$
 \While{$k > 1$}
   \State $s \gets L(k)$
   \State $t^* \gets \arg\min_{k-1\leq t < s}C_{k-1}(1,t)+C_1(t+1,s)$
   \State $L(k-1) \gets t^*$
   \State $k \gets k-1$
 \EndWhile
-\State \textbf{Output:} a list $L$ of $K$ estimated changepoints (with $n$ as a last coordinate).
+\State \textbf{Output:} a list $L$ of $K_{max}$ estimated changepoints (with $n$ as a last coordinate).
 \end{algorithmic}
 \end{algorithm} 
 
 A practical aspect of this implementation is that running Algorithm \ref{chp:3:algoopt} for a given $K_{max}$ provide the results of all optimal segmentations for all $K \leq K_{max}$. The downsides reside in its computationnal cost which is expensive and that problem \ref{chp:3:optKknown} suppose that the number of changes $K^*$ is known. There are ways to compute an estimate of $K^*$ from the results of optimal partitionning. 
 
-\subsubsection{Estimation of the number of changes}
+\section{Estimation of the number of changes}
+
+Since the pesticides are supposed to be spread at regular times during the years, we could expect a seasonnal behaviour of their concentrations and thus have a clue on the number of changes before-hand. However, the spatio-temporal heterogeneity discussed in Section \ref{chp:2:3} prevents us to be certain of this assumption. This section discusses the case where the number of change points $K^*$ is unknown. We present different ways to estimate the number of breaks.  
 
 We give two examples of how to proceed.
 
@@ -133,12 +140,12 @@ We give two examples of how to proceed.
 \begin{equation}\label{chp:3:optKnknown}
 \min_{\TT} \{ \mathcal{C}(\bm y,\TT) + pen(\TT) \} 
 \end{equation}   
-Once the optimal partitionning method has been applied with maximum number of change points $K_{max}$, we obtain the resulting segmentations $\{\widehat{\TT}_1,\dots,\widehat{\TT}_{K_{max}}\}$ and their associated costs $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. We can apply the penalization procedure on these costs and estimate $K$ by selecting the minimal penalized cost:
+Once the optimal partitionning method has been applied with a maximum number of change points $K_{max}$, we obtain the resulting segmentations $\{\widehat{\TT}_1,\dots,\widehat{\TT}_{K_{max}}\}$ and their associated costs $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. We can apply the penalization procedure on these costs and estimate $K$ by selecting the minimal penalized cost:
 \begin{equation}\label{chp:3:Khat}
 \widehat{K} = \arg\min_{K \in \{1,\dots,K_{max}\}} \{\CC(\bm y, \widehat{\TT}_1)+pen(\widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})+pen(\widehat{\TT}_{K_{max}})\} 
 \end{equation}
 $\widehat{K}$ and the segmentation $\TT_{\widehat{K}}$ are the optimal solution for the change-point search when $K^*$ is unknown. Several penalization strategies are presented in \cite{truong2020}. We discuss our choice in Section \ref{chp:3:3}.  
-\item \textbf{Using an elbow heuristic:} this heuristic provides an estimate of $K^*$ without involving a penalization procedure and is notably used in \cite{lung2015}. It is based on the plot of the costs with respect to their number of change points. It consists in fitting the best bipartite linear model on the costs $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. In other words, $\widehat{K}$ is the number of change-points $K$ that minimizes the residual sum of squares of the two linear models fitted on $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K})\}$ and $\{\CC(\bm y, \widehat{\TT}_K),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. A \texttt{R} based algorithm is provided in Algorithm \ref{chp:3:algoelbow}.
+\item \textbf{Using an elbow heuristic:} this heuristic provides an estimate of $K^*$ without involving a penalization procedure and is notably used in \cite{lung2015}. It is based on the plot of the costs with respect to their number of change points. It consists in fitting the best two part linear model on the costs $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. In other words, $\widehat{K}$ is the number of change-points $K$ that minimizes the residual sum of squares of the two linear models fitted on $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K})\}$ and $\{\CC(\bm y, \widehat{\TT}_K),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. A \texttt{R} based algorithm is provided in Algorithm \ref{chp:3:algoelbow}.
 \end{itemize}    
 
 \begin{algorithm}[ht]
@@ -162,7 +169,7 @@ Initialize $slope \gets (0,...,0)$  a $K_{max}-2$ length vector.
 
 Appplication of optimal partitionning methods can be found in \cite{rigaill2015pruned,Lavielle1997,perron2006dealing}
 
-\subsection{Using the PELT algorithm}\label{chp:3:2:2}
+\section{PELT+CROPS}\label{chp:3:2:2}
 
 Problem \ref{chp:3:optKnknown} can be solved with an efficient dynamic programming method under some specific penalization strategy. The Pruned Exact Linear Time (PELT) algorithm was introduced by \cite{Killick2012}. It is efficient when the penalization strategy is linear in the number of change point $K$. More formally, the penalty term writes as:
 $$pen(\TT) = \lvert\TT\rvert\beta$$ 
@@ -171,7 +178,7 @@ The penalty value parameter $\beta$ takes positive values. It corresponds to the
 \begin{equation}\label{chp:3:pruning}
  \min_{\TT}\bigg[\CC(y_{1:t},\TT)+pen(\TT)\bigg] + W(y_{t+1:s}) \geq \min_{\TT}\bigg[\CC(y_{1:s},\TT)+pen(\TT)\bigg], 
 \end{equation}
-holds, then $t$ can never be the last changepoint prior to $n$. We introduce some additionnal notations to simplify the algorithm writing:  
+holds, then $t$ can never be the last changepoint prior to $n$. We introduce some additional notations to simplify the algorithm writing:  
 $$F(s) = \min_{\TT}\bigg[\CC(y_{1:s},\TT)+pen(\TT)\bigg]$$
 The notation $F(s)$ corresponds to the best partition possible of the sub-signal $y_{1:s}$. 
 \begin{algorithm}[ht]
@@ -191,14 +198,14 @@ The notation $F(s)$ corresponds to the best partition possible of the sub-signal
 \end{algorithmic}
 \end{algorithm} 
 
-Using the notations, the role of parameter $n_{min}$ writes as $\min_{i \in \{0,\dots,K\}}\lvert\tau_{i+1}-\tau_{i}\rvert \geq n_{min}$. It has a direct influence on the segmentation and acts as a compromise between the segmentation resolution and the cost function precision. Small values of $n_{min}$ lead to the detection of a large number of change-points. However, the statistical validity of these changes can be questionned. Large values of $n_{min}$ ensure satisfying convergence of the cost function, but one risks to miss changes that occured at near index locations.  
+Using the notations, the role of parameter $n_{min}$ writes as $\min_{i \in \{0,\dots,K\}}\lvert\tau_{i+1}-\tau_{i}\rvert \geq n_{min}$. It has a direct influence on the segmentation and acts as a compromise between the segmentation resolution and the cost function precision. Small values of $n_{min}$ lead to the detection of a large number of change-points. However, the statistical validity of these changes can be questionned. Large values of $n_{min}$ ensure satisfying convergence of the cost function, but one risks to miss changes that occured at close index locations.  
   
 The complexity of PELT can reach $\OO(n)$ when the change points are supposed to be distributed uniformly over the signal $\bm y$. This constitues a major improvement compared to the optimal partionning method. However, as mentionned in \cite{Haynes2016}, the penalty value $\beta$ has an influence on the performance of PELT. For a single value of penalty, PELT returns a single segmentation of $\bm y$. Diverse strategies to calibrate $\beta$ exist as the BIC criterion which is widely used \citep{YAO1988181,faure2016comparison,Shi2022}. 
-One of the main drawbacks is that penalised criteria such as the BIC penalty are only valid under certain assumptions. These assumptions include exploring the true model, e.g. that the data is truly distributed under the assumed model. Since it is impossible to check this in practice, some data-driven calibrations for the penalty values have been developed \citep{Birge2006,Baudry2011,Bardet2012,arlot2009data}. They were designed to select more suited penalty values for a given dataset. Despite all that, there is no quantification possible for this parameter: we cannot predict the number of breakpoints resulting from a given fixed value of $\beta$. Thus, we don't know if the change point model resulting from the choice of $\beta$ is over or under fitting the signal $\bm y$. We need a more exploratory approach to tackle this problem.   
+One of the main drawbacks is that penalised criteria such as the BIC penalty are only valid under certain assumptions. These assumptions include exploring the true model, e.g. that the data is truly distributed under the assumed model. Since it is impossible to check this in practice, some data-driven calibrations for the penalty values have been developed \citep{Birge2006,Baudry2011,Bardet2012,arlot2009data}. They were designed to select more suited penalty values for a given dataset. Despite all that, there is no quantification possible for this parameter: we cannot predict the number of breakpoints resulting from a given fixed value of $\beta$. Thus, we do not know if the change point model resulting from the choice of $\beta$ is over or under fitting the signal $\bm y$. We need a more exploratory approach to tackle this problem.   
 
-\section{Exploratory research of segmentations}\label{chp:3:3}
+%\section{Exploratory research of segmentations}\label{chp:3:3}
 
-We are looking for a compromise between the exhaustivity of the "brute-force" optimal partionning method and the computationnal cost of PELT. The algorithm CROPS: Changepoints for a Range Of PenaltieS algorithm \citep{haynes2017} allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find penalty values wihtin that range associated with new segmentations. The proccess to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_K(\bm y) = \min_{\lvert\TT\rvert} \CC(\bm y,\TT)$ the unpenalized cost of the optimal segmentation in $K$ changepoints of $\bm y$ and $K(\beta)$ the number of changepoints of the optimal segmentation result obtained using $\beta$ in problem \ref{chp:3:optKnknown}, the theorem writes as follows:
+We are looking for a compromise between the exhaustivity of the "brute-force" optimal partionning method and the computationnal cost of PELT. The algorithm CROPS: Changepoints for a Range Of PenaltieS algorithm \citep{haynes2017} allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find penalty values within that range associated with new segmentations. The proccess to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_K(\bm y) = \min_{\lvert\TT\rvert} \CC(\bm y,\TT)$ the unpenalized cost of the optimal segmentation in $K$ changepoints of $\bm y$ and $K(\beta)$ the number of changepoints of the optimal segmentation result obtained using $\beta$ in problem \ref{chp:3:optKnknown}, the theorem writes as follows:
 
 \begin{theorem}
 Let $\beta_0 < \beta_1$, 3 cases are possible to uncover new penalty values:
@@ -251,7 +258,7 @@ The second aspect to consider is spatio-temporal heterogeneity. Air pollution da
 
 Other methods were found using search associating key words such as change-point, pesticide, left-censored or environment. The resulting applications domain being very specific, the span of the methods developped in these papers is very large. Several phenomenons are investigated such as resistance appearance to a substance \citep{Solla2010}, the evolution mortality rates and suicide by ingestion of pesticides \citep{Ko2017}, the evolution of the exposition of animal populations to pesticide \citep{Menger2022} or impacts of policies on air quality \citep{FOMBY2006}, evolution of annual streamflows \citep{Ryberg2020}. However, several common points can be distinguished:      
 \begin{itemize}
-\item Many papers focus on changse in trend. Given the data characteristics described in \ref{chp:2:3}, trend detection does not seem of interest in our case.
+\item Many papers focus on changes in trend. Given the data characteristics described in \ref{chp:2:3}, trend detection does not seem of interest in our case.
 \item Indicators on which change point detection is made often have a yearly temporal resolution. We are interested in a finer level of resolution. 
 \item We are also interested in censorship and none of these studies focus on censored indicators. The aggregation of temporal information into yearly informations or rates could explain the absence of censorship in the data.   
 \end{itemize}
