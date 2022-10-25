@@ -1,4 +1,4 @@
-\chapter{Researching homogeneous temporal periods in time series}\label{chp:3}
+\chapter{A selection of methods for change point detection}\label{chp:3}
 
 \minitoc
 
@@ -9,17 +9,15 @@
 %This chapter is structured as follows: Section \ref{chp:3:1} presents a classical modelling of change-point detection and explores the different ways to evaluate temporal sub-signals; Section \ref{chp:3:2} provides methods to estimate the number of change-points in a signal and their position; Section \ref{chp:3:3} gives an efficient way to obtain different results of segmentations; Section \ref{chp:3:4} searches for application of change- point detection methods to data that have the same characteristics as in Section \ref{chp:2:3}.
 
 First, we want to detect homogeneous temporal periods in a monitored substance use. This task can be viewed as a change point detection problem, where the change points delineate homogeneous time intervals. In this chapter, we propose to go over some available methods to solve this problem.  
-
-We have chosen to limit this chapter to offline methods, i.e. methods that search for changes in known features of fully acquired signals. choice is the speed of data collection and storage of pesticide concentrations, as they are not collected in real time. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \citep{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
-
-Our work draws on the following research \citep{truong2020,basseville1993detection,bardet2020}. This chapter is structured as follows: Section \ref{chp:3:1} presents a classical modelling of change point detection and explores the different ways to evaluate temporal sub-signals; Section \ref{chp:3:2} provides methods for estimating the number of change points in a signal and their position; Section \ref{chp:3:3} shows an efficient way to obtain different segmentation results; Section \ref{chp:3:4} looks at applying change point detection methods to data that have the same characteristics as in Section \ref{chp:2:3}.
+We have chosen to limit this chapter to offline methods, i.e. methods that search for changes in known features of fully acquired signals. This choice is motivated the speed of data collection and storage of pesticide concentrations, as they are not collected in real time. Nevertheless, for readers who wish to refer to it, we can state that there is no shortage of online detection methods in the literature \citep{liu2017change,Li2021,hohle2010online,ranganathan2010pliss,li2015m}.
+Our work draws on the following research \citep{truong2020,basseville1993detection,bardet2020}. This chapter is structured as follows: Section \ref{chp:3:1} presents a classical modelling of change point detection and explores the different ways to evaluate temporal sub-signals; Section \ref{chp:3:2} provides methods for estimating the positions of a known number of changes; Section \ref{chp:3:3} shows how to estimate the number of change points when it is unknown; Section \ref{chp:3:4} provides efficient algorithms to obtain different segmentation results; Section \ref{chp:3:5} looks at applying change point detection methods to data that have the same characteristics as in Section \ref{chp:2:3}.
 
 \section{Model and cost functions}\label{chp:3:1}
 
-We describe the most general framework for a change-point model. We consider a signal consisting of observations $\bm y = (y_1,...,y_n)$, which are the realisations of random variables $Y_1,...,Y_n$. The variables $Y_i$ are recorded sequentially, and the recording times are not necessarily equidistant. Thus, the indices in $Y_i$ are only indicators of the order of occurrence in the sample and not of the observation times. \\
+We describe the most general framework for a change-point model. We consider a signal consisting of observations $\bm y = (y_1,...,y_n)$, which are the realisations of random variables $Y_1,...,Y_n$. The variables $Y_i$ are recorded sequentially, and the recording times are not necessarily equidistant. Integrating the irregular sampling times or the temporal gaps between the observations in the modelling is not in the scope of this survey. Thus, the indices in $Y_i$ are only indicators of the order of occurrence in the sample and not of the observation times. \\
 Some properties (trend, mean, variance, etc...) of the signal $\bm y$ are supposed to change at the $K^*$ index $\tau^*_1 <... < \tau^*_k <... < \tau^*_{K^*}$. We use the following convention, let $\tau^*_0 = 0$ and $\tau^*_{K^*+1} = n$. The purpose of breakpoint detection is to estimate the positions $\tau^*_k$ and the number of breaks $K^*$ when they are unknown. We denote $y_{u:v}$ as a segment of the signal from the u-th coordinate to the v-th. The goal is to identify the data segments in which these properties are stable. \\
-According to the nomenclature proposed by \cite{truong2020}, change point detection methods operate on a cost function $W$. This function associates a cost to the segment it is evaluated on. Intuitively, the more properties (on which changes are investigated) of the segment $y_{u:v}$ are homogeneous, the lower the cost $W(y_{u:v})$ is. We define, for any $y_{u:v}$, $\TT = \{\tau_1,\dots,\tau_K\} \subset \{u,\dots,v\}$ a set of ordered indices and $\lvert \TT \rvert$ its cardinal. Implicitly, we define $\tau_0 = u$ and $\tau_{K+1} = v$. Although this notation is often used for the full signal $\bm y$, we will always indicate the data segment from which $\TT$ is drawn in the parameters of the functions using the notation $\TT$. The total cost $\CC(\bm y,\TT)$ associated with a segmentation defined by $\TT$ is given as the sum of the costs of all segments:
-
+According to the nomenclature proposed by \cite{truong2020}, change point detection methods operate on a cost function $W$. This function associates a cost to the segment it is evaluated on. Intuitively, the more properties (on which changes are investigated) of the segment $y_{u:v}$ are homogeneous, the lower the cost $W(y_{u:v})$ is. The total cost $\CC(\bm y,\TT)$ associated with a segmentation defined by $\TT$ is given as the sum of the costs of all segments:
+%We define, for any $y_{u:v}$, $\TT = \{\tau_1,\dots,\tau_K\} \subset \{u,\dots,v\}$ a set of ordered indices and $\lvert \TT \rvert$ its cardinal. Implicitly, we define $\tau_0 = u$ and $\tau_{K+1} = v$. Although this notation is often used for the full signal $\bm y$, we will always indicate the data segment from which $\TT$ is drawn in the parameters of the functions using the notation $\TT$.
 \begin{equation}\label{chp:3:costfunc}
 \CC(\bm y,\TT) = \sum_{k=0}^{\lvert \TT \rvert} W(y_{\tau_k+1:\tau_{k+1}}), 
 \end{equation}     
@@ -44,27 +42,31 @@ The choice of cost function determines the type of changes (in trend, mean, etc.
 In the parametric case, the detection depends heavily on what we are looking for in the signal $\bm y$. For example, searching for slope changes in a signal \citep{Bai1994,Fearnhead2018} does not require the same modelling as detecting changes in the mean \citep{Frick2014,chen2012parametric}. 
 
 A first classical cost function is based on the maximum likelihood estimation. In this setting, the observations located in the $k$-th segment are supposed to be following a distribution $Q$ depending on a vector of parameters $\theta^*_k$ with $\theta_k \in \Theta$ being a compact subset of $\mathbb{R}^p$. More formally, we have that:
-$$y_t \sim \sum_{k=0}^{K^*}f(.;\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},$$
-with $f$ being the density function of distribution $Q$. In other words, we suppose that all observations are sampled from the same distribution $Q$ but the values of $\theta^*_k$ change abruptly at each change-point $\tau^*_k$. The cost function used to evaluate segments in this context is the negative log-likelihood. Hence, for a segment $y_{u:v}$ with $u < v$, we can write:  
-$$W(y_{u:v}) = -\sup_{\bm \theta \in \Theta} \sum_{i = u}^{v} \ln f(y_i; \bm \theta)$$
+\begin{equation}
+y_t \sim \sum_{k=0}^{K^*}f(.;\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},
+\end{equation}
+with $f$ being the density function of distribution $Q$ and where the observed signal $\bm y =\{y_1,\dots,y_n\}$ is composed of independent random variables. In other words, we suppose that all observations are sampled from the same distribution $Q$ but the values of $\theta^*_k$ change abruptly at each change-point $\tau^*_k$. The cost function used to evaluate segments in this context is the negative log-likelihood calculated using $\hat\theta_{ML}$ the maximum likelihood estimator of the segment parameter. Hence, for a segment $y_{u:v}$ with $u < v$, we can write:  
+\begin{equation}
+W(y_{u:v}) = -\sup_{\bm \theta \in \Theta} \sum_{i = u}^{v} \ln f(y_i; \bm \theta)
+\end{equation}
 This method would prove useful in the example presented in the right side of Figure \ref{fig:ex_cp}. Applying the maximum likelihood estimator on the mean of Gaussian distribution would provide satisfying results. Other distributions than the Gaussian were investigated since it is not always well suited for data (especially concentrations data),  
 
-Cost functions adapted for changes in trend rely on piecewise linear regression. We place ourselves in the simpliest case where $\bm y$ is univariate response to observed covariates $\{x_t\}_{t=1}^n$ such that $x_t \in \mathbb{R}^p$. Observations located in the $k$-th segment is supposed can be written as:   
+Cost functions adapted for changes in trend rely on piecewise linear regression. We place ourselves in the simplest case where $\bm y$ is univariate response to observed covariates $\{x_t\}_{t=1}^n$ such that $x_t \in \mathbb{R}^p$. Observations located in the $k$-th segment is supposed can be written as:   
 $$y_t \sim \sum_{k=0}^{K^*}(x'_t\theta^*_k + \epsilon_t)\mathbbm{1}_{\tau^*_{k}+1\leq t \leq \tau^*_{k+1}},$$
 where $\theta^*_k \in \mathbb{R}^p$ are the regression parameters and $\epsilon_t$ is the noise of the signal. The adapted cost function in this configuration uses the least squares estimation and is expressed as:
 $$W(y_{u:v}) = \min_{\theta \in \mathbb{R}^p}\sum_{t=u+1}^v(y_t-x'_t\theta)^2$$ 
-This modeling is perfectly suited for the detection of the changes in the left example of Figure \ref{fig:ex_cp}. 
+This modelling is perfectly suited for the detection of the changes in the left example of Figure \ref{fig:ex_cp}. 
 
 \subsection{Non-parametric inference}
 
-The cost function for a segment can also be adapted for nonparametric statistical inference. Several strategies have been developed in the literature over time. These include the nonparametric maximum likelihood method \citep{Zou2014,Einmahl2003}, kernel methods \citep{Harchaoui2008,li2015m}, and rank-based methods \citep{Pettitt1980,Wang2019}. We will focus on the latter because it was adapted for censored observations in \cite{lung2015}.  
+The cost function for a segment can also be adapted for non-parametric statistical inference. Several strategies have been developed in the literature over time. These include the non-parametric maximum likelihood method \citep{Zou2014,Einmahl2003}, kernel methods \citep{Harchaoui2008,li2015m}, and rank-based methods \citep{Pettitt1980,Wang2019}. We will focus on the latter because it was adapted for censored observations in \cite{lung2015}.  
 
 Detecting a breakpoint in a signal can be done using a test statistic based on the ranks of the observations rather than their values. The rank of the ith observation is defined as $R_i = \sum_{j =1}^n\mathbbm{1}(X_j < X_i)$. Moreover, we note $\hat{F}_n(t) = \frac{1}{n}\sum_{i = 1}^n\mathbbm{1}(X_i < t)$ the empirical cumulative distribution function (c.d.f.). The cost function is derived from the Wilcoxon/Mann-Whitney rank criterion. This is equivalent to running the test under the following assumptions: 
 \begin{itemize}
   \item $\mathcal{H}_0$: there are no breaks in the $\bm Y = (Y_1,...,Y_n)$ 
   \item $\mathcal{H}_1$: there is a change $\tau^*$ such that $Y_1,...,Y_{\tau^*}$ are distributed according $\mathbb{P}_1$ and $Y_{\tau^*+1},...,Y_{n}$ are distributed according to $\mathbb{P}_2$. 
 \end{itemize}
-The rank statistic of the $t$-th observation is centered and is written as follows:
+The rank statistic of the $t$-th observation is centred and is written as follows:
 \begin{equation}\label{chp2:statranknp}
   U_n(t) = \frac{2}{\sqrt{nt(n-t)}}\sum_{i = 1}^{t}\bigg(\frac{n+1}{2} - R_i\bigg)
 \end{equation}
@@ -74,35 +76,34 @@ The test statistic for $\mathcal{H}_0$ and $\mathcal{H}_1$ is defined as:
 \end{equation}
 where $\hat{\Sigma}_n = \frac{4}{n}\sum_{i=1}^n(\hat{F}_n(X_i)-1/2)^2$. Theorem 1 of \cite{lung2015} shows that under the null hypothesis the $S_n$ are distributed according to a $\chi^2$ distribution.
 
-The non parametric test statistic was extended to multiple changepoint detection by \cite{lung2015}. The cost function $W$ for a segment $y_{u:v}$ is defined as: 
+The non parametric test statistic was extended to multiple change point detection by \cite{lung2015}. The cost function $W$ for a segment $y_{u:v}$ is defined as: 
 \begin{equation}\label{chp2:costfuncnp}
   W(y_{u:v}) = -(v-u)\hat{\Sigma}^{-1}_n\overline{R}^2_{u:v},
 \end{equation}
 where $\overline{R}_{u:v} = \frac{1}{v-u}\sum_{i = u}^vR_i$ is the average rank of $y_{u:v}$.
-This methods allows the identification of segments where the ranks of the observations are homogenous. It would be very efficient in the case of mean change detection as presented in the right panel of Figure \ref{fig:ex_cp}.  
+This methods allows the identification of segments where the ranks of the observations are homogeneous. It would be very efficient in the case of mean change detection as presented in the right panel of Figure \ref{fig:ex_cp}.  
 
-It is also possible to derive change detection in trend using non parametric inference. The experiments of \cite{Haynes2016} show that a non-parametric likehood method finds similar results to a piece-wise regression change-point model. The Mann-Kendall test statistic \citep{Pohlert2020,1994a} seems to be also a good candidate cost function to derive a detection method for changes in trend.  
+It is also possible to derive change detection in trend using non parametric inference. The experiments of \cite{Haynes2016} show that a non-parametric likelihood method finds similar results to a piece-wise regression change-point model. The Mann-Kendall test statistic \citep{Pohlert2020,1994a} seems to be also a good candidate cost function to derive a detection method for changes in trend.  
 
 %\section{Estimating an unknown number of change points}\label{chp:3:2}
 
+\section{Optimal partition search method}\label{chp:3:2}
 
-%
+Various search methods for finding change points have been described in the literature. They can be distinguished according to whether they provide an optimal solution to the problem of the search of change points or an answer in the form of an approximation. Approximation methods are not discussed, but there are plenty of them, such as sliding window methods \citep{Li2010,Liu2022}, bottom-up segmentation \citep{chen1998speaker}, and binary segmentation \citep{Yang2001,Fryzlewicz2014}. 
 
-\section{Using the Optimal partition method with given $K$}
-
-Various search methods for finding change points have been described in the literature. They can be distinguished according to whether they provide an optimal solution to the problem of the search of change points or an answer in the form of an approximation. Approximation methods are not discussed, but there are plenty of them, such as sliding window methods \citep{Li2010,Liu2022}, bottom-up segmentation \citep{chen1998speaker}, and binary segmentation \citep{Yang2001,Fryzlewicz2014}. We choose to focus on optimal methods. This choice is motivated by the size of the datasets we apply change-point detection on. The number of samples is still in a reasonnable range to obtain satisfying computationnal times.  
+We choose to focus on optimal methods. This choice is motivated by the size of the datasets we apply change-point detection on. The number of samples is still in a reasonable range to obtain satisfying computational times.  
 
 The optimal segmentation algorithm brings an answer to problem defined in Equation \ref{chp:3:optKknown}. It is a search method based on dynamic programming. It requires to compute the cost of all possible segments $y_{u:v}$ with $u<v$.  With a fixed $K_{max}$ number of change-points, one can recursively solve the optimization problem. The recursion comes from the following relationship: 
 \begin{equation}\label{chp:3:recurs}
 \min_{\lvert\TT\rvert = K_{max}}\mathcal{C}(\bm y, \TT) = \min_{t \leq n-K_{max}}\{W(y_{1:t})+\min_{\lvert\TT\rvert = K_{max}-1}\mathcal{C}(y_{t:n},\TT)\} 
 \end{equation}
-In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in $K_{max}-1$ segments, one can compute the optimal segmentation of the whole signal $\bm y$ in $K_{max}$ segments. This results in a computationnal cost in order of $\mathcal{O}(K_{max}n^2)$ \citep{haynes2017}. Algorithm \ref{chp:3:algoopt} shows the implementation of \ref{chp:3:recurs}. 
+In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in $K_{max}-1$ segments, one can compute the optimal segmentation of the whole signal $\bm y$ in $K_{max}$ segments. This results in a computational cost in order of $\mathcal{O}(K_{max}n^2)$ \citep{haynes2017}. Algorithm \ref{chp:3:algoopt} shows the implementation of \ref{chp:3:recurs}. 
 
 \begin{algorithm}[ht]
 \caption{Optimal partition algorithm:}\label{chp:3:algoopt}
 \begin{algorithmic}
 
-\State \textbf{input} : signal $y_{1:n}$, cost function $W()$, number of changepoints $K_{max} \geq 1$
+\State \textbf{input} : signal $y_{1:n}$, cost function $W()$, number of change points $K_{max} \geq 1$
 \State Create $C_1$ a $n\times n$ empty matrix
 \ForAll{$(u,v)$ such that $1 \leq u < v \leq n$}
   \State $C_1(u,v) \gets W(y_{u:v})$
@@ -114,8 +115,8 @@ In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in
     \EndFor
   \EndFor
 \EndIf
-\State $L \gets (0,...,0)$ vector of size $K+1$
-\State $L_{K+1} \gets n$
+\State $L \gets (0,...,0)$ vector of size $K_{max}+1$
+\State $L_{K_{max}+1} \gets n$
 \State $k \gets K_{max}+1$
 \While{$k > 1$}
   \State $s \gets L(k)$
@@ -123,62 +124,73 @@ In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in
   \State $L(k-1) \gets t^*$
   \State $k \gets k-1$
 \EndWhile
-\State \textbf{Output:} a list $L$ of $K_{max}$ estimated changepoints (with $n$ as a last coordinate).
+\State \textbf{Output:} a list $L$ of $K_{max}$ estimated change points (with $n$ as a last coordinate).
 \end{algorithmic}
 \end{algorithm} 
 
-A practical aspect of this implementation is that running Algorithm \ref{chp:3:algoopt} for a given $K_{max}$ provide the results of all optimal segmentations for all $K \leq K_{max}$. The downsides reside in its computationnal cost which is expensive and that problem \ref{chp:3:optKknown} suppose that the number of changes $K^*$ is known. There are ways to compute an estimate of $K^*$ from the results of optimal partitionning. 
+Notice that slight modifications can be made to Algorithm \ref{chp:3:algoopt} to obtain the output of all segmentation results for all values of $K\leq K_{max}$. 
 
-\section{Estimation of the number of changes}
+The downsides of the optimal partition method reside in its computational cost which is expensive and that problem \ref{chp:3:optKknown} suppose that the number of changes $K^*$ is known. There are ways to compute an estimate of $K^*$ from the results of optimal partitioning. 
 
-Since the pesticides are supposed to be spread at regular times during the years, we could expect a seasonnal behaviour of their concentrations and thus have a clue on the number of changes before-hand. However, the spatio-temporal heterogeneity discussed in Section \ref{chp:2:3} prevents us to be certain of this assumption. This section discusses the case where the number of change points $K^*$ is unknown. We present different ways to estimate the number of breaks.  
+Application of optimal partitioning methods can be found in \cite{rigaill2015pruned,Lavielle1997,perron2006dealing}.
+
+%A practical aspect of this implementation is that running Algorithm \ref{chp:3:algoopt} for a given $K_{max}$ provide the results of all optimal segmentations for all $K \leq K_{max}$. 
+
+\section{Estimation of an unknown number of changes}\label{chp:3:3}
+
+This section discusses the case where the number of change points $K^*$ is unknown. This can be justified in our application context the following way. Since the pesticides are supposed to be spread at regular times during the years, we could expect a seasonal behaviour of their concentrations and thus have a clue on the number of changes before-hand. However, the spatio-temporal heterogeneity discussed in Section \ref{chp:2:3} prevents us to be certain of this assumption. 
+
+Choosing the optimal number of change points can be seen as a model selection problem. The difficulty in the choice of $K^*$ is that the cost of a segmentation decreases when the number of breakpoints increases. Thus, the choice of a high value of $K^*$ can lead to an overfitting model. We need to find methods providing a segmentation of the signal into an acceptable number of segments e.g. one that lower the cost enough but does not overfit to the data too much. 
 
 We give two examples of how to proceed.
 
 \begin{itemize}
-\item \textbf{Penalizing the cost:} as mentionned in \cite{truong2020}, the optimization problem \ref{chp:3:optKknown} can be modified when the number of breaks is unknown by adding a penalty term. Intuitively, the penalty term acts as an addtionnal cost one must pay each time a break is decided in the signal $\bm y$. This gives the new optimization problem: 
+\item \textbf{Using an elbow heuristic:} this heuristic provides an estimate of $K^*$ without involving a penalization procedure and is notably used in \cite{lung2015}. It is based on the plot of the costs with respect to their number of change points. It consists in fitting the best two part linear model on the costs $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. In other words, $\widehat{K}$ is the number of change-points $K$ that minimizes the residual sum of squares of the two linear models fitted on $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K})\}$ and $\{\CC(\bm y, \widehat{\TT}_K),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. Algorithm \ref{chp:3:algoelbow} illustrates the elbow method procedure.
+\begin{algorithm}[ht]
+\caption{Elbow method algorithm}\label{chp:3:algoelbow}
+\begin{algorithmic}
+\State \textbf{input} : the segmentations cost resulting from optimal partitioning $\CC(\bm y, \TT_{K})$ for $K \in \{1,...,K_{max}\}$ \\
+\State \textbf{initialisations} : Initialize $C \gets (\CC(\bm y, \widehat{\TT}_{1}),...,\CC(\bm y, \widehat{\TT}_{K_{max}}))$, \\
+Initialize $slope \gets (0,...,0)$  a $K_{max}-2$ length vector. 
+\For{$k = 2,...,K_{max}-1$}
+  \State Compute $ml1$ the linear regression model that regresses $C(1:k)$ on $(1:k)$
+  %$ml1 \gets \texttt{lm}(C(1:k) \sim 1:k)$
+  \State Compute $ml2$ the linear regression model that regresses $C(k:K_{max})$ on $(k:K_{max})$
+  %$ml2 \gets \texttt{lm}(C(k:K_{max}) \sim k:K_{max})$
+  \State Set $slope(k-1)$ as the sum of residuals of $ml1$ plus the sum of residuals $ml2$.
+\EndFor
+\State $CP \gets \arg\min_{k\in\{2,...,K_{max}-1\}}(slope)$
+\State \textbf{output} : the optimal number of changes $CP$. 
+\end{algorithmic}
+\end{algorithm} 
+\item \textbf{Penalizing the cost:} as mentioned in \cite{truong2020}, the optimization problem \ref{chp:3:optKknown} can be modified when the number of breaks is unknown by adding a penalty term. Intuitively, the penalty term acts as an additional cost one must pay each time a break is decided in the signal $\bm y$. This gives the new optimization problem: 
 \begin{equation}\label{chp:3:optKnknown}
 \min_{\TT} \{ \mathcal{C}(\bm y,\TT) + pen(\TT) \} 
 \end{equation}   
-Once the optimal partitionning method has been applied with a maximum number of change points $K_{max}$, we obtain the resulting segmentations $\{\widehat{\TT}_1,\dots,\widehat{\TT}_{K_{max}}\}$ and their associated costs $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. We can apply the penalization procedure on these costs and estimate $K$ by selecting the minimal penalized cost:
+Once the optimal partitioning method has been applied with a maximum number of change points $K_{max}$, we obtain the resulting segmentations $\{\widehat{\TT}_1,\dots,\widehat{\TT}_{K_{max}}\}$ and their associated costs $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. We can apply the penalization procedure on these costs and estimate $K$ by selecting the minimal penalized cost:
 \begin{equation}\label{chp:3:Khat}
 \widehat{K} = \arg\min_{K \in \{1,\dots,K_{max}\}} \{\CC(\bm y, \widehat{\TT}_1)+pen(\widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})+pen(\widehat{\TT}_{K_{max}})\} 
 \end{equation}
 $\widehat{K}$ and the segmentation $\TT_{\widehat{K}}$ are the optimal solution for the change-point search when $K^*$ is unknown. Several penalization strategies are presented in \cite{truong2020}. We discuss our choice in Section \ref{chp:3:3}.  
-\item \textbf{Using an elbow heuristic:} this heuristic provides an estimate of $K^*$ without involving a penalization procedure and is notably used in \cite{lung2015}. It is based on the plot of the costs with respect to their number of change points. It consists in fitting the best two part linear model on the costs $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. In other words, $\widehat{K}$ is the number of change-points $K$ that minimizes the residual sum of squares of the two linear models fitted on $\{\CC(\bm y, \widehat{\TT}_1),\dots,\CC(\bm y, \widehat{\TT}_{K})\}$ and $\{\CC(\bm y, \widehat{\TT}_K),\dots,\CC(\bm y, \widehat{\TT}_{K_{max}})\}$. A \texttt{R} based algorithm is provided in Algorithm \ref{chp:3:algoelbow}.
 \end{itemize}    
 
-\begin{algorithm}[ht]
-\caption{Elbow method algorithm}\label{chp:3:algoelbow}
-\begin{algorithmic}
+Penalizing the costs is not only useful in the choice of an optimal number of change points $K^*$ but also useful to devise efficient algorithms. Under some assumptions described in the following section, these algorithms can in particular be more efficient than the optimal partition method presented in Algorithm \ref{chp:3:algoopt}. 
 
-\State \textbf{input} : the segmentations cost resulting from optimal partitionning $\CC(\bm y, \TT_{K})$ for $K \in \{1,...,K_{max}\}$ \\
+\section{Strategies using a penalized criterion}\label{chp:3:4}
 
-\State \textbf{initialisations} : Initialize $C \gets (\CC(\bm y, \widehat{\TT}_{1}),...,\CC(\bm y, \widehat{\TT}_{K_{max}}))$, \\
-Initialize $slope \gets (0,...,0)$  a $K_{max}-2$ length vector. 
-\For{$k = 2,...,K_{max}-1$}
-  \State $ml1 \gets \texttt{lm}(C(1:k) \sim 1:k)$
-  \State $ml2 \gets \texttt{lm}(C(k:K_{max}) \sim k:K_{max})$
-  \State $slope(k-1) \gets \sum ml1\$ residuals + \sum ml2\$ residuals$
-\EndFor
-\State $CP \gets (2:K_{max}-1)(which.min(slope))$
-\State \textbf{output} : the optimal number of changes $CP$. 
- 
-\end{algorithmic}
-\end{algorithm} 
+When using a penalized criterion (as the one of Equation \ref{chp:3:optKnknown}) in change point detection procedure, there are two separate topics that must discussed. The first one is the search method when the weight parameter associated to the penalization term is fixed. The second topic is the efficient exploration of several penalty weights to obtain several segmentation results.   
+%This section discusses two separate topics when the change point detection method is performed using a penalized criterion . The first addressed topic is the search method algorithm when using the penalizing strategy. The second topic discussed is the calibration of the penalization term.   
 
-Appplication of optimal partitionning methods can be found in \cite{rigaill2015pruned,Lavielle1997,perron2006dealing}
-
-\section{PELT+CROPS}\label{chp:3:2:2}
+\subsection{PELT search method}
 
 Problem \ref{chp:3:optKnknown} can be solved with an efficient dynamic programming method under some specific penalization strategy. The Pruned Exact Linear Time (PELT) algorithm was introduced by \cite{Killick2012}. It is efficient when the penalization strategy is linear in the number of change point $K$. More formally, the penalty term writes as:
 $$pen(\TT) = \lvert\TT\rvert\beta$$ 
-The penalty value parameter $\beta$ takes positive values. It corresponds to the cost assigned to a breakpoint. Intuitively, the higher the penalty value is, the lower the number of change points detected is. Using PELT, one can sequentially go through the signal $\bm y = \{y_s\}_{s=1}^n$ and obtain a set of potential breakpoints $\{\tau_0,...,\tau_m\}$ for each index $s \in {1,...,n}$. Then, one should proceed to eliminate candidates from this set using a pruning rule involving the penalty value $\beta$. This is the principle of Algorithm \ref{chp:3:algopelt}. The pruning rule of \cite{Killick2012} can be stated as follows: \\
+The penalty value (or weight) parameter $\beta$ takes positive values. It corresponds to the cost assigned to a breakpoint. Intuitively, the number of change points detected is low when the the penalty value takes high values. Using PELT, one can sequentially go through the signal $\bm y = \{y_s\}_{s=1}^n$ and obtain a set of potential breakpoints $\{\tau_0,...,\tau_m\}$ for each index $s \in {1,...,n}$. Then, one should proceed to eliminate candidates from this set using a pruning rule involving the penalty value $\beta$. This is the principle of Algorithm \ref{chp:3:algopelt}. The pruning rule of \cite{Killick2012} can be stated as follows: \\
  for all $t <s < n$, if
 \begin{equation}\label{chp:3:pruning}
  \min_{\TT}\bigg[\CC(y_{1:t},\TT)+pen(\TT)\bigg] + W(y_{t+1:s}) \geq \min_{\TT}\bigg[\CC(y_{1:s},\TT)+pen(\TT)\bigg], 
 \end{equation}
-holds, then $t$ can never be the last changepoint prior to $n$. We introduce some additional notations to simplify the algorithm writing:  
+holds, then $t$ can never be the last change point prior to $n$. We introduce some additional notations to simplify the algorithm writing:  
 $$F(s) = \min_{\TT}\bigg[\CC(y_{1:s},\TT)+pen(\TT)\bigg]$$
 The notation $F(s)$ corresponds to the best partition possible of the sub-signal $y_{1:s}$. 
 \begin{algorithm}[ht]
@@ -198,14 +210,21 @@ The notation $F(s)$ corresponds to the best partition possible of the sub-signal
 \end{algorithmic}
 \end{algorithm} 
 
-Using the notations, the role of parameter $n_{min}$ writes as $\min_{i \in \{0,\dots,K\}}\lvert\tau_{i+1}-\tau_{i}\rvert \geq n_{min}$. It has a direct influence on the segmentation and acts as a compromise between the segmentation resolution and the cost function precision. Small values of $n_{min}$ lead to the detection of a large number of change-points. However, the statistical validity of these changes can be questionned. Large values of $n_{min}$ ensure satisfying convergence of the cost function, but one risks to miss changes that occured at close index locations.  
+Using the notations, the role of parameter $n_{min}$ writes as $\min_{i \in \{0,\dots,K\}}\lvert\tau_{i+1}-\tau_{i}\rvert \geq n_{min}$. It has a direct influence on the segmentation and acts as a compromise between the segmentation resolution and the cost function precision. Small values of $n_{min}$ lead to the detection of a large number of change-points. However, the statistical validity of these changes can be questioned. Large values of $n_{min}$ ensure enough data for the evaluation of the cost function, but one risks to miss changes that occurred at close index locations.  
   
-The complexity of PELT can reach $\OO(n)$ when the change points are supposed to be distributed uniformly over the signal $\bm y$. This constitues a major improvement compared to the optimal partionning method. However, as mentionned in \cite{Haynes2016}, the penalty value $\beta$ has an influence on the performance of PELT. For a single value of penalty, PELT returns a single segmentation of $\bm y$. Diverse strategies to calibrate $\beta$ exist as the BIC criterion which is widely used \citep{YAO1988181,faure2016comparison,Shi2022}. 
-One of the main drawbacks is that penalised criteria such as the BIC penalty are only valid under certain assumptions. These assumptions include exploring the true model, e.g. that the data is truly distributed under the assumed model. Since it is impossible to check this in practice, some data-driven calibrations for the penalty values have been developed \citep{Birge2006,Baudry2011,Bardet2012,arlot2009data}. They were designed to select more suited penalty values for a given dataset. Despite all that, there is no quantification possible for this parameter: we cannot predict the number of breakpoints resulting from a given fixed value of $\beta$. Thus, we do not know if the change point model resulting from the choice of $\beta$ is over or under fitting the signal $\bm y$. We need a more exploratory approach to tackle this problem.   
+The complexity of PELT can reach $\OO(n)$ when the change points are supposed to be distributed uniformly over the signal $\bm y$. This constitutes a major improvement compared to the optimal partitioning method. However, as mentioned in \cite{Haynes2016}, the penalty value $\beta$ has an influence on the performance of PELT. 
 
+For a single value of penalty, PELT returns a single segmentation of $\bm y$ (e.g. the result for a single value of $K$). There is no quantification possible for this parameter: we cannot predict the number of breakpoints resulting from a given fixed value of $\beta$. Thus, we do not know if the change point model resulting from the choice of $\beta$ is over or under fitting the signal $\bm y$. We need a more exploratory approach to tackle this problem.   
+
+\subsection{CROPS: exploring a range of penalty values}
 %\section{Exploratory research of segmentations}\label{chp:3:3}
 
-We are looking for a compromise between the exhaustivity of the "brute-force" optimal partionning method and the computationnal cost of PELT. The algorithm CROPS: Changepoints for a Range Of PenaltieS algorithm \citep{haynes2017} allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find penalty values within that range associated with new segmentations. The proccess to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_K(\bm y) = \min_{\lvert\TT\rvert} \CC(\bm y,\TT)$ the unpenalized cost of the optimal segmentation in $K$ changepoints of $\bm y$ and $K(\beta)$ the number of changepoints of the optimal segmentation result obtained using $\beta$ in problem \ref{chp:3:optKnknown}, the theorem writes as follows:
+Diverse strategies to calibrate $\beta$ exist as the BIC criterion which is widely used \citep{YAO1988181,faure2016comparison,Shi2022}. 
+One of the main drawbacks is that penalised criteria such as the BIC penalty are only valid under certain assumptions. These assumptions include exploring the true model, e.g. that the data is truly distributed under the assumed model. Since it is impossible to check this in practice, some data-driven calibrations for the penalty values have been developed \citep{Birge2006,Baudry2011,Bardet2012,arlot2009data}. They were designed to select more suited penalty values for a given dataset.  
+
+However, if we reconnect this short review of methods to the application context of this manuscript, it would be interesting to present several segmentation results to expert analysis. In order to do so, we would like to find a compromise between the completeness of the solution provided by the optimal partition method (e.g. the segmentation results for all $K \leq K_{max}$) and the computational cost of PELT. 
+
+The algorithm CROPS: Change points for a Range Of PenaltieS algorithm \citep{haynes2017} allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find penalty values associated with new segmentations within that range. The process to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_K(\bm y) = \min_{\lvert\TT\rvert} \CC(\bm y,\TT)$ the unpenalized cost of the optimal segmentation in $K$ change points of $\bm y$ and $K(\beta)$ the number of change points of the optimal segmentation result obtained using $\beta$ in problem \ref{chp:3:optKnknown}, the theorem writes as follows:
 
 \begin{theorem}
 Let $\beta_0 < \beta_1$, 3 cases are possible to uncover new penalty values:
@@ -246,27 +265,40 @@ the bounds of the initial interval of penalties $\beta_{min}$ and $\beta_{max}$,
 \end{algorithmic}
 \end{algorithm} 
 
-As stated in \cite{haynes2017}, the theoritical upper bound for the number of times PELT has to run to find all segmentations possible with $\beta\in[\beta_{min},\beta_{max}]$ is given by $m(\beta_{min})-m(\beta_{max})+1$. Given the sizes of signal $\bm y$, CROPS is still more cost-effective than the optimal partitionning method and provides the compromise we were looking for. Note that an estimation of the number of changes can be obtained by combining the results of Algorithm  \ref{chp:3:algocrops} with the elbow method. For each $\beta$ uncovered by CROPS, we have the number of changes $m(\beta)$ and the cost $\mathcal{C}_{\beta}(\bm y_{1:n})$. We can run Algorithm \ref{chp:3:algoelbow} to estimate an optimal number of changes. Keeping the results of other segmentations found by CROPS for exploratory purposes. 
+As stated in \cite{haynes2017}, the theoretical upper bound for the number of times PELT has to run to find all segmentations possible with $\beta\in[\beta_{min},\beta_{max}]$ is given by $m(\beta_{min})-m(\beta_{max})+1$. Given the sizes of signal $\bm y$, CROPS is still more cost-effective than the optimal partitioning method and provides the compromise we were looking for. Note that an estimation of the number of changes can be obtained by combining the results of Algorithm  \ref{chp:3:algocrops} with the elbow method. For each $\beta$ uncovered by CROPS, we have the number of changes $m(\beta)$ and the cost $\mathcal{C}_{\beta}(\bm y_{1:n})$. We can run Algorithm \ref{chp:3:algoelbow} to estimate an optimal number of changes. Keeping the results of other segmentations found by CROPS for exploratory purposes. 
 
-\section{Change-points detection in environmental data}\label{chp:3:4}
+\section{Change-point detection in environmental data}\label{chp:3:5}
 
-Widely used in a variety of applications \citep{basseville1993detection, chen2012parametric, liu2017change, reeves2007review, levy2009detection}, and, in particular, for environmental pollution monitoring \citep{costa2016}, change-point detection is a reference technique for time series segmentation. However, the characteristics of concentration data are the censorship and the spatial heterogeneity. We are then looking for studies on the combination on these aspects.  
+%Widely used in a variety of applications \citep{basseville1993detection, chen2012parametric, liu2017change, reeves2007review, levy2009detection}, and, in particular, for environmental pollution monitoring \citep{costa2016}, change-point detection is a reference technique for time series segmentation. 
+%How to handle left-censored and right-skewed data is therefore one aspect to consider when modelling environmental data. 
+%Given the data characteristics described in \ref{chp:2:3}, trend detection does not seem of interest in our case.
+%Other methods were found using search associating key words such as change-point, pesticide, left-censored or environment. The resulting applications domain being very specific, the span of the methods developed in these papers is very large. 
+% We are also interested in censorship and none of these studies focus on censored indicators. The aggregation of temporal information into yearly informations or rates could explain the absence of censorship in the data.
+%We are interested in a finer level of resolution. 
+%and it can be explained as the monitored phenomenons can be summarized into continuous indicators
+%Several phenomenons are investigated such as resistance appearance to a substance \citep{Solla2010}, the evolution mortality rates and suicide by ingestion of pesticides \citep{Ko2017}, the evolution of the exposition of animal populations to pesticide \citep{Menger2022} or impacts of policies on air quality \citep{FOMBY2006}, evolution of annual stream flows \citep{Ryberg2020}. However, several common points can be distinguished:      
 
-How to handle left-censored and right-skewed data is therefore one aspect to consider when modelling environmental data. A rich literature has been developed on this topic during the last thirty years, and may be roughly divided into three categories of approaches: substitution methods (censored data is imputed using some values chosen \emph{a priori} or via a generative model), parametric methods (maximum likelihood estimates are computed under the hypothesis that the data comes from some log-normal, Weibull, Gamma, exponential, or other log-logistic distribution), and non-parametric methods (Kaplan-Meier or hazard function estimates). Detailed reviews of the various approaches are available  for instance in \cite{Authority2010,Hewett2007ACO,Mitra2008,Canales2018,Antweiler2008,Gillespie2010,shoari2018toward}. These studies are providing useful tools to analyse left-censored data but they do not treat change-points detection methods.
+Change point detection is a reference technique for time series segmentation and is used in a variety of applications \citep{basseville1993detection, chen2012parametric, liu2017change, reeves2007review, levy2009detection}, in particular, for environmental pollution monitoring \citep{costa2016}. 
 
-The second aspect to consider is spatio-temporal heterogeneity. Air pollution data has received, for instance, a great deal of attention, and several modelling approaches have been proposed in the literature. Some are based on temporal regression models combined with kriging \citep{sampson2011,lindstrom2014flexible}, while others use latent variables and co-clustering approaches \citep{bouveyron2021co}. Nevertheless, these approaches do not include the fact that monitoring data is not normally distributed, and is usually left-censored. In the specific field of pesticide concentration monitoring, several recent papers address the spatio-temporal issue from an exploratory point of view see for instance \cite{masia2016,figueiredo2021spatio,aznar2017spatio}. 
-
-Other methods were found using search associating key words such as change-point, pesticide, left-censored or environment. The resulting applications domain being very specific, the span of the methods developped in these papers is very large. Several phenomenons are investigated such as resistance appearance to a substance \citep{Solla2010}, the evolution mortality rates and suicide by ingestion of pesticides \citep{Ko2017}, the evolution of the exposition of animal populations to pesticide \citep{Menger2022} or impacts of policies on air quality \citep{FOMBY2006}, evolution of annual streamflows \citep{Ryberg2020}. However, several common points can be distinguished:      
+The application domains of the studies we found are specific and thus very different from one another. Specifically, they differ significantly from the phytopharmacovigilance topic. Three aspects are recurrent in these studies: 
 \begin{itemize}
-\item Many papers focus on changes in trend. Given the data characteristics described in \ref{chp:2:3}, trend detection does not seem of interest in our case.
-\item Indicators on which change point detection is made often have a yearly temporal resolution. We are interested in a finer level of resolution. 
-\item We are also interested in censorship and none of these studies focus on censored indicators. The aggregation of temporal information into yearly informations or rates could explain the absence of censorship in the data.   
-\end{itemize}
+\item Indicators on which change point detection is made often have a yearly or monthly temporal resolution \citep{Ko2017,Ryberg2020,FOMBY2006}. The temporal aggregation highlights the fact that most studies have to handle highly irregular sampling in the raw data. 
+\item Changes in trend are ubiquitous in the studies found. Looking for changes in trends underlines that the observed phenomenon have somewhat of a continuous behaviour in time. Examples of applications are resistance appearance to a substance \citep{Solla2010}, the evolution of the exposition of animal populations to pesticide \citep{Menger2022} or impacts of policies on air quality \citep{FOMBY2006}.
+\item Optimal search methods are used in change point detection on environmental data \citep{BUNCE_2018,Ryberg2020}. Even though they are not the most common methods in the studies we found, they are still applicable to environmental data with consequent size of datasets. \end{itemize}
+
+Aggregating the data is a way to reduce the noise that could be present in a signal of data. It also produces smoother data. This can explain the detection of changes in trend. This is an important point since we also aggregate concentration data in Chapter \ref{chp:5} to a daily resolution. We are now assured this is common practice in this type of applications. 
+However, the characteristics of concentration data are the censorship and the spatiotemporal heterogeneity (see Chapter \ref{chp:2}).
+Investigating further on the two aspects of censored data and spatiotemporal heterogeneity gave interesting results. 
+
+Concerning the first aspect to consider, namely left-censored and right-skewed data, a vast literature has been developed on this topic during the last thirty years, which can be roughly divided into three categories of approaches: substitution methods (censored data is imputed using some values chosen \emph{a priori} or via a generative model), parametric methods (maximum likelihood estimates are computed under the hypothesis that the data comes from some log-normal, Weibull, Gamma, exponential, or other log-logistic distribution), and non-parametric methods (Kaplan-Meier or hazard function estimates). Detailed reviews of the various approaches are available  for instance in \cite{Authority2010,Hewett2007ACO,Mitra2008,Canales2018,Antweiler2008,Gillespie2010,shoari2018toward}. These studies are providing useful tools to analyse left-censored data but they do not treat change points detection methods. 
+
+The second aspect to consider is spatio-temporal heterogeneity. Air pollution data have received, for instance, a great deal of attention, and several modelling approaches have been proposed in the literature. Some are based on temporal regression models combined with kriging \citep{sampson2011,lindstrom2014flexible}, while others use latent variables and co-clustering approaches \citep{bouveyron2021co}. Nevertheless, these approaches do not include the fact that monitoring data is not normally distributed, and is usually left-censored. In the specific field of pesticide concentration monitoring, several recent papers address the spatio-temporal issue from an exploratory point of view see for instance \cite{masia2016,figueiredo2021spatio,aznar2017spatio}. 
+
 
 \clearpage
 
 \section{Chapter summary}
 
-This Chapter reviews the change-point detection litterature. The main statistical inferences of modeling are presented in Section \ref{chp:3:1}. It is possible to detect changes in a signal by parametric or non parametric inferences and the choice of the cost function is determinant of the type of changes detected. Section \ref{chp:3:2} goes over methods to estimate an unknown number of change-points and their locations. Even though the optimal partitionning method is designed to detect a fixed number of changes, an estimate of the optimal number of changes can be derived from heuristics such as the elbow methods. Another strategy to compute an estimate is to penalize the costs resulting from the optimal partitionning methods. The PELT algorithm can be used using a specific penalization strategy. This results in a considerable speed up in computationnal time. However, doing so adds a a penalty parameter which is important to calibrate. Instead of setting the penalty to an optimal value using calibration methods, Section \ref{chp:3:3} presents a more exploratory approach implemented with the CROPS algorithm. Section \ref{chp:3:4} reviews applications of change-point detection on environmental data. It concludes that applying change-point detection on data subject to the characteristics presented in Section \ref{chp:2:3} is hard to find in the litterature.  
+This Chapter reviews the change-point detection literature. The main statistical inferences of modelling are presented in Section \ref{chp:3:1}. It is possible to detect changes in a signal by parametric or non parametric inferences and the choice of the cost function is determinant of the type of changes detected. Section \ref{chp:3:2} goes over methods to estimate an unknown number of change-points and their locations. Even though the optimal partitioning method is designed to detect a fixed number of changes, an estimate of the optimal number of changes can be derived from heuristics such as the elbow methods. Another strategy to compute an estimate is to penalize the costs resulting from the optimal partitioning methods. The PELT algorithm can be used using a specific penalization strategy. This results in a considerable speed up in computational time. However, doing so adds a a penalty parameter which is important to calibrate. Instead of setting the penalty to an optimal value using calibration methods, Section \ref{chp:3:3} presents a more exploratory approach implemented with the CROPS algorithm. Section \ref{chp:3:4} reviews applications of change-point detection on environmental data. It concludes that applying change-point detection on data subject to the characteristics presented in Section \ref{chp:2:3} is hard to find in the literature.  
  
-Chapter \ref{chp:4} is dedicated to build an adapted change-point detection method for concentration data. The detection is made to identify temporal segments where the concentrations are distributed homogeneously in a region of study and thus deal with the temporal heterogeneity of concentration values. The main characteristic that must be taken into account in the designed model is the censorship. Notice that elements from Chapter \ref{chp:3} allows to deal with irrelugar measures in time. Indeed, no modeling of time is made in the models in Section \ref{chp:3:1}. The resulting segments of change-point detection methods are defined by the observations indices. The indices only serve as an order of apparition of the observations in the signal. Hence, change-point detection methods can still be applied on concentration data. A breakpoint detected at index $\tau_k$ means that a true change happened between times associated to indices $\tau_{k}$ and $\tau_{k}+1$. The censorship can also be integrated into the model using an adequate cost function. Chapter \ref{chp:5} shows how to analyse the spatial dimension of the data in combination with the results of the change-point model on the temporal dimension of Chapter \ref{chp:4}.        
+Chapter \ref{chp:4} is dedicated to build an adapted change-point detection method for concentration data. The detection is made to identify temporal segments where the concentrations are distributed homogeneously in a region of study and thus deal with the temporal heterogeneity of concentration values. The main characteristic that must be taken into account in the designed model is the censorship. Notice that elements from Chapter \ref{chp:3} allows to deal with irregular measures in time. Indeed, no modelling of time is made in the models in Section \ref{chp:3:1}. The resulting segments of change-point detection methods are defined by the observations indices. The indices only serve as an order of apparition of the observations in the signal. Hence, change-point detection methods can still be applied on concentration data. A breakpoint detected at index $\tau_k$ means that a true change happened between times associated to indices $\tau_{k}$ and $\tau_{k}+1$. The censorship can also be integrated into the model using an adequate cost function. Chapter \ref{chp:5} shows how to analyse the spatial dimension of the data in combination with the results of the change-point model on the temporal dimension of Chapter \ref{chp:4}.        
