@@ -189,7 +189,8 @@ In order to avoid such problems, the value of $\theta_{max}$ is set according to
 \begin{equation}
 F(\min(\bm y),\theta_{max})^n = \alpha,
 \end{equation}
-with $\alpha$ being a desired percentage of censorship. In practice, we decide to set $\alpha$ to $95\%$. This corresponds to the scenario where $95\%$ of the observation in $\bm y$ would be censored and would be lesser to the smallest censoring threshold value. 
+with $\alpha$ being a desired percentage of censorship. In practice, we decide to set $\alpha$ to $95\%$. This corresponds to the scenario where there is a $95\%$ chance that $n$ observations generated from the distribution $Q$ with parameter $\theta_{max}$ are left-censored and under the threshold $a = \min(\bm y)$. 
+% $95\%$ of the observation in $\bm y$ would be censored and would be lesser to the smallest censoring threshold value. 
 
 We provide a practical example with the exponential distribution. We simulate a signal $\bm y$ of size $n = 200$ that is a realization of exponential distributions of parameters $\theta^*_0 = 1$ for $y_{1:100}$ and $\theta^*_1 = 4$ for $y_{101:200}$. The censoring level is set to the median of $\bm y$ so that 50$\%$ of the signal is censored. We illustrates $\bm y$ in Figure \ref{fig:theta_max}. We set $\theta_{max}$ choosing with $\alpha = 95\%$. We have that $\theta_{max} = \frac{-\log(1-\alpha^{1/n})}{\min(\bm y)}$. In our numerical example, $\theta_{max} = 24.68$, which is greater than $\theta_0$ and $\theta_1$.
 
@@ -200,7 +201,7 @@ We provide a practical example with the exponential distribution. We simulate a 
     \label{fig:theta_max}
 \end{figure}
 
-Censoring in the data creates identifiability problems that we chose to deal by adding a new regularisation parameter $\theta_{max}$. Note that other ways to tackle this problem are possible. The modification of the pruning rule \ref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
+Note that other ways to tackle this problem are possible. The modification of the pruning rule \ref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
 
 \section{Multi-dimensional parameter estimation}\label{chp:4:3}
 
@@ -208,13 +209,11 @@ Censoring in the data creates identifiability problems that we chose to deal by 
 %Using a MLE estimators of all $P$ parameters as the supremum in \ref{chp:4:costfunc} provide a cost function that detects changes occurring in any of the parameters.  
 
 
-Two separate cases can occur when the parameter $\theta$ is a vector of dimension $P > 1$.     
+Two separate cases can occur when the parameter $\theta$ is a vector of dimension $P > 1$.  
 
 We can distinct the first case where the detection is made in all dimension of the parameter vector. In that case, this implies detecting changes in different properties of $\bm y$ simultaneously (mean and variance for example). In practice, it is still possible to compute the maximum likelihood estimator in Equation \ref{chp:4:emv} with numerical methods (such as Newton-Raphson for example). The problem with such a modelling choice resides in the number of data needed in a segment to estimate all parameters. The number of observations must be more important to have a valid statistical estimation when the number of parameters to estimate is high.  
 
 In the second case, some dimension of the parameters vector $\theta$ are supposed to be constant over time. In this setting, we can either suppose that the fixed parameters are known in which case the change point detection procedure can be done with a correct cost function. For example a quadratic loss function is practical for detecting changes in the mean of a signal without estimating the variance (that is supposed to be fixed) \citep{Fearnhead2018a}. 
-
-Note that all the estimation schemes we mentioned rely on the fact the criterion to be optimized is additive. we could think of other ways to estimate changes in a signal without this property (citer MCMC algo génétique) but they are not in the scope of this thesis.  
 
 In practice, this modelling choice can be justified if some parameters values are supposed to control the intrinsic diffusion properties of a chemical substance in the environment. Then, these parameters should be invariant in time. The parameters changing at each segment could represent different intensities in the substance's use in time for example. 
 
@@ -228,6 +227,9 @@ An example with $Q$ set as a Weibull distribution is provided in Figure \ref{fig
     \label{fig:param_ex}
 \end{figure}
 
+Note that all the estimation schemes we mentioned rely on the fact the criterion to be optimized is additive. other ways to estimate changes in a signal exist without this property like MCMC algorithms \citep{Lavielle2001} or genetic algorithms but they are not in the scope of this thesis.  
+
+
 \subsection{Estimators of a segmentation with some fixed parameters}
 
 We discuss here the procedure for the parameters estimates proposed in \ref{chp:4:estim}. When $\theta^* \in \mathbb{R}^P$ with $P > 1$, several optimization strategies are possible. We use the following notations in this section: 
@@ -237,28 +239,40 @@ We discuss here the procedure for the parameters estimates proposed in \ref{chp:
 \item $\theta_{k,m}$ is the m-th dimension of the parameters vector of the k-th segment.
 \end{itemize}
 
-
 We propose a different estimation strategy. We are interested in models where changes occur only in some dimension $\bm\theta^*_{.,m}$. We denote $\mathcal{M} \subset \{1,\dots,P\}$ the set of indices of dimensions where the changes occur and $\overline{\mathcal{M}}$ the complementary set. Figure \ref{fig:param_ex} provides an illustration of signal $\bm y$ simulated from these assumptions. The parameters $(\bm\theta^*_{.,m})_{m \in \overline{\mathcal{M}}}$ are supposed to be fixed throughout the signal $\bm y$. In that setting, the estimation procedure differs from Equation \ref{chp:4:estim} and we can deduce its expression: 
     
 \begin{dmath}\label{chp:4:estimproc}
 (\widehat{K},\widehat{\TT},\widehat{\theta}_{.,m\in\mathcal{M}},\widehat{\theta}_{.,m\in\overline{\mathcal{M}}}) = \arg\min_{K,\TT,\bm \theta_{.,m\in\mathcal{M}}}\bigg[\arg\min_{\theta_{.,m\in\overline{\mathcal{M}}}}\bigg\{ - \sum_{i=0}^{\lvert \TT \rvert}  \left(\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right)\bigg\}+\beta KP \bigg]
 \end{dmath}
 
+From \ref{chp:4:estimproc}, we can design a two-step iterative estimation strategy.
+
 \subsection{Estimation procedure}
 
-From \ref{chp:4:estimproc}, we can design a two-step iterative estimation strategy. The two steps of each iteration are:
+We describe the practical implementation of the estimation Equation \ref{chp:4:estimproc}. We choose to proceed with a two steps iterative algorithm. 
+The two steps of each iteration can be described as:
 \begin{enumerate}
 \item Compute the MLE $\widehat{\bm\theta}_{{.,m\in\overline{\mathcal{M}}}}$ with fixed $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ with any optimization method that handles censored data. We use \texttt{R} package developed in \cite{delignette2015} in our procedure.  
-\item Run the change-point procedure to estimate $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ using the values of $\widehat{\bm\theta}_{{.,m\in\overline{\mathcal{M}}}}$.
+\item Run the change-point procedure of to estimate $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ using the values of $\widehat{\bm\theta}_{{.,m\in\overline{\mathcal{M}}}}$.
 \end{enumerate} 
 
-In the second step of the iteration, the estimated segmentation $\widehat{\TT}$ and the fitted parameters on its segments $\widehat{\theta}_{.,m\in\mathcal{M}}$ are obtained by applying the PELT procedure \citep{Killick2012}. PELT is run several times on a penalty grid $(\beta_0,\dots,\beta_q,\dots,\beta_{B})$ where $\beta_0<\dots<\beta_{q}<\dots<\beta_{B}$ are evenly spaced. We obtain $B$ segmentations of $\bm{y}$. Eventually, the optimal penalty value for this step is selected using an elbow rule heuristic as proposed in Section \ref{chp:3:3}.
+In the second step of an iteration, we compute a new segmentation from the value of $\widehat{\bm\theta}_{{.,m\in\overline{\mathcal{M}}}}$ using a similar procedure as the one described in Section \ref{chp:4:1}. More precisely, we run PELT several times on penalty values included in a range $[\beta_{min},\beta_{max]}$. Once several results of segmentation are acquired, $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ are chosen using the elbow heuristic as proposed in Section \ref{chp:3:3}.   
+
+The difference is that we do not use the CROPS algorithm to explore the penalty range. Instead, we use a penalty grid $(\beta_0,\dots,\beta_q,\dots,\beta_{B})$ where $\beta_0<\dots<\beta_{q}<\dots<\beta_{B}$ are evenly spaced. This can be justified by the fact that the penalty values explored by CROPS would change at each iteration. We want to be sure that the selection step made with the elbow heuristic is made on segmentations issued from the same penalty values. 
+%we want to be able to compare each set of segmentations at each iteration. Since ,  
+
+%the estimated segmentation $\widehat{\TT}$ and the fitted parameters on its segments $\widehat{\theta}_{.,m\in\mathcal{M}}$ are obtained by applying the PELT procedure \citep{Killick2012}. PELT is run several times on a penalty grid $(\beta_0,\dots,\beta_q,\dots,\beta_{B})$ where $\beta_0<\dots<\beta_{q}<\dots<\beta_{B}$ are evenly spaced. We obtain $B$ segmentations of $\bm{y}$. Eventually, the optimal penalty value for this step is selected using an elbow rule heuristic as proposed in Section \ref{chp:3:3}.
 
 The initialization is an important part of this procedure. We would like the initial estimate of the fixed parameters to be close to $\bm\theta^*_{{.,m\in\overline{\mathcal{M}}}}$ to ensure the convergence of the procedure. In order to do so, we initialise $\widehat{\bm\theta}$ assuming no change-point occurred in $\bm y$.  More formally, we compute: 
 \begin{equation}\label{chp:4:init}
 \widehat{\bm\theta} = \arg\min_{\theta}\bigg\{ - \left(\sum_{j=1}^{n}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=1}^{n}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right)\bigg\}
 \end{equation}   
-We proceed using the MLE estimator for all parameters in $\bm \theta$, which implies using iterative methods again as stated in \cite{cohen1965maximum}. We choose the initial values as the $\widehat{\bm\theta}_{.,m}$ such that $m\in\overline{\mathcal{M}}$. It can be noted straight away that the value of $\widehat{\bm\theta}_{.,m\in\mathcal{M}}$ will be discarded since it was computed from a model that goes in direct contradiction with the assumption in \ref{chp:4:1} that they were change-points in the signal $\bm y$. We show the efficiency of this procedure in Appendix \ref{app:chap4:3}.  
+
+We proceed using the MLE estimator for all parameters in $\bm \theta$, which implies using iterative methods again as stated in \cite{cohen1965maximum}. We choose the initial values as the $\widehat{\bm\theta}_{.,m}$ such that $m\in\overline{\mathcal{M}}$. 
+
+It can be noted straight away that the value of $\widehat{\bm\theta}_{.,m\in\mathcal{M}}$ will be discarded since it was computed from a model that goes in direct contradiction with the assumption in \ref{chp:4:1} that they were change-points in the signal $\bm y$. 
+
+We show the efficiency of this procedure in Appendix \ref{app:chap4:3}.  
 
 We use this procedure estimation in Chapter \ref{chp:5}. We justify this choice with the observation of real data. We compare the efficiency of our method a state-of-the-art in the next section.
 
@@ -266,7 +280,7 @@ We use this procedure estimation in Chapter \ref{chp:5}. We justify this choice 
 
 We test our method on simulated data and compare it with the \textit{Multrank} method \cite{lung2015}. This section aims at two objectives. First, we want to calibrate the parameters of our method to ensure good efficiency. Then, we want to test if that calibration really leads to better change-point results.  
 
-\subsection{Calibration of the minimal segment length}
+\subsection{Testing the detecting capacity}
 
 In section \ref{chp:2:2}, the PELT Algorithm \ref{chp:3:algopelt} introduces a minimal segment length $n_{min}$. We lead some simulation tests to calibrate its value. We need to identify $n_{min}$ so that the cost function defined in \ref{chp:4:costfunc} has sufficient data to detect a change between two segments with different parameters.
 %make the difference between segments on which the parameters differ. 
@@ -290,7 +304,7 @@ From the results of Figure \ref{fig:sim_minseg}, three comments can be made:
 \end{itemize}
 From this study, we can conclude that when working with real data, we should get the censoring level information information in order to calibrate the minimal segment length of the parametric method.  
 
-\subsection{Precision of the detected break points}
+\subsection{Testing the precision of the detection method}
 
 We want to compare the performance of the change-point detection with the Multrank method developed in \cite{lung2015} since both methods are adapted to censored data. We examine the capacity to estimate the correct number of breaks in a signal and the precision of the change-point position. This section is illustrated using the Weibull distribution.   
 
