@@ -217,15 +217,15 @@ In the first case,  the detection is made in all dimension of the parameter vect
 In the second case, some dimension of the parameters vector $\theta$ are supposed to be constant over time. In this setting, we can either suppose that the fixed parameters are known in which case the change point detection procedure can be done with an appropriate cost function. For example a quadratic loss function is practical for detecting changes in the mean of a signal without estimating the variance (that is supposed to be fixed) \citep{Fearnhead2018a}. 
 %this modelling choice
 
-An example with $Q$ set as a Weibull distribution is provided in Figure \ref{fig:param_ex}. 
-\begin{figure}[ht]
-    \centering
-    \includegraphics{figs/Chap4/param_ex.pdf}
-    \caption{Example of simulated signal $\bm y$ distributed according Weibull distributions with $(\lambda,\sigma)$ as the scale and shape parameters. The segments are drawn with black rectangles. \\ 
-\textbf{Upper signal:} The associated parameters to each segment are $\theta^*_{0,.} = (\lambda^*_0,\sigma^*_0) = (1,1)$, $\theta^*_{1,.} = (\lambda^*_1,\sigma^*_1) = (3,0.7)$, $\theta^*_{2,.} = (\lambda^*_2,\sigma^*_2) = (1,0.7)$, $\theta^*_{3,.} = (\lambda^*_3,\sigma^*_3) = (1,2)$ and the censoring threshold $a = 0.86$ in all segments.\\
-\textbf{Lower signal:} The associated parameters to each segment are $\theta^*_{0,.} = (\lambda^*_0,\sigma^*) = (1,0.7)$, $\theta^*_{1,.} = (\lambda^*_1,\sigma^*) = (5,0.7)$, $\theta^*_{2,.} = (\lambda^*_2,\sigma^*) = (0.7,0.7)$, $\theta^*_{3,.} = (\lambda^*_3,\sigma^*) = (1,0.7)$ and the censoring threshold $a = 0.89$ in all segments.}
-    \label{fig:param_ex}
-\end{figure}
+%An example with $Q$ set as a Weibull distribution is provided in Figure \ref{fig:param_ex}. 
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics{figs/Chap4/param_ex.pdf}
+%    \caption{Example of simulated signal $\bm y$ distributed according Weibull distributions with $(\lambda,\sigma)$ as the scale and shape parameters. The segments are drawn with black rectangles. \\ 
+%\textbf{Upper signal:} The associated parameters to each segment are $\theta^*_{0,.} = (\lambda^*_0,\sigma^*_0) = (1,1)$, $\theta^*_{1,.} = (\lambda^*_1,\sigma^*_1) = (3,0.7)$, $\theta^*_{2,.} = (\lambda^*_2,\sigma^*_2) = (1,0.7)$, $\theta^*_{3,.} = (\lambda^*_3,\sigma^*_3) = (1,2)$ and the censoring threshold $a = 0.86$ in all segments.\\
+%\textbf{Lower signal:} The associated parameters to each segment are $\theta^*_{0,.} = (\lambda^*_0,\sigma^*) = (1,0.7)$, $\theta^*_{1,.} = (\lambda^*_1,\sigma^*) = (5,0.7)$, $\theta^*_{2,.} = (\lambda^*_2,\sigma^*) = (0.7,0.7)$, $\theta^*_{3,.} = (\lambda^*_3,\sigma^*) = (1,0.7)$ and the censoring threshold $a = 0.89$ in all segments.}
+%    \label{fig:param_ex}
+%\end{figure}
 
 Note that all the estimation schemes we mentioned rely on the fact the criterion to be optimized is additive. other methods to estimate changes in a signal exist which do not require this property like MCMC algorithms \citep{Lavielle2001} or genetic algorithms, however they are not in the scope of this thesis.  
 
@@ -241,21 +241,23 @@ We discuss here the procedure for solving the parameter estimation problem \eqre
 \item $\theta_{k,m}$ is the m-th dimension of the parameters vector of the k-th segment.
 \end{itemize}
 
-We are interested in models where changes occur only in some dimensions of $\bm\theta^*$. We denote $\mathcal{M} \subset \{1,\dots,P\}$ the set of indices of dimensions where the changes occur and $\overline{\mathcal{M}}$ the complementary set. Therefore, the parameters $(\bm\theta^*_{.,m})_{m \in \overline{\mathcal{M}}} := \bm\theta^*_{\overline{\mathcal{M}}}$ are reduced to a vector of fixed parameters throughout the signal $\bm y$. Figure \ref{fig:param_ex} provides an illustration of signal $\bm y$ simulated with these assumptions. In this setting, the estimation procedure differs from Equation \eqref{chp:4:estim} and we be expressed as: 
-    
+We are interested in models where changes occur only in some dimensions of $\bm\theta^*$. We denote $\mathcal{M} \subset \{1,\dots,P\}$ the set of indices of dimensions where the changes occur and $\overline{\mathcal{M}}$ the complementary set. Therefore, the parameters $(\bm\theta^*_{.,m})_{m \in \overline{\mathcal{M}}} := \bm\theta^*_{\overline{\mathcal{M}}}$ are reduced to a vector of fixed parameters throughout the signal $\bm y$. In this setting, the estimation procedure differs from Equation \eqref{chp:4:estim} and we be expressed as: 
+
+    %Figure \ref{fig:param_ex} provides an illustration of signal $\bm y$ simulated with these assumptions. 
+
 \begin{dmath}\label{chp:4:estimproc}
 (\widehat{K},\widehat{\TT},\widehat{\theta}_{.,m\in\mathcal{M}},\widehat{\theta}_{\overline{\mathcal{M}}}) = \arg\min_{K,\TT,\bm \theta_{.,m\in\mathcal{M}},\theta_{\overline{\mathcal{M}}}}\bigg[\bigg\{ - \sum_{i=0}^{\lvert \TT \rvert}  \left(\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right)\bigg\}+\beta KP \bigg]
 \end{dmath}
 
 From Equation \eqref{chp:4:estimproc}, we can now design a two-step iterative estimation strategy.
 
-\subsection{Estimation procedure}
+\subsection{Estimation procedure}\label{chp:4:3:2}
 
 %The two steps of each iteration can be described as:
 
 We describe the practical implementation of the estimation Equation \ref{chp:4:estimproc}. We choose to proceed with a two nested steps.
 
-\subsubsection{Inner step}
+\subsubsection{Inner step}\label{chp:4:3:2:1}
 
 For a fixed penalty value $\beta$ in a range $[\beta_{min},\beta_{max}]$ and an initial $\widehat{\theta}_{\overline{\mathcal{M}}}$, we iterate the following two steps until convergence: 
 \begin{enumerate}
@@ -275,7 +277,7 @@ The initial value of the vector $\widehat{\bm\theta}_{\overline{\mathcal{M}}}$ i
 
 %In the second step of an iteration, we compute a new segmentation from the value of $\widehat{\bm\theta}_{{.,m\in\overline{\mathcal{M}}}}$ using a similar procedure as the one described in Section \ref{chp:4:1}. More precisely, we run PELT several times on penalty values included in a range $[\beta_{min},\beta_{max]}$. Once several results of segmentation are acquired, $\widehat{\TT}$ and $\widehat{\theta}_{.,m\in\mathcal{M}}$ are chosen using the elbow heuristic as proposed in Section \ref{chp:3:3}.   
 
-\subsubsection{Outer step}
+\subsubsection{Outer step}\label{chp:4:3:2:2}
 
 This step aims at selecting penalty values $\beta$ in a given range $[\beta_{min},\beta_{max}]$.
 
@@ -292,12 +294,11 @@ We show the efficiency of this nest estimation procedure in Appendix \ref{app:ch
 
 %the estimated segmentation $\widehat{\TT}$ and the fitted parameters on its segments $\widehat{\theta}_{.,m\in\mathcal{M}}$ are obtained by applying the PELT procedure \citep{Killick2012}. PELT is run several times on a penalty grid $(\beta_0,\dots,\beta_q,\dots,\beta_{B})$ where $\beta_0<\dots<\beta_{q}<\dots<\beta_{B}$ are evenly spaced. We obtain $B$ segmentations of $\bm{y}$. 
 
-
 \section{Simulation study}\label{chp:4:4}
 
 We test our method on simulated data and compare it with the \textit{Multrank} method \cite{lung2015}. This section aims at two objectives. First, we want to calibrate the parameters of our method to ensure good efficiency. Then, we want to test if that calibration really leads to better change-point results.  
 
-\subsection{Testing the detecting capacity}
+\subsection{Testing the detecting ability with known $\sigma$}
 
 In section \ref{chp:2:2}, the PELT Algorithm \ref{chp:3:algopelt} introduces a minimal segment length $n_{min}$. We lead some simulation tests to calibrate its value. We need to identify $n_{min}$ so that the cost function defined in \ref{chp:4:costfunc} has sufficient data to detect a change between two segments with different parameters.
 %make the difference between segments on which the parameters differ. 
@@ -321,13 +322,14 @@ From the results of Figure \ref{fig:sim_minseg}, three comments can be made:
 \end{itemize}
 From this study, we can conclude that when working with real data, we should get the censoring level information information in order to calibrate the minimal segment length of the parametric method.  
 
-\subsection{Testing the precision of the detection method}
+\subsection{Testing the precision of the detection method with known $\sigma$}
 
 We want to compare the performance of the change-point detection with the Multrank method developed in \cite{lung2015} since both methods are adapted to censored data. We examine the capacity to estimate the correct number of breaks in a signal and the precision of the change-point position. This section is illustrated using the Weibull distribution.   
 
 The experimental framework is as follows: 
     \begin{enumerate}
-        \item we simulate $N=100$ samples $(x_1,...,x_n)$ of size $n=400$  following a left-censored Weibull distribution with $\alpha\%$ of censored data. We made tests for the different censorship rates $\alpha = (25,50,75,95)$. The shape parameter of the Weibull distribution is assumed to be known and set to $\sigma=0.5$. The scaling parameters $\bm{\lambda^\star}$ have $K^\star=4$ breaks at positions $p^\star_1 = 80$, $p^\star_2 = 160$, $p^\star_3 = 240$ and $p^\star_4 = 320$ and take the values $\bm{\lambda^\star}=(\lambda^\star_1 = 1, \lambda^\star_2 = 4, \lambda^\star_3 = 0.5, \lambda^\star_4 = 5, \lambda^\star_5 = 1)$. An example of a sample simulated in this way is shown in Figure \ref{fig:ex_sim}.
+        \item we simulate $N=100$ samples $(x_1,...,x_n)$ of size $n=400$  following a left-censored Weibull distribution with $\alpha\%$ of censored data. We made tests for the different censorship rates $\alpha = (25,50,75,95)$. The shape parameter of the Weibull distribution is assumed to be known and set to $\sigma=0.5$. The scaling parameters $\bm{\lambda^\star}$ have $K^\star=4$ breaks at positions $p^\star_1 = 80$, $p^\star_2 = 160$, $p^\star_3 = 240$ and $p^\star_4 = 320$ and take the values $\bm{\lambda^\star}=(\lambda^\star_1 = 1, \lambda^\star_2 = 4, \lambda^\star_3 = 0.5, \lambda^\star_4 = 5, \lambda^\star_5 = 1)$. 
+        %An example of a sample simulated in this way is shown in Figure \ref{fig:ex_sim}.
         \item For each of the $N$ samples, we perform the parametric change-point detection and the Multrank methods. For each sample, we obtain the estimated number of breaks $\hat K_{param}$ and $\hat K_{multrank}$ and their position $(\hat{p}_{k,param})_{k = 1}^{\hat K_{param}}$ (respectively $(\hat{p}_{k,multrank})_{k = 1}^{\hat K_{multrank}}$).
         \item for both methods, we count the number of samples among the $N$ for which the correct number of breaks has been estimated (e.g. $\hat K_{param} = K^\star$). Also, for each of the samples for which the estimate of $K^\star$ is correct, we make an histogram of the change-points position. 
     \end{enumerate}
@@ -338,12 +340,12 @@ Since $K$ is not known, we proceed as follows for each method to estimate it:
     \end{itemize}
 The results of the simulations are shown in Table \ref{tab:simcomp} and in Figure \ref{fig:prec_sim}. It can be seen that in the ideal scenario, where the data are indeed distributed according to a left-censored Weibull distribution, the parametric method performs better both in detecting the correct number of breaks and in accurately estimating their position. However, this performance decreases as the censoring rate increases.
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics{figs/Chap4/Ex_sim.pdf}
-    \caption{Example of simulated signal with $(\lambda_1 = 1, \lambda_2 = 4, \lambda_3 = 0.5, \lambda_4 = 5, \lambda_5 = 1)$, $\sigma = 0.5 $, $n = 400$, $K = 4$, $(p_1 = 80,p_2 = 160,p_3 = 240,p_4 = 320)$ and $\alpha = 50\%$.}
-    \label{fig:ex_sim}
-\end{figure}
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics{figs/Chap4/Ex_sim.pdf}
+%    \caption{Example of simulated signal with $(\lambda_1 = 1, \lambda_2 = 4, \lambda_3 = 0.5, \lambda_4 = 5, \lambda_5 = 1)$, $\sigma = 0.5 $, $n = 400$, $K = 4$, $(p_1 = 80,p_2 = 160,p_3 = 240,p_4 = 320)$ and $\alpha = 50\%$.}
+%    \label{fig:ex_sim}
+%\end{figure}
 
 \begin{table}[ht]
 \centering
@@ -367,6 +369,82 @@ The results of the simulations are shown in Table \ref{tab:simcomp} and in Figur
     \caption{Precision of the estimated change-points for both methods.}
     \label{fig:prec_sim}
 \end{figure}
+
+
+\subsection{Testing the estimation procedure with an unknown $\sigma$}
+
+We test the developed procedure of Section \ref{chp:4:3:2} on two different simulated signals $\bm y$ and $\bm z$. We set $Q$ as the Weibull distribution with $\lambda$ denoting the scale parameter and $\sigma$ the shape parameter. We suppose that the changes occur in $\lambda$ and that $\sigma$ is fixed throughout the signal. The two datasets with their respective parameter information are illustrated in Figure \ref{fig:y_sim1} and \ref{fig:y_sim2}. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figs/Chap4/y_sim1.pdf}
+    \caption{Simulated signal $\bm y$ of size = $n = 500$. The change point are located at position $120,185,310,365$. The segments are illustrated in black. The shape parameter is set to $\sigma = 0.33$. The scale parameters on each segment are $(\lambda^*_k)_{k = 0}^5 = (2,1,3,1,2)$. Every value lesser than the median of $\bm y$ was censored corresponding to the censoring threshold $a = 0.67$.}
+    \label{fig:y_sim1}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figs/Chap4/y_sim2.pdf}
+    \caption{Simulated signal $\bm z$ of size $n = 1000$. The change point are located at position $ 120, 185, 310, 365, 495, 580, 700, 850 $. The segments are illustrated in black. The shape parameter is set to $\sigma = 0.33$. The scale parameters on each segment are $(\lambda^*_k)_{k = 0}^8 = (1/50, 1/10, 1/100, 1/5, 1/100, 1/20, 1/70,1, 1/50)$. Every value lesser than the median of $\bm z$ was censored corresponding to the censoring threshold $a = 0.01$.}
+    \label{fig:y_sim2}
+\end{figure}
+
+Both of outer step strategies presented in Section \ref{chp:4:3:2:2} are implemented to explore the range penalty $[\beta_{min},\beta_{max}]$: 
+\begin{itemize}
+\item We use a penalty grid with 10 evenly spaced values of $\beta$.  
+\item We explored the penalty grid using the CROPS algorithm rules to uncover new values of $\beta$.
+\end{itemize}
+
+The values of $\beta_{min}$ and $\beta_{max}$ are set according to the signal lengths. We choose these values so that $\beta_{min}$ produced an overfitting model and $\beta_{max}$ an underfitting one. More precisely, the values are set to $\beta_{min} = \frac{\log(n)}{10}$ and $\beta_{max} = \log(n)$ for $\bm y$; $\beta_{min} = \frac{\log(n)}{4}$ and $\beta_{max} = 2\log(n)$ for $\bm z$.
+
+The results for the penalty values tested for both signals are illustrated in Figure \ref{fig:res_sim_y} and \ref{fig:res_sim_z}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figs/Chap4/RES_SIM_Y.pdf}
+    \caption{Simulation results for signal $\bm y$. \\ 
+    Top left figure: plot of the penalty values uncovered by the CROPS procedure. The number of change-points are plotted against their associated penalty values. The annotations give the order in which the penalty were uncovered. \\
+    Top right figure: plot of the cost of the resulting segmentations uncovered bu the CROPS procedure. The cost of the segmentations are plotted against their associated number of breaks. The red lines represent the two part linear model chosen with the elbow heuristic. The annotations are a reminder of the penalty values in the top left figure to which the segmentations are associated to. \\
+    Bottom left figure: plot of the penalty values uncovered using the grid of penalty values. The number of change-points are plotted against their associated penalty values. The annotations give the order in which the penalty were uncovered. \\
+    Bottom right figure: plot of the cost of the resulting segmentations uncovered by the penalty grid. The cost of the segmentations are plotted against their associated number of breaks. The red lines represent the two part linear model chosen with the elbow heuristic. The annotations are a reminder of the penalty values in the bottom left figure to which the segmentations are associated to.}
+    \label{fig:res_sim_y}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figs/Chap4/RES_SIM_Z.pdf}
+    \caption{Simulation results for signal $\bm z$. \\ 
+    Top left figure: plot of the penalty values uncovered by the CROPS procedure. The number of change-points are plotted against their associated penalty values. The annotations give the order in which the penalty were uncovered. \\
+    Top right figure: plot of the cost of the resulting segmentations uncovered bu the CROPS procedure. The cost of the segmentations are plotted against their associated number of breaks. The red lines represent the two part linear model chosen with the elbow heuristic. The annotations are a reminder of the penalty values in the top left figure to which the segmentations are associated to. \\
+    Bottom left figure: plot of the penalty values uncovered using the grid of penalty values. The number of change-points are plotted against their associated penalty values. The annotations give the order in which the penalty were uncovered. \\
+    Bottom right figure: plot of the cost of the resulting segmentations uncovered by the penalty grid. The cost of the segmentations are plotted against their associated number of breaks. The red lines represent the two part linear model chosen with the elbow heuristic. The annotations are a reminder of the penalty values in the bottom left figure to which the segmentations are associated to.}
+    \label{fig:res_sim_z}
+\end{figure}
+
+Several points can be noted from these results:
+\begin{itemize}
+\item Exploring the penalty range using CROPS is far much more faster than using the penalty grid. Exploring the penalty range with regular step can lead to explore the penalty values in a sub optimal manner. In Figures \ref{fig:res_sim_z} (top left) and \ref{fig:res_sim_y} (top left), we can see that the estimation procedure was run for several penalty values resulting in the same segmentation. CROPS uncover more new segmentation results.
+\item The parameter estimation is accurate when the correct number of change-points is present among the uncovered segmentations. We can conclude that the estimation procedure is correct provided the correct model is selected (see Figure \ref{fig:detect_sim_y} and \ref{fig:detect_sim_z}). The estimator values of $\sigma$ are also close to its true value when the incorrect number of change-point is selected. Using the results of the CROPS procedure, the estimated $\sigma$ ranged between $0.334$ and $0.342$ for signal $\bm y$; they ranged between $0.308$ and $ 0.348$ for $\bm z$. 
+\item The selection of the segmentation model is made with the elbow heuristic Figures \ref{fig:res_sim_y} (top and bottom right) and \ref{fig:res_sim_z} (top and bottom right). We can see that the it did not select the correct model except in using the penalty grid for signal $\bm y$. We can argue that the correct model was selected in this case because of the step used in the grid. Since we missed some segmentation results, the elbow was more apparent. However, we can see that the elbow method selected a model that was very far from the true setting using the grid in the case of $\bm z$. The model selected with the CROPS results missed some change points both in $\bm y$ and $\bm z$. The change points in positions 467 and 580 were not detected in $\bm z$. The change point in position 133 was not detected for $\bm y$. The $\lambda$ parameters surrounding those change-points  in each signal have very close values which can explain the fact they were not detected.     
+\end{itemize}
+
+We can concluse that the estimation procedure is working accurately on simulated data. However, the model selection is complicated task. Note that other heuristics can be used to select the optimal model. In practice, this is not a major issue since we aim at providing several models to the experts. We use this procedure in the subsequent chapter on a real concentration data. For presentation purposes, we will use the elbow heuristic to select a segmentation on these data as well but we keep in mind that the resulting segmentation may not be the optimal one. In Chapter \ref{chp:6}, we overcome this selection problem by presenting all segmentation models found in an interactive application. 
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figs/Chap4/y_sim_detect.pdf}
+    \caption{Segmentation results with correct number of change-points for signal $\bm y$. The estimated change-points are located at positions $133,188,310,371$. The (approximated) estimated scale parameter values are $(\widehat{\lambda}_k)_{k=0}^4 = (1.62,1.05,2.69,1.49,2.99)$. The estimated shape parameter value is $\widehat{\sigma} = 0.34$.}
+    \label{fig:detect_sim_y}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figs/Chap4/y_sim2_detect.pdf}
+    \caption{Segmentation results with correct number of change-points for signal $\bm z$. The estimated change-points are located at positions $134,187,308,359,493,607,701,842$. The (approximated) estimated scale parameter values are $(\widehat{\lambda}_k)_{k=0}^8 = (\frac{1}{55},\frac{1}{10},\frac{1}{78},\frac{1}{4},\frac{1}{92},\frac{1}{19},\frac{1}{74},1,\frac{1}{56})$. The estimated shape parameter value is $\widehat{\sigma} = 0.34$.}
+    \label{fig:detect_sim_z}
+\end{figure}
+
 
 \clearpage
 
