@@ -131,25 +131,25 @@ It is a direct consequence of using the maximum likelihood estimator. Suppose no
 We can conclude that the segmentation with the smallest cost is the one with $s$ as the last change-point. So $t$ cannot be the last change-point prior to $T$.
 
 
-\section{Convergence of \texorpdfstring{$\hat\sigma$}{s}}\label{app:chap4:4}
+%\section{Convergence of \texorpdfstring{$\hat\sigma$}{s}}\label{app:chap4:4}
 
-The experimental protocol is the following. We simulated $N = 100$ samples of size $n = 320$ of left censored Weibull realisations. 3 change points are present in the samples at position $80$, $160$ and $240$. The associated parameters for each segment are $(1,1/100,1/100,1)$. Four scenarios are proposed where the $\sigma^*$ and the censoring rate $\alpha$ varies. We test all configuration possible for $\sigma^* = (0.4,0.8)$ and $\alpha = (25\%,75\%)$. All the results are presented in Figures \ref{fig:sim:sigma1} and \ref{fig:sim:sigma2}.     
+%The experimental protocol is the following. We simulated $N = 100$ samples of size $n = 320$ of left censored Weibull realisations. 3 change points are present in the samples at position $80$, $160$ and $240$. The associated parameters for each segment are $(1,1/100,1/100,1)$. Four scenarios are proposed where the $\sigma^*$ and the censoring rate $\alpha$ varies. We test all configuration possible for $\sigma^* = (0.4,0.8)$ and $\alpha = (25\%,75\%)$. All the results are presented in Figures \ref{fig:sim:sigma1} and \ref{fig:sim:sigma2}.     
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics{figs/App/SIM_CHAP5_1.pdf}
-    \caption{Scenarios with $\sigma = 0.4$.}
-    \label{fig:sim:sigma1}
-\end{figure}
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics{figs/App/SIM_CHAP5_1.pdf}
+%    \caption{Scenarios with $\sigma = 0.4$.}
+%    \label{fig:sim:sigma1}
+%\end{figure}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics{figs/App/SIM_CHAP5_2.pdf}
-    \caption{Scenarios with $\sigma = 0.8$.}
-    \label{fig:sim:sigma2}
-\end{figure}
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics{figs/App/SIM_CHAP5_2.pdf}
+%    \caption{Scenarios with $\sigma = 0.8$.}
+%    \label{fig:sim:sigma2}
+%\end{figure}
 
-For each of these samples, we use the estimation strategy proposed in \ref{chp:4:3}. The penalty grid was defined by $Q = 5$ values set to $[\beta_0 = \frac{\ln n}{10},\dots,\beta_{q},\dots,\beta_{Q} = 5\ln n]$ with the $\beta_q$ being equidistant. We allowed this important range in the penalties to ensure enough distinct points for the elbow heuristic. The minimal segment size was set to 25. The choice was motivated by the computational time of the simulations, even though we have seen that the detection capacity of our method is lower with this minimal segment size. In the procedure, the first iteration $\widehat{\sigma}_0$ is computed with the \texttt{fitdistr} R package \cite{delignette2015}. In the first step of the estimation strategy proposed in \ref{chp:4:3}, minimizing with respect to $\sigma$ is done using \cite{Byrd1995} which allows for a box constraint for the parameter value $\sigma$ (lower and upper bounds). This interval was set to $[0,1]$. This explains that the estimated values are all inferior to 1 in Figure \ref{fig:sim:sigma2}. We defined a stopping criterion to the heuristic depending on the $\widehat{\sigma}$ values that consists in stopping when the upgrade of the new $\widehat{\sigma}$ is not superior to $10^-3$.
+%For each of these samples, we use the estimation strategy proposed in \ref{chp:4:3}. The penalty grid was defined by $Q = 5$ values set to $[\beta_0 = \frac{\ln n}{10},\dots,\beta_{q},\dots,\beta_{Q} = 5\ln n]$ with the $\beta_q$ being equidistant. We allowed this important range in the penalties to ensure enough distinct points for the elbow heuristic. The minimal segment size was set to 25. The choice was motivated by the computational time of the simulations, even though we have seen that the detection capacity of our method is lower with this minimal segment size. In the procedure, the first iteration $\widehat{\sigma}_0$ is computed with the \texttt{fitdistr} R package \cite{delignette2015}. In the first step of the estimation strategy proposed in \ref{chp:4:3}, minimizing with respect to $\sigma$ is done using \cite{Byrd1995} which allows for a box constraint for the parameter value $\sigma$ (lower and upper bounds). This interval was set to $[0,1]$. This explains that the estimated values are all inferior to 1 in Figure \ref{fig:sim:sigma2}. We defined a stopping criterion to the heuristic depending on the $\widehat{\sigma}$ values that consists in stopping when the upgrade of the new $\widehat{\sigma}$ is not superior to $10^-3$.
 
 
 \chapter{Chapter \ref{chp:5} supplementary material}\label{app:chap5}
