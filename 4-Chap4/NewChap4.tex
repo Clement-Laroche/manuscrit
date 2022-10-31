@@ -10,7 +10,7 @@ In this Chapter, we build a change-point detection algorithm specially adapted f
 %see Chapter \ref{chp:5} for an illustration on pesticide concentration data modelling.   
 \item We use the PELT search method presented in Section \ref{chp:3:4} to obtain optimal solution to the change-point detection problem. Several penalty values $\beta$ are explored with the CROPS algorithm shown in Section \ref{chp:3:4}. The elbow method is applied when it is necessary to estimate an optimal number of change-points.   
 \end{itemize}
-We first describe the model integrating the censorship information in Section \ref{chp:4:1}. However, we do not know how much the censorship can affect a parametric change-point model. We provide a study of censoring effects in Section \ref{chp:4:2}. Furthermore, we need to devise an estimation procedure that is adapted to the observations of pesticide concentrations. The question sums up to detecting breaks in all dimensions of the parameters of $Q$ or not. We devise our estimation scheme in Section \ref{chp:4:3}. Finally, in Section \ref{chp:4:4}, we test our method against the \textit{Multrank} change-point method that can take into account the censoring in the data in its cost function. This method was introduced in Chapter \ref{chp:3}. 
+We first describe the model integrating the censoring information in Section \ref{chp:4:1}. However, we do not know how much the censoring can affect a parametric change-point model. We provide a study of censoring effects in Section \ref{chp:4:2}. Furthermore, we need to devise an estimation procedure that is adapted to the observations of pesticide concentrations. The question sums up to detecting breaks in all dimensions of the parameters of $Q$ or not. We devise our estimation scheme in Section \ref{chp:4:3}. Finally, in Section \ref{chp:4:4}, we test our method against the \textit{Multrank} change-point method that can take into account the censoring in the data in its cost function. This method was introduced in Chapter \ref{chp:3}. 
 
 
 \section{Generic model for censored data}\label{chp:4:1}
@@ -22,7 +22,7 @@ $$c_t \sim \sum_{k=0}^{K^*} f(.\vert\theta^*_k)\mathbbm{1}_{\tau^*_{k}+1\leq t \
 $f$ being the density function of distribution $Q$ with respect to the Lebesgue measure on $\mathbb{R}$.  
 
 
-The observations are subject to censoring. We focus on left-censorship because it is adapted for modelling concentration data but similar models can be created for right censorship or a mix of both. To each $c_i$ is associated a known censoring threshold $a_i \ge 0$. The resulting censored observations are defined by:  
+The observations are subject to censoring. We focus on left-censoring because it is adapted for modelling concentration data but similar models can be created for right censoring or a mix of both. To each $c_i$ is associated a known censoring threshold $a_i \ge 0$. The resulting censored observations are defined by:  
 \begin{equation}\label{chp:4:defy}
 Y_i = \sup(C_i,a_i)
 \end{equation}
@@ -32,7 +32,7 @@ Since the $C_i$ are independent and the $a_i$ are known deterministic values, th
 \end{equation}
 with $f_{\theta^*_k}$ being the density function of $Y_i$ for $i \in [\tau^*_k+1,\tau^*_{k+1}]$, $F(\vert\theta^*_k)$ being the cumulative distribution function (cdf) of $Q$. 
 
-Note that if one needs to integrate right censorship into the likelihood, one should simply replace the $\sup$ in the definition \ref{chp:4:defy} by the $\inf$ of both quantities and cdf function $F$ by the survival function $S(t)=1-F(t)$. 
+Note that if one needs to integrate right censoring into the likelihood, one should simply replace the $\sup$ in the definition \ref{chp:4:defy} by the $\inf$ of both quantities and cdf function $F$ by the survival function $S(t)=1-F(t)$. 
 
 
 \subsection{Estimator choices and properties}
@@ -87,7 +87,7 @@ Under these assumptions, we know that the maximum likelihood estimator computed 
 \end{equation}
 Elements of proof are provided in Appendix \ref{app:chap4:1}. 
 
-%However, even when \textbf{H1} holds, censorship may cause identifiability issues that will be handled in Section \ref{chp:4:2}.
+%However, even when \textbf{H1} holds, censoring may cause identifiability issues that will be handled in Section \ref{chp:4:2}.
 %we show in Section  that censorship could cause additional identifiability problems that will require specific .  
 %implies that . 
 %The sampling quality (size and regularity of   being one of the main problem of the data we are working with, it would be hard to verify asymptotic properties. 
@@ -129,7 +129,7 @@ Once we run CROPS, we obtain some penalty values $\{\beta_{min},\dots,\beta_{max
 %\rightarrow_{n\to+\infty}^{\mathbb{P}}
 %Although these hypotheses guarantee the convergence of estimates in the classical framework (e.g. just as in \cite{Lavielle1997}), we need to examine the effects of censoring in our method, which is a factor that places us out of the classical framework.
 
-Let us now study the effect of censorship on our procedure.
+Let us now study the effect of censoring on our procedure.
 
 \section{Censoring effects}\label{chp:4:2}
 
@@ -142,7 +142,7 @@ Let us now study the effect of censorship on our procedure.
 %\subsection{On the parameter estimation for one segment}\label{chp:4:cens_seg}
 %On the change point detection method
 
-The censorship can pose problems in the practical implementation of the procedure developed in Section \ref{chp:4:1}. In particular, issues can be encountered when estimating the parameter of a fully censored segment with Newton-Raphson. Illustrating examples are provided in this section with $Q$ set as the exponential distribution.
+The censoring can pose problems in the practical implementation of the procedure developed in Section \ref{chp:4:1}. In particular, issues can be encountered when estimating the parameter of a fully censored segment with Newton-Raphson. Illustrating examples are provided in this section with $Q$ set as the exponential distribution.
 
 \subsection{Practical problem encountered with censoring}\label{chp:4:cens_seg}
 
@@ -154,7 +154,7 @@ The censorship can pose problems in the practical implementation of the procedur
 In general, an explicit formula for the maximum likelihood estimator (MLE) is not available in presence of censored data, leading to the use of numerical methods for its computation. The Newton-Raphson method was used on each segment to compute the MLE estimate of $\theta$. 
 
 Specifically, the case where all data in the segment $y_{u:v}$ are censored is problematic. Looking at the analytical likelihood formula, we find that the $\theta$ realising the minimum of the cost function is still unique, but tends toward infinity. In this case the cost tends to zero. We illustrate in Figure \ref{fig:onlycens} with $Q$ set as an exponential distribution. 
-For a given segment $y_{u:v}$ where all observations are censored and under a censorship threshold $a$ we have that: 
+For a given segment $y_{u:v}$ where all observations are censored and under a censoring threshold $a$ we have that: 
 \begin{equation} \label{chp:4:costex}
 W(y_{u:v}) = -\sup_{\theta \in \Theta}(v-u)\log(1-\exp(-\theta a)) 
 \end{equation}
@@ -189,7 +189,7 @@ In order to avoid such problems, the value of $\theta_{max}$ is set according to
 \begin{equation}
 F(\min(\bm y),\theta_{max})^n = \alpha,
 \end{equation}
-with $\alpha$ being a desired percentage of censorship. In practice, we decide to set $\alpha$ to $95\%$. This corresponds to the scenario where there is a $95\%$ chance that $n$ observations generated from the distribution $Q$ with parameter $\theta_{max}$ are left-censored and under the threshold $a = \min(\bm y)$. 
+with $\alpha$ being a desired percentage of censoring. In practice, we decide to set $\alpha$ to $95\%$. This corresponds to the scenario where there is a $95\%$ chance that $n$ observations generated from the distribution $Q$ with parameter $\theta_{max}$ are left-censored and under the threshold $a = \min(\bm y)$. 
 % $95\%$ of the observation in $\bm y$ would be censored and would be lesser to the smallest censoring threshold value. 
 
 We provide a practical example with the exponential distribution. We simulate a signal $\bm y$ of size $n = 200$ that is a realization of exponential distributions of parameters $\theta^*_0 = 1$ for $y_{1:100}$ and $\theta^*_1 = 4$ for $y_{101:200}$. The censoring level is set to the median of $\bm y$ so that 50$\%$ of the signal is censored. We illustrates $\bm y$ in Figure \ref{fig:theta_max}. We set $\theta_{max}$ choosing with $\alpha = 95\%$. We have that $\theta_{max} = \frac{-\log(1-\alpha^{1/n})}{\min(\bm y)}$. In our numerical example, $\theta_{max} = 24.68$, which is greater than $\theta_0$ and $\theta_1$.
@@ -328,7 +328,7 @@ We want to compare the performance of the change-point detection with the Multra
 
 The experimental framework is as follows: 
     \begin{enumerate}
-        \item we simulate $N=100$ samples $(x_1,...,x_n)$ of size $n=400$  following a left-censored Weibull distribution with $\alpha\%$ of censored data. We made tests for the different censorship rates $\alpha = (25,50,75,95)$. The shape parameter of the Weibull distribution is assumed to be known and set to $\sigma=0.5$. The scaling parameters $\bm{\lambda^\star}$ have $K^\star=4$ breaks at positions $p^\star_1 = 80$, $p^\star_2 = 160$, $p^\star_3 = 240$ and $p^\star_4 = 320$ and take the values $\bm{\lambda^\star}=(\lambda^\star_1 = 1, \lambda^\star_2 = 4, \lambda^\star_3 = 0.5, \lambda^\star_4 = 5, \lambda^\star_5 = 1)$. 
+        \item we simulate $N=100$ samples $(x_1,...,x_n)$ of size $n=400$  following a left-censored Weibull distribution with $\alpha\%$ of censored data. We made tests for the different censoring rates $\alpha = (25,50,75,95)$. The shape parameter of the Weibull distribution is assumed to be known and set to $\sigma=0.5$. The scaling parameters $\bm{\lambda^\star}$ have $K^\star=4$ breaks at positions $p^\star_1 = 80$, $p^\star_2 = 160$, $p^\star_3 = 240$ and $p^\star_4 = 320$ and take the values $\bm{\lambda^\star}=(\lambda^\star_1 = 1, \lambda^\star_2 = 4, \lambda^\star_3 = 0.5, \lambda^\star_4 = 5, \lambda^\star_5 = 1)$. 
         %An example of a sample simulated in this way is shown in Figure \ref{fig:ex_sim}.
         \item For each of the $N$ samples, we perform the parametric change-point detection and the Multrank methods. For each sample, we obtain the estimated number of breaks $\hat K_{param}$ and $\hat K_{multrank}$ and their position $(\hat{p}_{k,param})_{k = 1}^{\hat K_{param}}$ (respectively $(\hat{p}_{k,multrank})_{k = 1}^{\hat K_{multrank}}$).
         \item for both methods, we count the number of samples among the $N$ for which the correct number of breaks has been estimated (e.g. $\hat K_{param} = K^\star$). Also, for each of the samples for which the estimate of $K^\star$ is correct, we make an histogram of the change-points position. 
@@ -359,7 +359,7 @@ The results of the simulations are shown in Table \ref{tab:simcomp} and in Figur
  95 &  65 &  10 \\ 
    \hline
 \end{tabular}
-\caption{Number of correct estimations of $K$ over $N=100$ samples for both methods for different $\alpha\%$ censorship rates.}
+\caption{Number of correct estimations of $K$ over $N=100$ samples for both methods for different $\alpha\%$ censoring rates.}
 \label{tab:simcomp}
 \end{table}
 
@@ -450,7 +450,7 @@ We can concluse that the estimation procedure is working accurately on simulated
 
 \section{Chapter summary}
 
-This Chapter designs and tests an adapted change-point detection method for concentration data. The censorship is handled by the cost function choice in Section \ref{chp:4:2}. More precisely, using a parametric approach as presented in Chapter \ref{chp:3}, the likelihood is adapted to distinguish cases were a measure is censored or not. The censorship becomes critical for computing the maximum likelihood estimate of a segment when all observations are censored. This could cause issues in the identifiability of segments parameters which would compromise the detection method capacity. However, one way to circumvent this problem is to introduce a new regularization parameter in the detection that is a maximum value for the parameter value. The estimation strategy is also discussed in this Section \ref{chp:4:3}. An estimation scheme where some parameters dimension are fixed in time and other can vary across segments is devised. Experiments of Section \ref{chp:4:4} ensure that, if enough data is available to evaluate a segment, the parametric method performs decently and can outclass a suited non parametric method for censored data. 
+This Chapter designs and tests an adapted change-point detection method for concentration data. The censoring is handled by the cost function choice in Section \ref{chp:4:2}. More precisely, using a parametric approach as presented in Chapter \ref{chp:3}, the likelihood is adapted to distinguish cases were a measure is censored or not. The censoring becomes critical for computing the maximum likelihood estimate of a segment when all observations are censored. This could cause issues in the identifiability of segments parameters which would compromise the detection method capacity. However, one way to circumvent this problem is to introduce a new regularization parameter in the detection that is a maximum value for the parameter value. The estimation strategy is also discussed in this Section \ref{chp:4:3}. An estimation scheme where some parameters dimension are fixed in time and other can vary across segments is devised. Experiments of Section \ref{chp:4:4} ensure that, if enough data is available to evaluate a segment, the parametric method performs decently and can outclass a suited non parametric method for censored data. 
 
 Chapter \ref{chp:5} combines the results of temporal change-point detection using the parametric method developed in this Chapter with statistical methods to deal with the spatial heterogeneity. The obtention of homogeneous temporal sub signal in the concentrations values provides the temporal context in which the spatial analysis is conducted. In particular, in this homogeneous temporal setting, it is interesting to look for geographical areas that had concentration values that differ from others. Constructing these areas and comparing them is the main topic of Chapter \ref{chp:5}. Chapter \ref{chp:6} is the presentation of the results of Chapter \ref{chp:5} and \ref{chp:4} applied to the concentration data of substance. The results of all methods are all gathered using an interactive presentation tool.     
 

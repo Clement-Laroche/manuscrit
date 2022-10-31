@@ -250,24 +250,24 @@ Even though we chose to present it in this order, note that the first and second
 
 \subsection{Temporal segmentation}\label{sec:time_pattern}
 
-First, the coarse-grained time series $\overline{\mathcal{D}}$ in Figure \ref{time:serie} is segmented using the change-point detection procedure described in Section \ref{chp:4:3}. We fitted a left censored Weibull distribution in the change-point model with parameters $(\lambda,\sigma)$. This was motivated by the observation of the data. We suppose $\sigma$ fixed in the time series and propose the heuristic \ref{chp:4:3} to estimate it. The results of its estimation are shown in Figure \ref{fig:sig}.
+%First, the coarse-grained time series $\overline{\mathcal{D}}$ in Figure \ref{time:serie} is segmented using the change-point detection procedure described in Section \ref{chp:4:3}. We fitted a left censored Weibull distribution in the change-point model with parameters $(\lambda,\sigma)$. This was motivated by the observation of the data. We suppose $\sigma$ fixed in the time series and propose the heuristic \ref{chp:4:3} to estimate it. The results of its estimation are shown in Figure \ref{fig:sig}.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[]{figs/Chap5/Sigma_heu.pdf}
-  \caption{Plot of successive $\widehat{\sigma}$ values. We stopped the to iterate when the $\lvert \widehat{\sigma}_{b-1} - \widehat{\sigma}_{b} \rvert \leq 10^{-3}$}
-  \label{fig:sig}
-\end{figure}
+%\begin{figure}[htbp]
+%  \centering
+%  \includegraphics[]{figs/Chap5/Sigma_heu.pdf}
+%  \caption{Plot of successive $\widehat{\sigma}$ values. We stopped the to iterate when the $\lvert \widehat{\sigma}_{b-1} - \widehat{\sigma}_{b} \rvert \leq 10^{-3}$}
+%  \label{fig:sig}
+%\end{figure}
 
-The penalty grid $\bigg[\frac{\log(n)}{5},5\log(n)\bigg]$ was chosen for the heuristic where $n$ is the number of daily maximum concentrations available, here $n = 2150$. This interval allowed to obtain various segmentation results with the number of change points varying from 1 to 30. With such kind of range in the results, it ensured a central position of the elbow in the plot of the cost of these segmentations against their respective number of change-points. The precision stopping criterion was set to $10^-3$.
+%The penalty grid $\bigg[\frac{\log(n)}{5},5\log(n)\bigg]$ was chosen for the heuristic where $n$ is the number of daily maximum concentrations available, here $n = 2150$. This interval allowed to obtain various segmentation results with the number of change points varying from 1 to 30. With such kind of range in the results, it ensured a central position of the elbow in the plot of the cost of these segmentations against their respective number of change-points. The precision stopping criterion was set to $10^-3$.
 
-From the application point of view, the assumption that $\sigma$ is a fixed parameter throughout the series $\overline{\mathcal{D}}$ corresponds to the hypothesis that the differences in usage and diffusion of the prosulfocarb among the different users is captured by the shape parameter, and should not vary much over time. On the contrary, the overall average usage of prosulfocarb varies, and this dependency is captured by changes in the rate parameter. Let us remark here that the estimated value of the shape parameter is $\hat \sigma_{MLE}=0.4$. This confirms the data has a heavier tail than an exponential distribution ($\sigma$=1), and that the assumption of using Weibull distributions for our data is appropriate. 
+%From the application point of view, the assumption that $\sigma$ is a fixed parameter throughout the series $\overline{\mathcal{D}}$ corresponds to the hypothesis that the differences in usage and diffusion of the prosulfocarb among the different users is captured by the shape parameter, and should not vary much over time. On the contrary, the overall average usage of prosulfocarb varies, and this dependency is captured by changes in the rate parameter. Let us remark here that the estimated value of the shape parameter is $\hat \sigma_{MLE}=0.4$. This confirms the data has a heavier tail than an exponential distribution ($\sigma$=1), and that the assumption of using Weibull distributions for our data is appropriate. 
 
 %Then, to detect temporal patterns the PELT algorithm was used with a minimal segment length of $50$ days. 
 
 %In the change-point detection procedure, the penalty value for the PELT algorithm was calibrated using a large range of values explored according to the CROPS algorithm. The range, inspired by the BIC criterion, was set to $\bigg[\frac{\log(n)}{5},5\log(n)\bigg]$. Note that when using the BIC penalty in change point detection, the penalty term written becomes : $\beta_n(K+1)|\mathcal{M}| = \frac{|\mathcal{M}|}{2}\log(n)(K+1) = \frac{1}{2}\log(n)(K+1)$ where $|\mathcal{M}|$ is the cardinal of the dimensions of the parameters $\bm\theta$ of $Q$ that are subject to changes across segments. Since $\bm\theta = (\lambda,\sigma)$ and the changes occur only on the $\lambda$ parameter, $|\mathcal{M}| = 1$. The range chosen allows to screen an interval of penalties containing the BIC penalty.
 
-The penalty calibration procedure resulted in 15 different segmentations, with a number of change-points ranging from 1 to 30. The best segmentation is selected using the elbow method, as illustrated in Figure \ref{fig:elb_seg} . This amounts to a temporal segmentation with $\hat K=13$ change-points, illustrated in Figure \ref{fig:seg}. 
+%The penalty calibration procedure resulted in 15 different segmentations, with a number of change-points ranging from 1 to 30. The best segmentation is selected using the elbow method, as illustrated in Figure \ref{fig:elb_seg} . This amounts to a temporal segmentation with $\hat K=13$ change-points, illustrated in Figure \ref{fig:seg}. 
 %Some similar procedures are found in \cite{lung2015homogeneity}. 
 %in Appendix \ref{section:elb}
 \begin{figure}[htbp]
@@ -277,7 +277,7 @@ The penalty calibration procedure resulted in 15 different segmentations, with a
   \label{fig:elb_seg}
 \end{figure} 
 
-According to Figure \ref{fig:seg}, the usage of prosulfocarb in Centre-Val de Loire shows different patterns throughout time. Before 2016, most of the values are not quantified, and there are almost no change-points detected. Starting with 2016, two regimes of pesticide usage appear to emerge, and correspond respectively to the periods of intensive usage of prosulfocarb and to the off-peak periods. Indeed, the starting dates of the peak periods coincide with the season where the substance is spread, which is Autumn. The emergence of this two-regime pattern, alternating high concentration values during the peak periods and low concentration values during the off-peaks, is correlated with an important increase in the prosulfocarb sales as shown in Figure \ref{fig:sale}. 
+%According to Figure \ref{fig:seg}, the usage of prosulfocarb in Centre-Val de Loire shows different patterns throughout time. Before 2016, most of the values are not quantified, and there are almost no change-points detected. Starting with 2016, two regimes of pesticide usage appear to emerge, and correspond respectively to the periods of intensive usage of prosulfocarb and to the off-peak periods. Indeed, the starting dates of the peak periods coincide with the season where the substance is spread, which is Autumn. The emergence of this two-regime pattern, alternating high concentration values during the peak periods and low concentration values during the off-peaks, is correlated with an important increase in the prosulfocarb sales as shown in Figure \ref{fig:sale}. 
 %in Appendix \ref{section:sale}. 
 
 \begin{figure}[htbp]
@@ -331,7 +331,9 @@ As expected the biggest component in Figure \ref{fig:comp} is the most segmented
 
 
 \subsection{Anomalous cluster identification}\label{subsection:anomalous}
+
 % Peak periods in prosulfocarb use are less likely to produce rich spatial patterns since they correspond to a intensive overall use in the region. was investigated instead
+
 We now focus on locating spatial patterns during time segments identified in section \ref{sec:time_pattern}. We select a segment corresponding to an off-peak period since it should be abnormal to find some concentration levels in these periods. In the rest of this case study, we selected the segment highlighted in black in figure \ref{fig:seg}. It is delimited by the dates February 8, 2017 and October 4, 2017. 
 This introduces a context to the anomaly detection: a global non use of the substance. 
 
