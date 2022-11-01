@@ -152,108 +152,108 @@ We can conclude that the segmentation with the smallest cost is the one with $s$
 %For each of these samples, we use the estimation strategy proposed in \ref{chp:4:3}. The penalty grid was defined by $Q = 5$ values set to $[\beta_0 = \frac{\ln n}{10},\dots,\beta_{q},\dots,\beta_{Q} = 5\ln n]$ with the $\beta_q$ being equidistant. We allowed this important range in the penalties to ensure enough distinct points for the elbow heuristic. The minimal segment size was set to 25. The choice was motivated by the computational time of the simulations, even though we have seen that the detection capacity of our method is lower with this minimal segment size. In the procedure, the first iteration $\widehat{\sigma}_0$ is computed with the \texttt{fitdistr} R package \cite{delignette2015}. In the first step of the estimation strategy proposed in \ref{chp:4:3}, minimizing with respect to $\sigma$ is done using \cite{Byrd1995} which allows for a box constraint for the parameter value $\sigma$ (lower and upper bounds). This interval was set to $[0,1]$. This explains that the estimated values are all inferior to 1 in Figure \ref{fig:sim:sigma2}. We defined a stopping criterion to the heuristic depending on the $\widehat{\sigma}$ values that consists in stopping when the upgrade of the new $\widehat{\sigma}$ is not superior to $10^-3$.
 
 
-\chapter{Chapter \ref{chp:5} supplementary material}\label{app:chap5}
+%\chapter{Chapter \ref{chp:5} supplementary material}\label{app:chap5}
 
-\section{Clustering algorithms}\label{app:clustalgo:chap5}
+%\section{Clustering algorithms}\label{app:clustalgo:chap5}
 
-We keep the same notations than in \ref{section:spaceclust}. We introduce the following new notations : 
-\begin{itemize}
-    \item $C_m^r$ the $m$-th cluster located in component $r$.
-    \item $M_r$ the number of clusters in component $\mathcal{K}_r$.
-    \item $\displaystyle Q(\mathcal{K}_r,C_m^r) = \frac{1}{\lvert C_m^r\rvert}\sum_{v_i,v_j \in C_m^r}d_{ij}^2$ the inertia of cluster $C^r_m$.
-    \item $\displaystyle U_r(M_r) = \min_{(C_m^r)_{m=1}^{M_r}}\sum_{m = 1}^{M_r}Q(\mathcal{K}_r,C_m^r)$ the best partition (in the sense of minimal inertia) of component $r$ into $M_r$ clusters. 
-    \item $\displaystyle S(l,m) = \min_{(M_r)_{r=1}^l \text{ such that } \sum_{r=1}^l M_r = m}\sum_{r=1}^lU_r(M_r)$ which is the best partition of the $l$ first components into a total number of $m$ clusters.
-\end{itemize}
+%We keep the same notations than in \ref{section:spaceclust}. We introduce the following new notations : 
+%\begin{itemize}
+%    \item $C_m^r$ the $m$-th cluster located in component $r$.
+%    \item $M_r$ the number of clusters in component $\mathcal{K}_r$.
+%    \item $\displaystyle Q(\mathcal{K}_r,C_m^r) = \frac{1}{\lvert C_m^r\rvert}\sum_{v_i,v_j \in C_m^r}d_{ij}^2$ the inertia of cluster $C^r_m$.
+%    \item $\displaystyle U_r(M_r) = \min_{(C_m^r)_{m=1}^{M_r}}\sum_{m = 1}^{M_r}Q(\mathcal{K}_r,C_m^r)$ the best partition (in the sense of minimal inertia) of component $r$ into $M_r$ clusters. 
+%    \item $\displaystyle S(l,m) = \min_{(M_r)_{r=1}^l \text{ such that } \sum_{r=1}^l M_r = m}\sum_{r=1}^lU_r(M_r)$ which is the best partition of the $l$ first components into a total number of $m$ clusters.
+%\end{itemize}
 
-$U_p(m)$ can be computed with Ward hierarchical clustering technique. In the case of this work we used the \texttt{R} package \texttt{hclust}. With these notations, we can write the two developed methods as follows: 
+%$U_p(m)$ can be computed with Ward hierarchical clustering technique. In the case of this work we used the \texttt{R} package \texttt{hclust}. With these notations, we can write the two developed methods as follows: 
 
-\begin{algorithm}[ht]
-\caption{Clustering with greedy method:}\label{algo:greed}
-\begin{algorithmic}
+%\begin{algorithm}[ht]
+%\caption{Clustering with greedy method:}\label{algo:greed}
+%\begin{algorithmic}
 
-\State \textbf{input} : the station graph $G=(V,E)$, the known partition into non connex components $(\mathcal{K}_1,\dots,\mathcal{K}_R)$, a total number of clusters $M$ \\
+%\State \textbf{input} : the station graph $G=(V,E)$, the known partition into non connex components $(\mathcal{K}_1,\dots,\mathcal{K}_R)$, a total number of clusters $M$ \\
   
-\State \textbf{initialisation} : Compute $U_r(1)$ for all $r \in [1,\dots,R]$ using \texttt{hclust}, set $M_{opt} = (1,\dots,1)$ vector of size $R$  \\
+%\State \textbf{initialisation} : Compute $U_r(1)$ for all $r \in [1,\dots,R]$ using \texttt{hclust}, set $M_{opt} = (1,\dots,1)$ vector of size $R$  \\
 
-\For{$m = 1$ to $M-R$}
-  \State $\textit{score}\gets(0,\dots,0)$ vector of size $R$
-  \For{$r = 1$ to $R$}
-  \State $M_{opt}(r) \gets M_{opt}(r) + 1$
-  \State $\textit{score}(r) \gets \sum_{r=1}^R U_r(M_{opt}(r))$
-  \State $M_{opt}(r) \gets M_{opt}(r) - 1$
-  \EndFor
-  \State $\textit{pos} \gets which.min(\textit{score})$
-  \State $M_{opt}(pos) \gets M_{opt}(pos)+1$
-\EndFor
-\For{$r=1$ to $R$}
-\State built the optimal partition of $\mathcal{K}_r$ with $M_{opt}(r)$ clusters using \texttt{hclust}.
-\EndFor
+%\For{$m = 1$ to $M-R$}
+%  \State $\textit{score}\gets(0,\dots,0)$ vector of size $R$
+%  \For{$r = 1$ to $R$}
+%  \State $M_{opt}(r) \gets M_{opt}(r) + 1$
+%  \State $\textit{score}(r) \gets \sum_{r=1}^R U_r(M_{opt}(r))$
+%  \State $M_{opt}(r) \gets M_{opt}(r) - 1$
+%  \EndFor
+%  \State $\textit{pos} \gets which.min(\textit{score})$
+%  \State $M_{opt}(pos) \gets M_{opt}(pos)+1$
+%\EndFor
+%\For{$r=1$ to $R$}
+%\State built the optimal partition of $\mathcal{K}_r$ with $M_{opt}(r)$ clusters using \texttt{hclust}.
+%\EndFor
 
-\end{algorithmic}
-\end{algorithm} 
+%\end{algorithmic}
+%\end{algorithm} 
 
-\begin{algorithm}[ht]
-\caption{Clustering by dynamic programming:}\label{algo:dyn}
-\begin{algorithmic}
+%\begin{algorithm}[ht]
+%\caption{Clustering by dynamic programming:}\label{algo:dyn}
+%\begin{algorithmic}
 
-\State \textbf{input} : the station graph $G=(V,E)$, the known partition into non connex components $(\mathcal{K}_1,\dots,\mathcal{K}_R)$, a total number of clusters $M$ \\
+%\State \textbf{input} : the station graph $G=(V,E)$, the known partition into non connex components $(\mathcal{K}_1,\dots,\mathcal{K}_R)$, a total number of clusters $M$ \\
     
- \For{$r=1$ to $R$} : 
- \State Use \texttt{hclust} to compute $U_r(m)$ for all $m \in \{1,\dots,M-R+1\}$
- \EndFor 
- \For{$m=1$ to $M-R+1$} : 
- \State $S(1,m) \gets U_1(m)$ 
- \EndFor 
- \For{$l = 2$ to $R$} : 
-  \For{$m = l$ to $M$} : 
-     \State $W(l,m) \gets 1$ 
-     \State $S(l,m) \gets S(l-1,m-1)+U_l(1)$
-   \For{$u = 1$ to $m-l+1$}
-   \If{$S(l-1,m-u)+U_l(u) < S(l,m)$}
-     \State $W(l,m) \gets u$
-     \State $S(l,m) \gets S(l-1,m-u)+U_l(u)$
-   \EndIf
-   \EndFor
- \EndFor 
- \EndFor 
- \State $M_{opt} \gets (\text{NA},\dots,\text{NA})$, vector of size $R$
- \State $M_{opt}(R) \gets W(R,M)$
- \State $\textit{left} \gets M-W(R,M)$
- \For{$r = R-1$ to $1$}
- \State $M_{opt}(r) \gets W(r,\textit{left})$
- \State $\textit{left} \gets \textit{left}-W(r,\textit{left})$
- \EndFor
- \For{$r = 1$ to $R$}
- \State built the optimal partition of $\mathcal{K}_r$ with $M_{opt}(r)$ clusters using \texttt{hclust}
- \EndFor 
-\end{algorithmic}
-\end{algorithm} 
+% \For{$r=1$ to $R$} : 
+% \State Use \texttt{hclust} to compute $U_r(m)$ for all $m \in \{1,\dots,M-R+1\}$
+% \EndFor 
+% \For{$m=1$ to $M-R+1$} : 
+% \State $S(1,m) \gets U_1(m)$ 
+% \EndFor 
+% \For{$l = 2$ to $R$} : 
+%  \For{$m = l$ to $M$} : 
+%     \State $W(l,m) \gets 1$ 
+%     \State $S(l,m) \gets S(l-1,m-1)+U_l(1)$
+%   \For{$u = 1$ to $m-l+1$}
+%   \If{$S(l-1,m-u)+U_l(u) < S(l,m)$}
+%     \State $W(l,m) \gets u$
+%     \State $S(l,m) \gets S(l-1,m-u)+U_l(u)$
+%   \EndIf
+%   \EndFor
+% \EndFor 
+% \EndFor 
+% \State $M_{opt} \gets (\text{NA},\dots,\text{NA})$, vector of size $R$
+% \State $M_{opt}(R) \gets W(R,M)$
+% \State $\textit{left} \gets M-W(R,M)$
+% \For{$r = R-1$ to $1$}
+% \State $M_{opt}(r) \gets W(r,\textit{left})$
+% \State $\textit{left} \gets \textit{left}-W(r,\textit{left})$
+% \EndFor
+% \For{$r = 1$ to $R$}
+% \State built the optimal partition of $\mathcal{K}_r$ with $M_{opt}(r)$ clusters using \texttt{hclust}
+% \EndFor 
+%\end{algorithmic}
+%\end{algorithm} 
 
-\clearpage
+%\clearpage
 
-\section{Modified empirical Wasserstein distance}\label{appendix:wasserstein}
+%\section{Modified empirical Wasserstein distance}\label{appendix:wasserstein}
 
-The Wasserstein distance was chosen over the Kolmogorov-Smirnov or the Jensen-Shannon metric. It has the advantage of integrating in the distance calculation both the differences between the probabilities of observing different values but also the distances between those values. This is a critical point which is illustrated on a simple simulated example provided by Figure \ref{fig:ex_dist}. We show here three monitoring stations that have quite different behaviors. Those different behaviors are obvious both on in the temporal representation and in the histograms. However, the Kolmogorov-Smirnov distance between stations 1 and 3 is equal to the Kolmogorov-Smirnov distance between stations 1 and 2. This distance cannot capture the fact that station 2 recorded higher concentration values than station 3. On the contrary, the Wasserstein distance between stations 1 and 3 is smaller than the Wasserstein distance between stations 1 and 2. 
+%The Wasserstein distance was chosen over the Kolmogorov-Smirnov or the Jensen-Shannon metric. It has the advantage of integrating in the distance calculation both the differences between the probabilities of observing different values but also the distances between those values. This is a critical point which is illustrated on a simple simulated example provided by Figure \ref{fig:ex_dist}. We show here three monitoring stations that have quite different behaviors. Those different behaviors are obvious both on in the temporal representation and in the histograms. However, the Kolmogorov-Smirnov distance between stations 1 and 3 is equal to the Kolmogorov-Smirnov distance between stations 1 and 2. This distance cannot capture the fact that station 2 recorded higher concentration values than station 3. On the contrary, the Wasserstein distance between stations 1 and 3 is smaller than the Wasserstein distance between stations 1 and 2. 
 
-Computing information theoretic distances/dissimilarities such as the Jensen-Shannon divergence requires estimating densities for the distributions observed at the stations. As noted earlier, few concentration records (and even fewer quantified ones) are available at the level of a station and within a time period. Therefore, density estimations based on such a small number of observations are unreliable.
+%Computing information theoretic distances/dissimilarities such as the Jensen-Shannon divergence requires estimating densities for the distributions observed at the stations. As noted earlier, few concentration records (and even fewer quantified ones) are available at the level of a station and within a time period. Therefore, density estimations based on such a small number of observations are unreliable.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics{figs/App/Simu_ex.pdf}
-    \caption{Example of three stations data. The data were simulated.}
-    \label{fig:ex_dist}
-\end{figure}
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics{figs/App/Simu_ex.pdf}
+%    \caption{Example of three stations data. The data were simulated.}
+%    \label{fig:ex_dist}
+%\end{figure}
 
-The empirical 1-d Wasserstein distance used in our work is slightly adapted for left censored values. Given two samples $\bm{x}=(x_1,\dots,x_n)$ and $\bm{y}=(y_1,\dots,y_m)$ of sizes $n$ and $m$ with respective empirical c.d.f. $F_n$ and $G_m$, the 1-d empirical distance writes:
-$$W_1(F_n,G_n) = \int_{\mathbbm{R}}\lvert F_n(x)-G_m(x) \rvert\mathrm{d}x$$
-In the case of left censored observations, the empirical c.d.f. the first non zero value is the censoring threshold. If we use the classical empirical c.d.f., it does not take into account that the potential real values of censored samples is potentially lower than this threshold. In particular, if both samples $\bm{x}$ and $\bm{y}$ are fully censored at respective thresholds $a_1$ and $a_2$, the Wasserstein distance equals $\lvert a_1-a_2 \rvert$. We would like this quantity to be the smallest possible since none of the samples has any quantified values. Since the samples size for a single station is usually very small, a reasonable assumption is to suppose that the real values under the censoring threshold are uniformly distributed. Figure \ref{fig:mod_dist} illustrates the changes it implies on the empirical c.d.f.. In the previous example of $\bm{x}$ and $\bm{y}$, the adapted empirical distance gives $\lvert a_1-a_2\rvert/2$.    
+%The empirical 1-d Wasserstein distance used in our work is slightly adapted for left censored values. Given two samples $\bm{x}=(x_1,\dots,x_n)$ and $\bm{y}=(y_1,\dots,y_m)$ of sizes $n$ and $m$ with respective empirical c.d.f. $F_n$ and $G_m$, the 1-d empirical distance writes:
+%$$W_1(F_n,G_n) = \int_{\mathbbm{R}}\lvert F_n(x)-G_m(x) \rvert\mathrm{d}x$$
+%In the case of left censored observations, the empirical c.d.f. the first non zero value is the censoring threshold. If we use the classical empirical c.d.f., it does not take into account that the potential real values of censored samples is potentially lower than this threshold. In particular, if both samples $\bm{x}$ and $\bm{y}$ are fully censored at respective thresholds $a_1$ and $a_2$, the Wasserstein distance equals $\lvert a_1-a_2 \rvert$. We would like this quantity to be the smallest possible since none of the samples has any quantified values. Since the samples size for a single station is usually very small, a reasonable assumption is to suppose that the real values under the censoring threshold are uniformly distributed. Figure \ref{fig:mod_dist} illustrates the changes it implies on the empirical c.d.f.. In the previous example of $\bm{x}$ and $\bm{y}$, the adapted empirical distance gives $\lvert a_1-a_2\rvert/2$.    
 
-\begin{figure}[H]
-    \centering
-    \includegraphics{figs/App/Wass_ew.pdf}
-    \caption{Example of modified c.d.f. for the Wasserstein distance.}
-    \label{fig:mod_dist}
-\end{figure}
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics{figs/App/Wass_ew.pdf}
+%    \caption{Example of modified c.d.f. for the Wasserstein distance.}
+%    \label{fig:mod_dist}
+%\end{figure}
 
 %\section{Supplementary Figures}
 
