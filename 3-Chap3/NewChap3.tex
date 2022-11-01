@@ -93,11 +93,11 @@ Various search methods for finding change points have been described in the lite
 
 We choose to focus on optimal methods. This choice is motivated by the size of the datasets we apply change-point detection on. The number of samples is still in a reasonable range to obtain satisfying computational times.  
 
-The optimal segmentation algorithm brings an answer to problem defined in Equation \ref{chp:3:optKknown}. It is a search method based on dynamic programming. It requires to compute the cost of all possible segments $y_{u:v}$ with $u<v$.  With a fixed $K_{max}$ number of change-points, one can recursively solve the optimization problem. The recursion comes from the following relationship: 
+The optimal segmentation algorithm brings an answer to problem defined in Equation \eqref{chp:3:optKknown}. It is a search method based on dynamic programming. It requires to compute the cost of all possible segments $y_{u:v}$ with $u<v$.  With a fixed $K_{max}$ number of change-points, one can recursively solve the optimization problem. The recursion comes from the following relationship: 
 \begin{equation}\label{chp:3:recurs}
 \min_{\lvert\TT\rvert = K_{max}}\mathcal{C}(\bm y, \TT) = \min_{t \leq n-K_{max}}\{W(y_{1:t})+\min_{\lvert\TT\rvert = K_{max}-1}\mathcal{C}(y_{t:n},\TT)\} 
 \end{equation}
-In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in $K_{max}-1$ segments, one can compute the optimal segmentation of the whole signal $\bm y$ in $K_{max}$ segments. This results in a computational cost in order of $\mathcal{O}(K_{max}n^2)$ \citep{haynes2017}. Algorithm \ref{chp:3:algoopt} shows the implementation of \ref{chp:3:recurs}. 
+In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in $K_{max}-1$ segments, one can compute the optimal segmentation of the whole signal $\bm y$ in $K_{max}$ segments. This results in a computational cost in order of $\mathcal{O}(K_{max}n^2)$ \citep{haynes2017}. Algorithm \ref{chp:3:algoopt} shows the implementation of \eqref{chp:3:recurs}. 
 
 \begin{algorithm}[ht]
 \caption{Optimal partition algorithm:}\label{chp:3:algoopt}
@@ -130,7 +130,7 @@ In other words, given all possible segmentations of all sub-signals $y_{t:n}$ in
 
 Notice that slight modifications can be made to Algorithm \ref{chp:3:algoopt} to obtain the output of all segmentation results for all values of $K\leq K_{max}$. 
 
-The downsides of the optimal partition method reside in its computational cost which is expensive and that problem \ref{chp:3:optKknown} suppose that the number of changes $K^*$ is known. There are ways to compute an estimate of $K^*$ from the results of optimal partitioning. 
+The downsides of the optimal partition method reside in its computational cost which is expensive and that problem \eqref{chp:3:optKknown} suppose that the number of changes $K^*$ is known. There are ways to compute an estimate of $K^*$ from the results of optimal partitioning. 
 
 Application of optimal partitioning methods can be found in \cite{rigaill2015pruned,Lavielle1997,perron2006dealing}.
 
@@ -163,7 +163,7 @@ Initialize $slope \gets (0,...,0)$  a $K_{max}-2$ length vector.
 \State \textbf{output} : the optimal number of changes $CP$. 
 \end{algorithmic}
 \end{algorithm} 
-\item \textbf{Penalizing the cost:} as mentioned in \cite{truong2020}, the optimization problem \ref{chp:3:optKknown} can be modified when the number of breaks is unknown by adding a penalty term. Intuitively, the penalty term acts as an additional cost one must pay each time a break is decided in the signal $\bm y$. This gives the new optimization problem: 
+\item \textbf{Penalizing the cost:} as mentioned in \cite{truong2020}, the optimization problem \eqref{chp:3:optKknown} can be modified when the number of breaks is unknown by adding a penalty term. Intuitively, the penalty term acts as an additional cost one must pay each time a break is decided in the signal $\bm y$. This gives the new optimization problem: 
 \begin{equation}\label{chp:3:optKnknown}
 \min_{\TT} \{ \mathcal{C}(\bm y,\TT) + pen(\TT) \} 
 \end{equation}   
@@ -178,12 +178,12 @@ Penalizing the costs is not only useful in the choice of an optimal number of ch
 
 \section{Strategies using a penalized criterion}\label{chp:3:4}
 
-When using a penalized criterion (as the one of Equation \ref{chp:3:optKnknown}) in change point detection procedure, there are two separate topics that must discussed. The first one is the search method when the weight parameter associated to the penalization term is fixed. The second topic is the efficient exploration of several penalty weights to obtain several segmentation results.   
+When using a penalized criterion (as the one of Equation \eqref{chp:3:optKnknown}) in change point detection procedure, there are two separate topics that must discussed. The first one is the search method when the weight parameter associated to the penalization term is fixed. The second topic is the efficient exploration of several penalty weights to obtain several segmentation results.   
 %This section discusses two separate topics when the change point detection method is performed using a penalized criterion . The first addressed topic is the search method algorithm when using the penalizing strategy. The second topic discussed is the calibration of the penalization term.   
 
 \subsection{PELT search method}
 
-Problem \ref{chp:3:optKnknown} can be solved with an efficient dynamic programming method under some specific penalization strategy. The Pruned Exact Linear Time (PELT) algorithm was introduced by \cite{Killick2012}. It is efficient when the penalization strategy is linear in the number of change point $K$. More formally, the penalty term writes as:
+Problem \eqref{chp:3:optKnknown} can be solved with an efficient dynamic programming method under some specific penalization strategy. The Pruned Exact Linear Time (PELT) algorithm was introduced by \cite{Killick2012}. It is efficient when the penalization strategy is linear in the number of change point $K$. More formally, the penalty term writes as:
 $$pen(\TT) = \lvert\TT\rvert\beta$$ 
 The penalty value (or weight) parameter $\beta$ takes positive values. It corresponds to the cost assigned to a breakpoint. Intuitively, the number of change points detected is low when the the penalty value takes high values. Using PELT, one can sequentially go through the signal $\bm y = \{y_s\}_{s=1}^n$ and obtain a set of potential breakpoints $\{\tau_0,...,\tau_m\}$ for each index $s \in {1,...,n}$. Then, one should proceed to eliminate candidates from this set using a pruning rule involving the penalty value $\beta$. This is the principle of Algorithm \ref{chp:3:algopelt}. The pruning rule of \cite{Killick2012} can be stated as follows: \\
  for all $t <s < n$, if
@@ -224,7 +224,7 @@ One of the main drawbacks is that penalised criteria such as the BIC penalty are
 
 However, if we reconnect this short review of methods to the application context of this manuscript, it would be interesting to present several segmentation results to expert analysis. In order to do so, we would like to find a compromise between the completeness of the solution provided by the optimal partition method (e.g. the segmentation results for all $K \leq K_{max}$) and the computational cost of PELT. 
 
-The algorithm CROPS: Change points for a Range Of PenaltieS algorithm \citep{haynes2017} allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find penalty values associated with new segmentations within that range. The process to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_K(\bm y) = \min_{\lvert\TT\rvert} \CC(\bm y,\TT)$ the unpenalized cost of the optimal segmentation in $K$ change points of $\bm y$ and $K(\beta)$ the number of change points of the optimal segmentation result obtained using $\beta$ in problem \ref{chp:3:optKnknown}, the theorem writes as follows:
+The algorithm CROPS: Change points for a Range Of PenaltieS algorithm \citep{haynes2017} allows to search a range of penalties $[\beta_{min},\beta_{max}]$ and to find penalty values associated with new segmentations within that range. The process to uncover new penalty values $\beta \in [\beta_{min},\beta_{max}]$ is based on theorem 3 of \cite{haynes2017}. Noting $U_K(\bm y) = \min_{\lvert\TT\rvert} \CC(\bm y,\TT)$ the unpenalized cost of the optimal segmentation in $K$ change points of $\bm y$ and $K(\beta)$ the number of change points of the optimal segmentation result obtained using $\beta$ in problem \eqref{chp:3:optKnknown}, the theorem writes as follows:
 
 \begin{theorem}
 Let $\beta_0 < \beta_1$, 3 cases are possible to uncover new penalty values:
@@ -234,7 +234,7 @@ Let $\beta_0 < \beta_1$, 3 cases are possible to uncover new penalty values:
   \begin{equation}\label{chp:3:crit:crops}
     \beta_{int} = \frac{U_{K(\beta_1)}(y_{1:n})-U_{K(\beta_0)}(y_{1:n})}{K(\beta_0)-K(\beta_1)}
   \end{equation}
-  \item If $K(\beta_0) > K(\beta_1)+1$ and $K(\beta_{int}) = K(\beta_1)$ where $\beta_{int}$ is defined in \ref{chp:3:crit:crops}, then $K(\beta) = K(\beta_0)$ if $\beta\in[\beta_0,\beta_{int}[$ and $K(\beta) = K(\beta_1)$ if $\beta\in [\beta_{int},\beta_1]$
+  \item If $K(\beta_0) > K(\beta_1)+1$ and $K(\beta_{int}) = K(\beta_1)$ where $\beta_{int}$ is defined in \eqref{chp:3:crit:crops}, then $K(\beta) = K(\beta_0)$ if $\beta\in[\beta_0,\beta_{int}[$ and $K(\beta) = K(\beta_1)$ if $\beta\in [\beta_{int},\beta_1]$
 \end{enumerate}
 \end{theorem} 
 
@@ -265,7 +265,7 @@ the bounds of the initial interval of penalties $\beta_{min}$ and $\beta_{max}$,
 \end{algorithmic}
 \end{algorithm} 
 
-As stated in \cite{haynes2017}, the theoretical upper bound for the number of times PELT has to run to find all segmentations possible with $\beta\in[\beta_{min},\beta_{max}]$ is given by $m(\beta_{min})-m(\beta_{max})+1$. Given the sizes of signal $\bm y$, CROPS is still more cost-effective than the optimal partitioning method and provides the compromise we were looking for. Note that an estimation of the number of changes can be obtained by combining the results of Algorithm  \ref{chp:3:algocrops} with the elbow method. For each $\beta$ uncovered by CROPS, we have the number of changes $m(\beta)$ and the cost $\mathcal{C}_{\beta}(\bm y_{1:n})$. We can run Algorithm \ref{chp:3:algoelbow} to estimate an optimal number of changes. Keeping the results of other segmentations found by CROPS for exploratory purposes. 
+As stated in \cite{haynes2017}, the theoretical upper bound for the number of times PELT has to run to find all segmentations possible with $\beta\in[\beta_{min},\beta_{max}]$ is given by $m(\beta_{min})-m(\beta_{max})+1$. Given the sizes of signal $\bm y$, CROPS is still more cost-effective than the optimal partitioning method and provides the compromise we were looking for. Note that an estimation of the number of changes can be obtained by combining the results of Algorithm \ref{chp:3:algocrops} with the elbow method. For each $\beta$ uncovered by CROPS, we have the number of changes $m(\beta)$ and the cost $\mathcal{C}_{\beta}(\bm y_{1:n})$. We can run Algorithm \ref{chp:3:algoelbow} to estimate an optimal number of changes. Keeping the results of other segmentations found by CROPS for exploratory purposes. 
 
 \section{Change-point detection in environmental data}\label{chp:3:5}
 

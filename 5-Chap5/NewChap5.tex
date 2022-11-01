@@ -6,21 +6,24 @@
 
 This chapter tackles the issue of pesticide concentration monitoring, and introduces a new methodology which integrates both the specific left-censored distribution of the data, and the spatio-temporal context. 
 
-The modelling for the spatio-temporal concentration data can be described as follows. \\
-%, by assuming a piece-wise stationary distribution on the series of maximum values, for a given time resolution 
-We aggregate the global series of concentrations to summarize the information of its maximum values at a given time resolution. We assume this newly created series to be strictly stationary, conditionally to a (possibly unknown) number of change-points and their associated locations, and the characteristics of the probability distribution within each temporal segment. \\
-While the literature on change-point detection is abundant (see Chapter \ref{chp:3}), applications to spatial data are somewhat limited. An early example of such method can be found in \cite{MAJUMDAR2005149} while recent advances in a setting close to ours are presented in \cite{doi:10.1080/07474946.2020.1826796}. As far as we know, none of the existing change-point detection method for spatial data applies to irregularly sampled and sparse data (on the temporal axis). \\
-In order to model the geographical aspect, the monitoring stations is represented by a graph that integrates environmental information in its edges weight. Indeed, as geological, terrain and climatic characteristics of an area can influence the dispersion of a chemical substance and on its potential use in the case of e.g. a pesticide, concentrations are expected to be somewhat correlated in small scale regions that are homogeneous in terms of influencing characteristics. Especially in the application presented here, which relates to the investigation of pollutants in surface waters, it is interesting to take into account the hydrographic structure of the region as in e.g. \cite{doi:10.1080/07474946.2020.1826796}. Indeed, if a high concentration of a substance is detected at a certain point in time, traces of this substance should be found later downstream. 
+While the literature on change-point detection is abundant (see Chapter \ref{chp:3}), applications to spatial data are somewhat limited. An early example of such method can be found in \cite{MAJUMDAR2005149} while recent advances in a setting close to ours are presented in \cite{doi:10.1080/07474946.2020.1826796}. As far as we know, none of the existing change-point detection method for spatial data applies to irregularly sampled and sparse data (on the temporal axis). This is why we propose an approach that decouples time and space in our analysis before mixing both aspects to build an anomaly criterion.  
 
-The methodology we propose in this Chapter takes place in three steps: 
+Our approach for the spatio-temporal concentration data can be described as follows. \\
+%, by assuming a piece-wise stationary distribution on the series of maximum values, for a given time resolution 
+%We aggregate the global series of concentrations to summarize the information of its maximum values at a given time resolution. 
+%its potential use ,
+We aggregate the complete concentration series to form the daily maximum concentration value series. We assume this newly created series to be strictly stationary, conditionally to a (possibly unknown) number of change-points and their associated locations, and the characteristics of the probability distribution within each temporal segment. \\
+In order to model the geographical aspect, the monitoring stations are represented by a graph that integrates environmental information in its edge weights. Indeed, as geological, terrain and climatic characteristics of a given area can influence the dispersion of a chemical substance and also impact its potential use in the case of e.g. a pesticide. Therefore concentrations are expected to be somewhat correlated in small scale regions that are homogeneous in terms of influencing characteristics. Especially in the application presented here, which relates to the investigation of pollutants in surface waters, it is interesting to take into account the hydrographic structure of the region as in e.g. \cite{doi:10.1080/07474946.2020.1826796}. Indeed, if a high concentration of a substance is detected at a certain point in time, traces of this substance should be found later downstream. 
+
+Once this modelling for the time and space aspects is set, the methodology we propose in this Chapter takes place in three steps: 
 \begin{enumerate}
-\item The change-point detection developed in Chapter \ref{chp:4} is used for modelling temporal heterogeneity. It produces temporal segments in which the aggregated series of maximal pesticide concentrations are assumed to follow a stationary distribution. 
-\item Clustering is used for modelling the expected spatial homogeneity while integrating geographical constraints such as river networks, wind directions, etc. 
-\item Conditionally to the temporal segment detected by the change-point procedure, and to the spatial cluster detected by the clustering procedure, one may analyse the data and identify contextual anomalies. 
+\item The change-point detection developed in Chapter \ref{chp:4} is used for modelling temporal heterogeneity. It produces temporal segments in which the aggregated series of daily maximal pesticide concentrations are assumed to follow a stationary distribution. 
+\item In parallel, clustering is used for modelling the expected spatial homogeneity while integrating geographical constraints such as river networks. 
+\item Conditionally to the temporal segment detected by the change-point procedure, and to the spatial cluster detected by the clustering procedure, we propose to analyse the data in order to identify contextual anomalies. 
 \end{enumerate}
 This method is inspired from previous works \citep{Laroche2022} but differs on a specific detail: steps 1 and 2 are independent. The clustering and change point detection can be run simultaneously. 
 
-We illustrate the whole procedure with a real data set of concentration values of a substance commonly used in France monitored in surface waters: Prosulfocarb. It is a herbicide used to protect wheat and barley from weeds. However, its presence in water bodies can be toxic to aquatic fauna. 
+We illustrate the whole procedure with a real data set for Prosulfocarb, a substance commonly used in France, whose concentration is monitored in surface waters. Prosulfocarb is a herbicide used to protect wheat and barley from weeds. However, its presence in water bodies can be toxic to aquatic fauna. 
 
 The rest of the chapter is organised as follows: in Section \ref{section:data:model}, the model assumed for environmental pesticide monitoring data is described; the proposed method for estimating and handling this model from observed data is detailed in Section \ref{section:methods}; a detailed example on data collected by French authorities in Val de Loire region is fully illustrated in Sections \ref{section:data} and \ref{section:results}. 
 
@@ -81,37 +84,37 @@ In order to model the global use of the substance under monitoring, a piece-wise
     \item when $l\in [\tau^*_{k-1}+1, \tau^*_{k}]$, $\vmaxy_l$ is distributed according to a distribution $Q$ with parameter vector $\bm\theta^*_k$. Notice that, just as discussed in Section \ref{chp:4:3}, some dimensions of the parameter vector $\bm\theta^*_k$ are supposed to be fixed throughout segments. 
     %a left-censored parametric Weibull distribution with interval dependent parameters $\lambda^*_k$ and a left-censoring threshold $\maxquant_l$, which is a known constant. The shape parameter $\sigma^*$ is supposed unknown and fixed throughout the whole signal. 
 \end{itemize}
-Several comments need to be made at this point. First, note that the model only takes into account the concentrations $\maxy_l$ but not the instants and the quantification limits, which are assumed to be deterministic quantities. The second remark is that the estimators of $(\tau^*_k)_{k=1}^{K^*+1}$ define the \textbf{contextual} aspect for the anomaly detection step implemented in \ref{section:anomaly}. 
+Several comments need to be made at this point. First, note that the model only takes into account the concentrations $\maxy_l$ but not the instants and the quantification limits, which are assumed to be deterministic quantities. The second remark is that the estimators of $(\tau^*_k)_{k=1}^{K^*+1}$ define the \textbf{contextual} aspect for the anomaly detection step implemented in Section \ref{section:anomaly}. 
 
 \section{Methods}\label{section:methods}
 
 We present the \textbf{three steps} methodology that leads to detecting contextual anomalies.   
 
-\subsection{Temporal change point detection}
+\subsection{Temporal change point detection}\label{section:timeclust}
 
-The method for estimating $K^*$, $(\tau^*_k)_{k=1}^{K^*+1}$ and $(\bm\theta^*_k)_{k=1}^{K^*+1}$ for the coarse grained resolution $\overline{\mathcal{D}}$ is fully described in Section \ref{chp:4:3} of Chapter \ref{chp:4}. We denote $\widehat{K}$, $(\widehat{\tau}_k)_{k=1}^{\widehat{K}+1}$ and $\widehat{\theta}$ the resulting estimates. The estimation of these parameters is the \textbf{first step} of the whole monitoring procedure.  
+The method for estimating $K^*$, $(\tau^*_k)_{k=1}^{K^*+1}$ and $(\bm\theta^*_k)_{k=1}^{K^*+1}$ for the coarse grained resolution $\overline{\mathcal{D}}$ is fully described in Section \ref{chp:4:3} of Chapter \ref{chp:4}. We denote $\widehat{K}$, $(\widehat{\tau}_k)_{k=1}^{\widehat{K}+1}$ and $\widehat{\theta}$ the resulting estimated parameters. The estimation of these parameters is the \textbf{first step} of the whole monitoring procedure.  
 
-In the data used in this work, the LOD is unknown: the left censoring phenomenon corresponds therefore to the LOQ of the measuring stations. When both limits are known, one can adapt the model proposed in Section \ref{subsection:data:collection} to take both of them into account: this would translate into a slightly more complex likelihood as the one derived in Chapter \ref{chp:4} as we need to consider three cases (when the concentration is between 0 and the LOD, when the concentration is between the LOD and the LOQ, and finally when the concentration is observed and larger than the LOQ).  
+In the data used in this work, it should be noted that the LOD is unknown: the left censoring phenomenon corresponds therefore to the LOQ of the measuring stations. When both limits are known, one can adapt the model proposed in Section \ref{subsection:data:collection} to take both of them into account: this would translate into a slightly more complex likelihood as the one derived in Chapter \ref{chp:4} as we need to consider three cases (when the concentration is between 0 and the LOD, when the concentration is between the LOD and the LOQ, and finally when the concentration is observed and larger than the LOQ).  
 %Only the clustering of the stations graph $G = (V,E)$ and the comparison of resulting clusters remain.  
 
 \subsection{Spatial clustering}\label{section:spaceclust}
 
-In any of the stationary intervals identified in the temporal change-point detection step, the measurements are assumed to be consistent with the homogeneity assumptions represented by the graph $G=(V, E)$. A natural way of assessing the actual regularity of the measurements would be to use graph signal processing techniques see e.g. \cite{8347162, 6494675}. However the irregular, unaligned, sparse and censored nature of the measurements at each station, prevents the use of such methods. The measurements are also incompatible with techniques designed to detect anomalous clusters in a graph see for instance \cite{10.1214/10-AOS839}.
+%In any of the stationary intervals identified in the temporal change-point detection step, the measurements are assumed to be consistent with the homogeneity assumptions represented by the graph $G=(V, E)$. A natural way of assessing the actual regularity of the measurements would be to use graph signal processing techniques see e.g. \cite{8347162, 6494675}. However the irregular, unaligned, sparse and censored nature of the measurements at each station, prevents the use of such methods. The measurements are also incompatible with techniques designed to detect anomalous clusters in a graph see for instance \cite{10.1214/10-AOS839}.
 
-To circumvent this problem, we propose to use the graph representation to build spatial aggregates and to assess homogeneity at this aggregated level. This corresponds to clustering the stations using the graph structure.
+We propose to use the graph $G=(V,E)$ to build spatial aggregates and to assess homogeneity at this aggregated level. This corresponds to clustering the stations using the graph structure and thus environmental information.
 
-The goal is to successfully create a global partition in $M$ cluster of stations in the presence of $R$ non connected components in the graph. This raises the question of how to dispatch these $M$ clusters among the non connected components. 
+The goal is to successfully create a global partition in $M$ cluster of stations in the presence of $R$ non connected components in the graph. This raises the question of how to dispatch these $M$ clusters among the non connected components. We present two different methods to solve this problem.
 
-We present two different search methods to obtain clustering results for given number of cluster $M$. 
+%obtain clustering results for a given number of cluster $M$ in this context. 
 
-\subsubsection{Optimization criterion choice}
+\subsubsection{Criterion choice}
 
-In order to solve the problem of (spatial) segmentation of $R$ components into $M$ clusters, we introduce the following notations for a clustering $\mathcal{P}$: 
+In order to solve the problem of (spatial) segmentation of $R$ components $(\mathcal{K}_1,\dots,\mathcal{K}_R)$ into $M$ clusters, we introduce the following notations for a clustering $\mathcal{P}$: 
 \begin{itemize}
-    \item $C_m^r$ the $m$-th cluster located in component $r$.
-    \item $M_r$ the number of clusters in component $\mathcal{K}_r$.
+    \item $C_m^r$ the $m$-th cluster located in $\mathcal{K}_r$.
+    \item $M_r$ the number of clusters in $\mathcal{K}_r$.
     \item $\displaystyle Q(\mathcal{K}_r,C_m^r) = \frac{1}{\lvert C_m^r\rvert}\sum_{v_i,v_j \in C_m^r}d_{ij}^2$ the inertia of cluster $C^r_m$, where $d^2_{ij}$ is the square of the shortest path distance in the graph $G$ between vertices $v_i$ and $v_j$, and $|C_m^r|$ denotes the cardinality of set $C_m^r$.
-    \item $\displaystyle U_r(M_r) = \min_{(C_m^r)_{m=1}^{M_r}}\sum_{m = 1}^{M_r}Q(\mathcal{K}_r,C_m^r)$ the best partition (in the sense of minimal inertia) of component $r$ into $M_r$ clusters. 
+    \item $\displaystyle U_r(M_r) = \min_{(C_m^r)_{m=1}^{M_r}}\sum_{m = 1}^{M_r}Q(\mathcal{K}_r,C_m^r)$ the best partition (in the sense of minimal inertia) of $\mathcal{K}_r$ into $M_r$ clusters. 
     \item $\displaystyle S(l,m) = \min_{(M_r)_{r=1}^l \text{ such that } \sum_{r=1}^l M_r = m}\sum_{r=1}^lU_r(M_r)$ which is the best partition of the $l$ first components into a total number of $m$ clusters.
 \end{itemize} 
 
@@ -120,7 +123,7 @@ With these notations, we can write the global inertia of clustering $\mathcal{P}
 \mathcal{C}(\mathcal{P}) = \sum_{r=1}^R\sum_{m=1}^{M_r}Q(\mathcal{K}_r,C^r_m)
 \end{equation}
 
-For a connected component $\mathcal{K}_r$ of the graph $G=(V, E)$, the stations is clustered using a Ward hierarchical clustering method. Since the Ward method is deterministic, the best partition in $M_r$ clusters of the $r$-th component $U_r(M_r)$ found with Ward hierarchical clustering is always the same. 
+For each $\mathcal{K}_r$, the stations are clustered using Ward hierarchical clustering method. Since Ward method is deterministic, $U_r(M_r)$ the best partition of $\mathcal{K}_r$ in $M_r$ clusters is entirely determined by $M_r$. 
 
 Therefore, It is sufficient to find the optimal number of segments $M_r$ in each component to minimise the criterion \eqref{global:inertia}. More precisely, given a total number of clusters $M$, we are looking for: 
 \begin{equation}\label{chp:5:estim:clust}
@@ -144,10 +147,10 @@ We present two methods to search for these values in the next section.
 
 \subsubsection{Search methods for the clustering}  
 
-In the following, we give two algorithm descriptions and codes to find the optimal number of segments $M_r$ in each connected components of the graph $G$. Note that, in practice, $U_p(m)$ is computed with Ward hierarchical clustering technique implemented the \texttt{R} package \texttt{hclust}. 
+In the following, we give two algorithm descriptions and pseudo-codes to find the optimal number of segments $M_r$ in each connected component of the graph $G = (V,E)$. Note that, in practice, $U_r(M_r)$ is computed with Ward hierarchical clustering technique implemented the \texttt{R} package \texttt{hclust}. 
 
 \begin{enumerate}
-    \item \textbf{The greedy clustering method:} the initial global clustering of $V$ is obtained by assigning all vertices in a connected component to the same cluster. Subsequent levels of the global hierarchy are obtained by replacing the clusters of a connected component by the next refined level of the local hierarchy. At each step of the refinement, we select the component that reduces the most the inertia of the clustering defined in Equation \ref{global:inertia}. This method is presented in Algorithm \ref{algo:greed}.
+    \item \textbf{The greedy clustering method:} the initial global clustering of $V$ is obtained by assigning all vertices in a connected component to the same cluster. Subsequent levels of the global hierarchy are obtained by replacing the clusters of a connected component by the next refined level of the local hierarchy. At each step of the refinement, we select the component that reduces the most the inertia of the clustering defined in Equation \eqref{global:inertia}. This method is presented in Algorithm \ref{algo:greed}.
     \begin{algorithm}[htbp]
 \caption{Clustering with greedy method:}\label{algo:greed}
 \begin{algorithmic}
@@ -217,48 +220,52 @@ In the following, we give two algorithm descriptions and codes to find the optim
 
 To select the final clustering in the hierarchy, we use the same elbow method heuristic as in Algorithm \ref{chp:3:algoelbow}. For several values of $M\in\{R+1,\dots,M_{max}\}$, the inertia of the clustering is plotted against the corresponding number of clusters $M$. We look for the number of clusters $M^*$ that minimizes the sum of squares of a two part linear models respectively fitted on the $M \geq M^*$ and the $M \leq M^*$. 
 \newline
+
 Notice that we rely on a simple graph clustering approach for two main reasons. 
 
 Firstly, we do not expect graphs of monitoring stations to exhibit the specific characteristics of complex networks (such as very high degree vertices, small diameter, etc. see e.g. \cite{Newman2003GraphSurveySIAM}) that justify the use of techniques such as maximal modularity clustering see e.g. \cite{FortunatoSurveyGraphs2010}. On the contrary, simpler approaches that interpret shortest paths weights as dissimilarities should be sufficient see e.g. \cite{Schaeffer:COSREV2007}. 
 
 Secondly, we work on relatively small graphs with even smaller connected components and we do not face computational issues associated to hierarchical clustering. 
 
-Finally, it is important to note that, unlike what was previously done in \cite{Laroche2022}, the spatial clustering is independent of the temporal context $[\widehat{\tau}_k,\widehat{\tau}_{k+1}]$. The clustering is performed on the graph $G=(V,E)$ composed of all stations available in the data. This is the \textbf{second step} of the whole monitoring procedure.
+Finally, it is important to note that, unlike what was previously done in \cite{Laroche2022}, the spatial clustering is independent of the temporal context $[\widehat{\tau}_k,\widehat{\tau}_{k+1}]$. The clustering is performed on the graph $G=(V,E)$ composed of all stations available in the data. This spatial clustering constitutes the \textbf{second step} of the whole monitoring procedure.
 
 \subsection{Anomaly detection}\label{section:anomaly}
 
-Conditionally to a selected detected temporal segment, we can now start comparing the clusters. From this comparison, we derive an anomaly detection procedure. This is the \textbf{third step} of the procedure.   
+Conditionally to a given temporal segment $[\widehat{\tau}_k,\widehat{\tau}_{k+1}]$ in the time segmentation selected in the first step (see Section \ref{section:timeclust}), we can now compare the spatial clusters detected in Section \ref{section:spaceclust}. From this comparison, we derive an anomaly detection procedure. This is the \textbf{third step} of the procedure. We identify two cluster characteristics that are likely to help detecting anomalies. The first criterion is based on the within cluster concentration distribution. The second criterion assesses the homogeneity between the station concentration profiles in a cluster.  
 
-Two types of anomalous clusters are targeted: either clusters with anomalous stations, or wholly anomalous clusters. 
+%either clusters with anomalous stations, or wholly anomalous clusters. 
 
-Hence we consider a low concentration to be the normal case, but we do not define a threshold between normal clusters and abnormal ones. 
+%Hence we consider a low concentration to be the normal case, but we do not define a threshold between normal clusters and abnormal ones. 
 
 
-\subsubsection{Wholly anomalous clusters criterion}
+\subsubsection{Criterion based on within cluster concentration distribution}
 
-Wholly anomalous clusters are simply associated to the presence of quantified measurements and high values of concentration. 
+For each spatial cluster $C^r_m$, we estimate the parameters of the distribution $Q$ (see Section \ref{subsection:pwsm}) on all measurements collected in $C^r_m$ during the selected temporal segment. 
 
-Thus, we estimate for each spatial cluster $C^r_m$ the parameters of distribution $Q$ (see Section \ref{subsection:pwsm}) on all measurements collected in $C^r_m$ during the chosen stationary interval. 
+From these parameters, we compute a statistic, denoted $\bar{I}_m$, used as a proxy for the intensity of the measurements (see Section \ref{subsection:anomalous} for an example). 
+%This statistic needs to give indications on some properties of the distribution $Q$. 
 
-From those parameters, we compute a statistics, denoted $\bar{I}_m$, used as a proxy for the intensity of the measurements (see Section \ref{subsection:anomalous} for an example). This statistic needs to give indications on some properties of the distribution $Q$. 
-
-In the example where $Q$ is set as a Weibull distribution, the scale parameter $\lambda$ gives an indication on the mean since it can be expressed as: 
+In the example where $Q$ is the Weibull distribution, the scale parameter $\lambda$ gives an indication on the mean since it can be expressed as: 
 \begin{equation}
 \lambda\Gamma\bigg(1+\frac{1}{\sigma}\bigg)
 \end{equation}
-In the case where all clusters share the same shape parameter $\sigma$, $\lambda$ is a good indicator of the wholly anomalous aspect of a selected cluster. We would then set $\bar{I}_m = \widehat{\lambda}_m$.
+In the case where all clusters share the same shape parameter $\sigma$, $\lambda$ is a good indicator of the intensity of the measurements in a selected cluster. We would then set $\bar{I}_m = \widehat{\lambda}_m$.
 
-In other words, anomalous clusters of stations are detected by simply pooling all measurements of each cluster to estimate the local use of the substance and detect large rates. 
+In other words, for this criterion, anomalous clusters are detected by simply pooling the measurements of all stations in each cluster to estimate the local use of the substance and detect large rates. 
 
-\subsubsection{Clusters with anomalous stations criterion}
+%Wholly anomalous clusters are simply associated to the presence of quantified measurements and high values of concentration. 
 
-Clusters containing anomalous stations are detected by studying the homogeneity of the measurements provided by the stations in a given spatial cluster during the time period defined by the selected temporal segment.
+\subsubsection{Criterion based on station heterogeneity}
 
-As pointed out previously (see Chapter \ref{chp:2}), the number of measurements provided by a single station is usually quite small, especially when we consider a single stationary interval. As a consequence classical distances between empirical distributions are not appropriate, mainly because the measurements of two stations do not have any value in common. 
+%Clusters containing anomalous stations are detected by studying 
+This criterion aims at quantifying the heterogeneity of the measurements provided by the stations in a given spatial cluster during the time period defined by the selected temporal segment.
+
+As pointed out previously (see Chapter \ref{chp:2}), the number of measurements provided by a single station is usually quite small, especially when we consider a single stationary interval. As a consequence classical distances between empirical distributions are not appropriate, mainly because the measurements of two stations do not have any sampling time in common. 
 
 For this reason, we propose to use the Wasserstein $w_1$ distance \citep{villani2009optimal} adapted for left censored variables. For two empirical distributions on $\mathbb{R}$, it is expressed as the $L^1$-distance between their cumulative distribution functions and is therefore simple to compute. 
 
-The Wasserstein distance was preferred to the Kolmogorov-Smirnov or the Jensen-Shannon metric. It has the advantage of including both the differences between the probabilities of observing different values and the distances between these values in the distance calculation. This is a crucial point, illustrated by a simple simulated example in Figure \ref{fig:ex_dist}.
+The Wasserstein distance was preferred to the Kolmogorov-Smirnov or the Jensen-Shannon metric. It has the advantage of including both the differences between the probabilities of observing different values and the metric structure of the space of possible concentration values ($\mathbb{R}^+$). 
+This is illustrated by a simple simulated example in Figure \ref{fig:ex_dist}.
 
 \begin{figure}[htbp]
     \centering
@@ -267,14 +274,16 @@ The Wasserstein distance was preferred to the Kolmogorov-Smirnov or the Jensen-S
     \label{fig:ex_dist}
 \end{figure}
 
+%order and positions of these values.
+%distances between these values in the distance calculation.
 
 Three monitoring stations with different concentration behaviours are represented in Figure \ref{fig:ex_dist}. These different behaviours are evident in both the temporal plot and the histograms. 
 
-The Kolmogorov-Smirnov distance between stations 1 and 3 is equal to the Kolmogorov-Smirnov distance between stations 1 and 2. This distance cannot capture the fact that station 2 recorded higher concentration values than station 3. 
+The Kolmogorov-Smirnov distance between stations 1 and 3 is equal to the Kolmogorov-Smirnov distance between stations 1 and 2. The same holds for the Jensen-Shannon distance. These distances cannot capture the fact that station 2 recorded higher concentration values than station 3. 
 
 On the contrary, the Wasserstein distance between stations 1 and 3 is smaller than the Wasserstein distance between stations 1 and 2.
 
-The calculation of information-theoretic distances/dissimilarities such as the Jensen-Shannon divergence requires estimating densities for the distributions observed at the stations. Few concentration records (and even fewer quantified ones) are available at the level of a station and within a time period. Therefore, density estimations based on such a small number of observations are unreliable.
+%The calculation of information-theoretic distances/dissimilarities such as the Jensen-Shannon divergence requires estimating densities for the distributions observed at the stations. Few concentration records (and even fewer quantified ones) are available at the level of a station and within a time period. Therefore, density estimations based on such a small number of observations are unreliable.
 
 The empirical 1-d Wasserstein distance used in our work is slightly adapted for left censored values. Given two samples $\bm{x}=(x_1,\dots,x_n)$ and $\bm{y}=(y_1,\dots,y_m)$ of sizes $n$ and $m$ with respective empirical c.d.f. $F_n$ and $G_m$, the 1-d empirical distance writes:
 \begin{equation}\label{chp:5:wassdiss}
@@ -283,7 +292,7 @@ w_1(F_n,G_n) = \int_{\mathbbm{R}}\lvert F_n(x)-G_m(x) \rvert\mathrm{d}x
 
 To adapt to the case of left censored observations, we make the assumption that the real values under the censoring threshold are uniformly distributed and we modify the c.d.f accordingly to this assumption (see Figure \ref{fig:mod_dist}). This assumption seems reasonable since  the samples size for a single station is usually very small. 
 
-Figure \ref{fig:mod_dist} illustrates the changes it implies on the empirical c.d.f.. Note that the case we did not represent the case where a single station have several censoring threshold values (because it changed its equipment for example). This case did not occur in real data results. The time segments and the geographical clusters being quite precise, an individual station presents the same equipment. It is also an indication that our method is actually dealing with the spatio-temporal heterogeneity.    
+Figure \ref{fig:mod_dist} illustrates the changes it implies on the empirical c.d.f.. Note that we did not represent the case where a single station have several censoring threshold values (because it changed its equipment for example). This case did not occur when handling real data. %It is also an indication that our method is actually dealing with the spatio-temporal heterogeneity in the measuring equipment.    
 
 \begin{figure}[htbp]
     \centering
@@ -292,13 +301,14 @@ Figure \ref{fig:mod_dist} illustrates the changes it implies on the empirical c.
     \label{fig:mod_dist}
 \end{figure}
 
-Denoting $w_1(\mathbf{y}_i,\mathbf{y}_j)$ the adapted empirical 1-Wasserstein distance between the data of stations $v_i$ and $v_j$, this criterion for clusters with anomalous stations can be written as   
+Denoting $w_1(\mathbf{y}_i,\mathbf{y}_j)$ the adapted empirical 1-Wasserstein distance between the data of stations $v_i$ and $v_j$, this criterion can be written as   
 
 \begin{equation}\label{chp:5:crit2}
     \bar{W}_m = \frac{1}{|C_m|(|C_m|-1)}\sum_{1 \leq j \leq |C_m|}\sum_{1 \leq i \leq |C_m|, i \neq j}w_1(\mathbf{y}_i,\mathbf{y}_j).
 \end{equation}
 
-Intuitively, when stations with different concentration profiles are present in $C_m$, $\bar{W}_m$ takes high values.
+Intuitively, when stations with different concentration profiles are present in $C_m$, $\bar{W}_m$ takes high values. As pointed out in the chapter introduction, we expect a low (or moderate) heterogeneity level within each cluster. Therefore, anomalous clusters are associated with high values of $\bar{W}_m$.
+
 
 %In the previous example of $\bm{x}$ and $\bm{y}$, the adapted empirical distance gives $\lvert a_1-a_2\rvert/2$.    
 
@@ -320,7 +330,7 @@ Each cluster $C_m$ is therefore characterised by two values $(\bar{W}_m, \bar{I}
 The level 1 Pareto optimal front is the set of maximal points for $\prec$. Level $b$ with $b>1$ is defined recursively as the optimal Pareto front computed for the set of points that do not belong to the optimal Pareto front of levels $1,\ldots,b-1$. 
 Therefore clusters in the level 1 Pareto front are remarkable in the sense that there is no other cluster with higher heterogeneity and more extreme measurements. Pareto front and levels are evaluated using the Skyline algorithm \cite{914855,endres2015scalagon}. 
 
-We do not decide if a cluster is anomalous or not per say, we rank them according to two criteria summarising anomalous behaviours. The actual abnormality of these clusters must be assessed by expert knowledge.
+Note that we do not decide if a cluster is anomalous or not per say, we rank them according to two criteria summarising anomalous behaviours. The actual abnormality of these clusters must be assessed by expert knowledge.
 
 
 \section{Data presentation}\label{section:data}
@@ -425,19 +435,19 @@ First, the coarse-grained time series $\overline{\mathcal{D}}$ in Figure \ref{ti
 
 We fit a left censored Weibull distribution in the change-point model with parameters $\theta^* = (\lambda^*,\sigma^*)$. This was motivated by the observation of the data. 
 
-We suppose that the constant parameter vector dimension over the segments is $\sigma^*$. The scale parameters $(\lambda^*_k)_{k = 0}^{K^*}$ are supposed to change values at each of the $K^*$ change-points.    
+We suppose that the constant parameter over the segments is $\sigma^*$. The scale parameters $(\lambda^*_k)_{k = 0}^{K^*}$ are supposed to change values at each of the $K^*$ change-points.    
 
-In that model, the log-likelihood of a segment $y_{u:v}$ can be written:
+In this model, the log-likelihood of a segment $y_{u:v}$ can be written:
 \begin{equation}\label{chp:5:loglik}
 \mathcal{L}(y_{u:v},\lambda,\sigma) = \sum_{i=u}^v\log\bigg(1-\exp(-(\lambda y_i)^\sigma)\bigg)\mathbbm{1}_{y_i=a_i}+\sum_{i=u}^v\bigg(\log(\lambda\sigma)+(\sigma-1)\log(\lambda y_i)-(\lambda y_i)^\sigma\bigg)\mathbbm{1}_{y_i>a_i},
 \end{equation}
 
-We can derive the cost function from \eqref{chp:5:loglik} and the parameter estimators following the approach described in Section \ref{chp:4:1}.
+Assuming $\sigma^*$ is known, we can derive the cost function from \eqref{chp:5:loglik} and the parameter estimators $\widehat{K}$, $(\widehat{\tau}_k)_{k = 0}^{\widehat{K}}$ and $(\widehat{\lambda}_k)_{k = 0}^{\widehat{K}}$  following the approach described in Section \ref{chp:4:1}.
 
-From the application point of view, the assumption that $\sigma$ is a fixed parameter throughout the series $\overline{\mathcal{D}}$ corresponds to the hypothesis that the differences in usage and diffusion of the prosulfocarb among the different users is captured by the shape parameter, and should not vary much over time. On the contrary, the overall average usage of prosulfocarb varies, and this dependency is captured by changes in the rate parameter. 
+From the application point of view, the assumption that $\sigma^*$ is a fixed parameter throughout the series $\overline{\mathcal{D}}$ corresponds to the hypothesis that the differences in usage and diffusion of the prosulfocarb among the different users is captured by the shape parameter, and should not vary much over time. On the contrary, the overall average usage of prosulfocarb varies, and this dependency is captured by changes in the rate parameter. 
 
 
-Since we supposed $\sigma^*$ to be unknown, we use the estimation procedure of section \ref{chp:4:3}. The hyper parameters used in the estimation procedure are the following: 
+If we now suppose $\sigma^*$ to be unknown, we use the estimation procedure of section \ref{chp:4:3}. The hyper parameters used in the estimation procedure are the following: 
 \begin{itemize}
 \item The value of $\theta_{max}$ (discussed in Section \ref{chp:4:2}) is set to $10^6$ which is superior to the value we would obtain using \eqref{chp:4:thetamax} thus ensuring the identifiability of the scale  parameters. 
 \item The minimum segment size used in the PELT search method is set to 50. The censoring rate of $\overline{\mathcal{D}}$ is 77.48\%. We know that this minimum segment size should provide satisfactory results from the experiments of Section \ref{chp:4:4}.
@@ -447,7 +457,7 @@ Since we supposed $\sigma^*$ to be unknown, we use the estimation procedure of s
 
 The results of the procedure are presented in Figure \ref{fig:elb_seg}. 11 different segmentations were uncovered using CROPS. 
 The associated number of change points of these segmentations range from 1 to 30. No segmentation with $K$ change points with $K\in\{2,\dots,12\}$ was uncovered. This could highlight the presence of several obvious change-points that cannot be missed. 
-The associated estimated values of $\sigma^*$ range between $0.31$ and $0.39$. This confirms the data has a heavier tail than an exponential distribution ($\sigma$=1), and that the assumption of using Weibull distributions for our data is appropriate.  
+The associated estimated values of $\sigma^*$ range between $0.31$ and $0.39$. This confirms that the data has a heavier tail than an exponential distribution ($\sigma$=1), and that the the use of Weibull distributions for our data is appropriate.  
 %Let us remark here that the estimated value of the shape parameter is $\hat \sigma_{MLE}=0.4$. This confirms the data has a heavier tail than an exponential distribution ($\sigma$=1), and that the assumption of using Weibull distributions for our data is appropriate. 
 
 \begin{figure}[htbp]
@@ -457,7 +467,7 @@ The associated estimated values of $\sigma^*$ range between $0.31$ and $0.39$. T
   \label{fig:elb_seg}
 \end{figure} 
 
-According to Figure \ref{fig:seg}, the usage of prosulfocarb in Centre-Val de Loire shows different patterns throughout time. Before 2016, most of the values are not quantified, and there are almost no change-points detected. Starting with 2016, two regimes of pesticide usage appear to emerge, and correspond respectively to the periods of intensive usage of prosulfocarb and to the off-peak periods. 
+According to Figure \ref{fig:seg}, the usage of prosulfocarb in Centre-Val de Loire shows different patterns throughout time. Before 2016, most of the values are not quantified, and there are almost no change-points detected. Starting with 2016, two regimes of pesticide usage emerge. They correspond respectively to the periods of intensive usage of prosulfocarb and to off-peak periods. 
 
 Indeed, the starting dates of the peak periods coincide with the season where the substance is spread, which is Autumn. The emergence of this two-regime pattern, alternating high concentration values during the peak periods and low concentration values during the off-peaks, is correlated with an important increase in the prosulfocarb sales as shown in Figure \ref{fig:sale}. 
 
@@ -465,7 +475,7 @@ Indeed, the starting dates of the peak periods coincide with the season where th
   \centering
   \includegraphics[]{figs/Chap5/Seg_opt-1.pdf}
   \caption{Segmentation found selected by the elbow heuristic in Figure \ref{fig:elb_seg}. \\
-  The dates of the breaks are : December 15, 2008; October 20, 2014; May 26, 2016; October 14, 2016; February 8, 2017; October 9, 2017; January 22, 2018; October 8, 2018; January 23, 2019; October 14, 2019; March 25, 2020; October 8, 2020; December 30, 2020; August 8, 2021.The black rectangle corresponds to the selected temporal segment in section \ref{section:clust129}. \\
+  The dates of the breaks are : December 15, 2008; October 20, 2014; May 26, 2016; October 14, 2016; February 8, 2017; October 9, 2017; January 22, 2018; October 8, 2018; January 23, 2019; October 14, 2019; March 25, 2020; October 8, 2020; December 30, 2020; August 8, 2021.The black rectangle corresponds to the selected temporal segment in Section \ref{section:clust129}. \\
 The estimated values of $\sigma^*$ and $\lambda^*$ are $\widehat{\sigma} = 0.36$ and\\ 
 $(\widehat{\lambda}_k)_{k=0}^{14} =(10^6,521,163,3180,23,798,13,700,20,1139,35,1470,12,794,77)$}\label{fig:seg}
 \end{figure}
@@ -499,7 +509,7 @@ The second step of the analysis consists in the spatial segmentation using the g
 
 During the whole observation period, 420 monitoring stations only produced at least one measure. The spatial clustering algorithm was applied with a number of potential clusters varying between 6 and 35. The minimum number of clusters explored is equal to the number of connected components composed of more than one station in the graph. 
 
-The optimal number of clusters was selected using the elbow method applied to the inertia curve. According to this heuristic, illustrated in Figure \ref{fig:elb:clust}, the best solution is made of a 15-clusters configuration. The spatial segmentation is illustrated in Figure \ref{fig:clust}.
+The optimal number of clusters was selected using the elbow method applied to the inertia curve. According to this heuristic, illustrated in Figure \ref{fig:elb:clust}, the best solution corresponds to a 15-clusters configuration. The spatial segmentation is illustrated in Figure \ref{fig:clust}.
 
 \begin{figure}[htbp]
   \centering
@@ -525,11 +535,11 @@ An off-peak period, spanning between February 8, 2017 and October 9, 2017 was se
 
 We proceeded in two steps:
 \begin{enumerate}
-\item We pooled all samples made during that specific period of time. From all those samples, we can identified the active clusters during that period of time, there were 13 out of 15. 
-\item For all active clusters, we computed the within average empirical pairwise Wasserstein distance of the active stations of a cluster. 
+\item We pooled all samples made during this specific period of time. From all these samples, we can identify the active clusters during this period, they were 13 out of 15. 
+\item For all active clusters, we computed the within average empirical pairwise Wasserstein distance. 
 \end{enumerate}
 
-We observe that for 10 clusters out of 13, this indicator is less than 0.0015, whereas the global average pairwise Wasserstein distance for the 149 stations is 0.003. This suggests that the distance chosen for our station graph is indeed a good proxy of the homogeneity in the concentration space. 
+We observe that for 10 clusters out of 13, this indicator is less than 0.0015, whereas the global average pairwise Wasserstein distance for the 420 stations is 0.003. This suggests that the distance chosen for our station graph is indeed a good proxy of the homogeneity in the concentration space. 
 
 Additional comments can be made when we look at the geography of the region. Some clusters are overlapping with hydro-ecoregions. Hydro-ecoregions are geographic entities in which hydrographic ecosystems share common characteristics. The criteria defining them combine properties of geology, terrain and climate \cite{wasson:hal-02580774}. The borders of those regions are drawn in grey in Figure \ref{fig:clust}. This ensures that the substances will have homogeneous dispersion properties on these clusters (see cluster 7).
 
@@ -537,7 +547,7 @@ Additional comments can be made when we look at the geography of the region. Som
 
 % Peak periods in prosulfocarb use are less likely to produce rich spatial patterns since they correspond to a intensive overall use in the region. was investigated instead
 
-We now focus on locating spatial patterns during time segments identified in section \ref{sec:time_pattern}. We select a segment corresponding to an off-peak period since it should be abnormal to find some concentration levels in these periods. In the rest of this case study, we selected the segment highlighted in black in figure \ref{fig:seg} (from February 8, 2017 to October 9, 2017). 
+We now focus on locating spatial patterns during time segments identified in Section \ref{sec:time_pattern}. We select a segment corresponding to an off-peak period since it should be abnormal to find some concentration levels in these periods. In the rest of this case study, we selected the segment highlighted in black in Figure \ref{fig:seg} (from February 8, 2017 to October 9, 2017). 
 This introduces a context to the anomaly detection: a global non use of the substance. 
 
 \begin{figure}[htbp]
@@ -550,7 +560,7 @@ This introduces a context to the anomaly detection: a global non use of the subs
  %More precisely, high values of $\frac{1}{\lambda_k}$ are related to observed high values in the concentrations, while high values in $\bar{W}_k$ denote high heterogeneity in the stations distributions.
 %summarise the homogeneity of the concentration distributions of its stations $v_j$ and the intensity of its concentration values respectively. 
 
-Following the methodology proposed in \ref{section:anomaly}, the scaling parameter $\lambda_k$ of the aggregated data of each spatial cluster found in Section \ref{section:clust129} was estimated. Since we used an alternative parametrization in \eqref{chp:5:loglik} for calculation purposes, the mean of the Weibull in our parametrization writes as:
+Following the methodology proposed in Section \ref{section:anomaly}, the scaling parameter $\lambda_k$ of the aggregated data of each spatial cluster found in Section \ref{section:clust129} was estimated. Since we used an alternative parametrization in \eqref{chp:5:loglik} for calculation purposes, the mean of the Weibull in our parametrization writes as:
 \begin{equation}
 \frac{1}{\lambda}\Gamma\bigg(1+\frac{1}{\sigma}\bigg)
 \end{equation}

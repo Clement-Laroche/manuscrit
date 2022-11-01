@@ -51,7 +51,7 @@ Since we do not know the number of change point before hand, we opt for the pena
 \begin{equation}\label{chp:4:pencost}
 \CC(\bm y,\TT)=\sum_{i=0}^{K}  W(y_{\tau_i+1:\tau_{i+1}}) + KP\beta,
 \end{equation}
-where $P$ is the dimension of the parameters vector in the distribution $Q$ and $\beta > 0$ the penalty weight value. Gathering \ref{chp:4:costfunc} and \ref{chp:4:pencost}, this resulting estimator can be expressed as:  
+where $P$ is the dimension of the parameters vector in the distribution $Q$ and $\beta > 0$ the penalty weight value. Gathering \eqref{chp:4:costfunc} and \eqref{chp:4:pencost}, this resulting estimator can be expressed as:  
 \begin{equation}\label{chp:4:estim}
 (\widehat{K},\widehat{\TT},\widehat{\bm \theta}) = \arg\min_{\TT,\bm \theta,K} \left(- \sum_{i=0}^{\lvert \TT \rvert}  \left\{\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(F(y_j,\theta))\mathbbm{1}_{y_j=a_j}+\sum_{j=\tau_i+1}^{\tau_{i+1}}\log(f(y_j,\theta))\mathbbm{1}_{y_j>a_j}\right\}+\beta KP\right)
 \end{equation}
@@ -84,7 +84,7 @@ This hypothesis will also allow us to derive the asymptotic behaviour of the est
 Note that in practice, for environmental data with scarce and irregular sampling, this hypothesis is hard to verify.
 However, we may suppose that the change-points occurring in concentration data are linked with the farming activities and the phyto-pharmaceutical uses, regardless of the sampling rate. 
 
-Under these assumptions, we know that the maximum likelihood estimator computed in Equation \ref{chp:4:estim} is weakly consistent \citep{Lavielle1997}. \begin{equation}
+Under these assumptions, we know that the maximum likelihood estimator computed in Equation \eqref{chp:4:estim} is weakly consistent \citep{Lavielle1997}. \begin{equation}
 (\widehat{K},\widehat{\mathcal{T}},\widehat{\theta}) \xrightarrow[n\to+\infty]{\mathbb{P}} (K^*,\mathcal{T}^*,\theta^*)
 \end{equation}
 Elements of proof are provided in Appendix \ref{app:chap4:1}. 
@@ -104,7 +104,7 @@ For some choices of $Q$, checking that the cost function is strictly convex is n
 
 \subsubsection{Estimation procedure for $K^*$, $\mathcal{T}^*$ and $\theta^*$}
 
-The estimation procedure aims at maximising the penalised log-likelihood in Equation \ref{chp:4:pencost}. The optimisation procedure implies finding both the best partitioning of the data as defined by $\widehat{K}$ and $\widehat{\mathcal{T}}$, as well as the estimates for the parameters of the distribution $Q$ within each segment, $\widehat{\theta}$. 
+The estimation procedure aims at maximising the penalised log-likelihood in Equation \eqref{chp:4:pencost}. The optimisation procedure implies finding both the best partitioning of the data as defined by $\widehat{K}$ and $\widehat{\mathcal{T}}$, as well as the estimates for the parameters of the distribution $Q$ within each segment, $\widehat{\theta}$. 
 
 We proceed using the PELT algorithm (see Section \ref{chp:3:4}). In practice, we use the following value for the cost function to evaluate a given segment $y_{u:v}$:
 \begin{equation}
@@ -207,7 +207,7 @@ We provide a practical example with the exponential distribution. We simulate a 
     \label{fig:theta_max}
 \end{figure}
 
-Note that other ways to tackle this problem are possible. The modification of the pruning rule \ref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
+Note that other ways to tackle this problem are possible. The modification of the pruning rule \eqref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
 
 \section{Multi-dimensional parameter estimation}\label{chp:4:3}
 
@@ -219,7 +219,7 @@ Note that other ways to tackle this problem are possible. The modification of th
 
 Two separate cases can occur when the parameter $\theta$ is a vector of dimension $P > 1$.  
 
-In the first case, we assume that all parameters are subject to change. This implies detecting changes simultaneously on different parameters of $\bm y$ such as its mean and variance for a Gaussian distribution. In practice, it is still possible to compute the maximum likelihood estimator in Equation \ref{chp:4:emv} with numerical methods (such as Newton-Raphson for example). The problem with such a modelling choice resides in the number of data needed in a segment to estimate all parameters. The number of observations must be more important to have a valid statistical estimation when the number of parameters to estimate is high.  
+In the first case, we assume that all parameters are subject to change. This implies detecting changes simultaneously on different parameters of $\bm y$ such as its mean and variance for a Gaussian distribution. In practice, it is still possible to compute the maximum likelihood estimator in Equation \eqref{chp:4:emv} with numerical methods (such as Newton-Raphson for example). The problem with such a modelling choice resides in the number of data needed in a segment to estimate all parameters. The number of observations must be more important to have a valid statistical estimation when the number of parameters to estimate is high.  
 
 In the second case, some dimension of the parameters vector $\theta$ are supposed to be constant over time. In this setting, we can either suppose that the fixed parameters are known in which case the change point detection procedure can be done with an appropriate cost function. For example a quadratic loss function is practical for detecting changes in the mean of a signal without estimating the variance (that is supposed to be fixed) \citep{Fearnhead2018a}. 
 %this modelling choice
@@ -264,7 +264,7 @@ Unfortunately the criterion in Equation \eqref{chp:4:estimproc} is not additive 
 
 %The two steps of each iteration can be described as:
 
-We describe the practical implementation of the estimation Equation \ref{chp:4:estimproc}. We choose to proceed with a two nested steps: the inner step uses an alternating optimization scheme to solve problem \eqref{chp:4:estimproc} for a fixed value of beta while the outer step explores a range of values for beta.
+We describe the practical implementation of the estimation Equation \eqref{chp:4:estimproc}. We choose to proceed with a two nested steps: the inner step uses an alternating optimization scheme to solve problem \eqref{chp:4:estimproc} for a fixed value of beta while the outer step explores a range of values for beta.
 
 \subsubsection{Inner step}\label{chp:4:3:2:1}
 
@@ -349,7 +349,7 @@ In this section, we use the Weibull distribution for the distribution $Q$. The p
 Note that $\alpha$ is a global \textit{a posteriori} censoring level. For a given signal $\bm y$ and $\alpha$ censoring level, the resulting censoring threshold is the empirical $\alpha$-quantile of $\bm y$.   
 \newline
 
-In section \ref{chp:2:2}, the PELT Algorithm \ref{chp:3:algopelt} introduces a minimal segment length $n_{min}$. We conduct some simulation tests to calibrate this parameter. We need to identify $n_{min}$ so that the cost function defined in \ref{chp:4:costfunc} has sufficient data to detect a change between two segments with different parameters. This can be viewed as a classification task. We want to know if our method is able to correctly classify signals that have a change point or not.  
+In section \ref{chp:2:2}, the PELT Algorithm \ref{chp:3:algopelt} introduces a minimal segment length $n_{min}$. We conduct some simulation tests to calibrate this parameter. We need to identify $n_{min}$ so that the cost function defined in \eqref{chp:4:costfunc} has sufficient data to detect a change between two segments with different parameters. This can be viewed as a classification task. We want to know if our method is able to correctly classify signals that have a change point or not.  
 
 It can be noted that the PELT detection ability and the likelihood ratio statistic (LR) are linked when dealing with a single change point. Let $\bm y$ be a signal of size $n$. The LR statistic is used to test the hypothesis::
 \begin{itemize}
@@ -425,8 +425,8 @@ The experimental framework is as follows:
     \end{enumerate}
 Since $K$ is not known, we proceed as follows for each method to estimate it:
     \begin{itemize}
-        \item For the parametric method: we use the CROPS algorithm to scan a continuous range of penalty values $[\beta_{min},\beta_{max}]$. We obtain a set of $B$ values $(\hat \beta_1,...,\beta_B)$ and the optimal segmentations associated with these penalty values. We then plot the cost of the segmentations as a function of the number of breaks. We choose the optimal penalty using a elbow heuristic. This procedure is described in \cite{haynes2014}. The choice of $\beta_{min}$ and $\beta_{max}$ is inspired from linear penalties like the BIC criterion \cite{YAO1988181}. Note that when using the BIC penalty in change point detection, the penalty term written in section \ref{chp:4:1} becomes : $\beta_n = \frac{P}{2}\log(n) = \frac{1}{2}\log(n)$, where $P$ is the number of dimensions of the parameter. More precisely, we took a wide interval of penalty values defined by $\beta_{min} = \frac{\log(n)}{10}$ and $\beta_{max} = 5\log(n)$.
-        \item For the non-parametric \textit{Multrank} method, we compute the optimal segmentation using the optimal partition search method presented in Algorithm \ref{chp:3:algoopt} for $K_{max}$ change-points. For each of these segmentations, we can compute the cost of the segmentations using the cost function in \ref{chp2:costfuncnp}. As in the parametric method, we represent the costs as a function of the number of change points, and we determine the number of estimated breaks by an elbow heuristic. Here, $K_{max}$ is fixed at $2*K^\star = 8$.
+        \item For the parametric method: we use the CROPS algorithm to scan a continuous range of penalty values $[\beta_{min},\beta_{max}]$. We obtain a set of $B$ values $(\hat \beta_1,...,\beta_B)$ and the optimal segmentations associated with these penalty values. We then plot the cost of the segmentations as a function of the number of breaks. We choose the optimal penalty using a elbow heuristic. This procedure is described in \cite{haynes2014}. The choice of $\beta_{min}$ and $\beta_{max}$ is inspired from linear penalties like the BIC criterion \cite{YAO1988181}. Note that when using the BIC penalty in change point detection, the penalty term written in Section \ref{chp:4:1} becomes : $\beta_n = \frac{P}{2}\log(n) = \frac{1}{2}\log(n)$, where $P$ is the number of dimensions of the parameter. More precisely, we took a wide interval of penalty values defined by $\beta_{min} = \frac{\log(n)}{10}$ and $\beta_{max} = 5\log(n)$.
+        \item For the non-parametric \textit{Multrank} method, we compute the optimal segmentation using the optimal partition search method presented in Algorithm \ref{chp:3:algoopt} for $K_{max}$ change-points. For each of these segmentations, we can compute the cost of the segmentations using the cost function in \eqref{chp2:costfuncnp}. As in the parametric method, we represent the costs as a function of the number of change points, and we determine the number of estimated breaks by an elbow heuristic. Here, $K_{max}$ is fixed at $2*K^\star = 8$.
     \end{itemize}
 The results of the simulations are shown in Table \ref{tab:simcomp} and in Figure \ref{fig:prec_sim}. It can be seen that in the ideal scenario, where the data are indeed distributed according to a left-censored Weibull distribution, the parametric method performs better both in detecting the correct number of breaks and in accurately estimating their position. However, this performance decreases as the censoring rate increases.
 
@@ -491,7 +491,7 @@ Both of outer step strategies presented in Section \ref{chp:4:3:2:2} are impleme
 
 The values of $\beta_{min}$ and $\beta_{max}$ are set according to the signal lengths. We choose these values so that $\beta_{min}$ corresponds to an overfitting model and $\beta_{max}$ an underfitting one. More precisely, the values are set to $\beta_{min} = \frac{\log(n)}{10}$ and $\beta_{max} = \log(n)$ for $\bm y$; $\beta_{min} = \frac{\log(n)}{4}$ and $\beta_{max} = 2\log(n)$ for $\bm z$.
 
-The results for the penalty values tested for both signals are illustrated in Figure \ref{fig:res_sim_y} and \ref{fig:res_sim_z}.
+The results for the penalty values tested for both signals are illustrated in Figures \ref{fig:res_sim_y} and \ref{fig:res_sim_z}.
 
 \begin{figure}[htbp]
     \centering
@@ -518,7 +518,7 @@ The results for the penalty values tested for both signals are illustrated in Fi
 These results show that:
 \begin{itemize}
 \item As expected, exploring the penalty range using CROPS is faster than using the penalty grid. Moreover, exploring the penalty range with a regular step can lead to a sub optimal exploration of the penalty values. In Figures \ref{fig:res_sim_z} (top left) and \ref{fig:res_sim_y} (top left), we can see that the estimation procedure was run for several penalty values resulting in the same segmentation. CROPS uncovers segmentation results that can be missed with a regular grid.%more new 
-\item When the correct model is present among the uncovered segmentations, the associated estimated parameters are accurate (change point locations, segment parameters and common shape parameter). We can conclude that the estimation procedure is correct provided the correct model is selected (see Figure \ref{fig:detect_sim_y} and \ref{fig:detect_sim_z}). The estimated values of $\sigma$ remain close to its true value even when the incorrect number of change-point is selected. Using the results of the CROPS procedure, the estimated $\sigma$ ranged between $0.334$ and $0.342$ for signal $\bm y$; they ranged between $0.308$ and $ 0.348$ for $\bm z$. 
+\item When the correct model is present among the uncovered segmentations, the associated estimated parameters are accurate (change point locations, segment parameters and common shape parameter). We can conclude that the estimation procedure is correct provided the correct model is selected (see Figures \ref{fig:detect_sim_y} and \ref{fig:detect_sim_z}). The estimated values of $\sigma$ remain close to its true value even when the incorrect number of change-point is selected. Using the results of the CROPS procedure, the estimated $\sigma$ ranged between $0.334$ and $0.342$ for signal $\bm y$; they ranged between $0.308$ and $ 0.348$ for $\bm z$. 
 %The parameter estimation is accurate when the correct number of change-points is present among the uncovered segmentations. 
 
 \item The selection of the segmentation model is made with the elbow heuristic (Figures \ref{fig:res_sim_y} top and bottom right and \ref{fig:res_sim_z} top and bottom right). We can see that it did not select the correct model except when using the penalty grid for signal $\bm y$. We can argue that the correct model was selected by chance in this case because of the step used in the grid. Since we missed some segmentation results, the elbow was more apparent. However, we can see that the elbow method selected a model that was very far from the true setting using the grid in the case of $\bm z$. The model selected with the CROPS results missed some change points both in $\bm y$ and $\bm z$. The change points in positions 467 and 580 were not detected in $\bm z$. The change point in position 133 was not detected for $\bm y$. The $\lambda$ parameters surrounding these change-points in each signal have very close values which can explain the fact they were not detected.     

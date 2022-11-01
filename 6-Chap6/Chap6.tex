@@ -5,9 +5,11 @@
 \clearpage
 
 
-In this Chapter, we present the design and implementation of the procedure developed to detect spatio-temporal anomalies described in Chapters \ref{chp:4} and \ref{chp:5}.
+In this Chapter, we present the design and the implementation of the procedure developed to detect spatio-temporal anomalies described in Chapters \ref{chp:4} and \ref{chp:5}.
 
-It was implemented in two steps. First, for a selected pollutant during a selected period in a selected geographical area, an R script implements the preprocessing of raw data as well as the precomputation of change-point detection in concentration data as described in Chapter \ref{chp:4} and spatial clustering of measuring stations as described in Chapter \ref{chp:5}. This script is generic and could handle any substance in any region. This preprocessing step is described in Section \ref{chp:6:1}, together with the format of the output file produced.
+%is generic and could handle any substance in any region. 
+
+The implementation was done in two steps. First, for a selected pollutant during a selected period in a selected geographical area, an R script implements the preprocessing of raw data as well as the precomputation of change-point detection in concentration data as described in Chapter \ref{chp:4} and the spatial clustering of measuring stations as described in Chapter \ref{chp:5}. This script can handle the concentration in surface waters of any substance in any region in France. This preprocessing step is described in Section \ref{chp:6:1}, together with the format of the produced output file.
 
 The file produced in the first step is then fed to an Rshiny application, described in Section \ref{chp:6:2}. This application is intended for the ANSES experts in order to analyse pollutant concentration data in surface waters, therefore the interface and user manual are written in French. 
 
@@ -23,29 +25,33 @@ So far, the application can handle Prosulfocarb concentration data only, however
 
 The raw data to be processed are the three following files that the user has to extract from public databases:
 \begin{itemize}
-\item[-] A table of the concentration measurements in a given geographical area and during a given time period (.csv file format extracted from NAIADE\footnote{see \cite{Naiade2}} database).
+\item[-] A table of the concentration measurements in a given geographical area and during a given time period (in the case of surface waters substances, such tables can be extracted from NAIADE\footnote{see \cite{Naiade2}} database in .csv file format).
 \item[-] A table of the station locations (.csv file format extracted from NAIADE database) in Lambert 93 Coordinates Reference System (CRS).
 \item[-] For each administrative region (‘département’ in French) in the geographical region of interest, a file providing the coordinates and direction of the hydrographic segments (shapefile format, extracted from the BDTOPO\footnote{see \cite{BDTOPO}} database)
 \end{itemize}
-An \texttt{R} script was developed to preprocess these data and precompute time-segmentation and spatial clustering. The data preprocessing steps consist in: 
+An \texttt{R} script was developed to preprocess these data and precompute time-segmentation and spatial clustering. The data preprocessing steps consist of: 
 \begin{itemize}
-\item[-] The construction of the station graph, according to the method described in Section \ref{subsection:graph:construct}. Its vertices are the stations and its edges indicate a connexion between two stations through the hydrographic network. The edge weights are the length of the shortest existing path of water linking two stations. The graph is stored in a \texttt{igraph} object \citep{igraph}. 
-\item[-] The construction of a table for measured concentration, storing the sampling date, the measurement value , a boolean indicating if this value corresponds to a quantified value, the station ID, the LOQ value. All values are converted to $\mu$g/L. The table containing the daily maximum values time series presented in Section \ref{subsection:data:collection} is constructed from this table.
+\item[-] The construction of the station graph, according to the method described in Section \ref{subsection:graph:construct}. Its vertices are the stations and its edges indicate a connexion between two stations through the hydrographic network. The edge weights are the length of the shortest existing path of water linking two stations. The graph is stored as a \texttt{igraph} object \citep{igraph}. 
+\item[-] The construction of a table for measured concentrations, storing the sampling date, the measurement, a boolean indicating if this value corresponds to a quantified value, the station ID and the LOQ value. All values are converted to $\mu$g/L. The table containing the daily maximum values time series presented in Section \ref{subsection:data:collection} is constructed from this table.
 \item[-] The construction of a regional shapefile merging all ``département'' shapefiles, converted to Lambert 93 CRS.
 \end{itemize}
 
-For the precomputation step, the change-point detection method proposed in Chapter \ref{chp:4} is implemented for a Weibull distribution. The cost function evaluation and PELT algorithm are coded with \texttt{Rcpp} for a faster execution, while CROPS algorithm is coded in \texttt{R}.
+For the precomputation step, the change-point detection method proposed in Chapter \ref{chp:4} is implemented for a Weibull distribution. The cost function evaluation and the PELT algorithm are coded with \texttt{Rcpp} for a faster execution, while CROPS algorithm is coded in \texttt{R}.
  
-The following computations are performed:
+%The following computations are performed:
+The following quantities are calculated:
 \begin{itemize}
-\item[-] The change-point detection in the daily maximal concentration signal in the geographical area of interest, for the penalty range $[\beta_{min},\beta_{max}]$ defined in Section \ref{sec:time_pattern}. The sequence of penalties and the associated segmentation results computed by the CROPS algorithm are stored.
-\item[-] The connected components of the station graph are identified using package \texttt{igraph} and algorithm coded in the \texttt{components} function \citep{Hopcroft1973}. 
-\item[-] The spatial clustering of the station graph is performed using the clustering methods presented in Algorithm \ref{algo:dyn}. Several clustering results are stored, with their respective number of clusters ranging between a minimal and maximal value. The heuristic used to determine the minimal and maximal number of clusters is presented in Appendix \ref{app:chap6:1}.
+\item[-] The change-point detection in the daily maximal concentration signal in the geographical area of interest. The CROPS algorithm is trained for a penalty range $[\beta_{min},\beta_{max}]$ defined in Section \ref{chp:5:4:1}. The significant penalties selected by CROPS and the associated segmentation results are stored in a list.
+%, for the penalty range $[\beta_{min},\beta_{max}]$ defined in Section \ref{sec:time_pattern}. The sequence of penalties and the associated segmentation results computed by the CROPS algorithm are stored.
+\item[-] The connected components of the station graph, identified using the available \texttt{components} function in the \texttt{igraph} package.
+%are identified using  and algorithm coded in the  \citep{Hopcroft1973}. 
+\item[-] The spatial clustering of the station graph is performed using the clustering methods presented in Algorithm \ref{algo:dyn}. We did not use the elbow heuristic to select a unique number of clusters because we wanted to offer the experts the opportunity to explore different values. This is why several clustering results are stored, with their respective number of clusters ranging between a minimal and maximal value. The heuristic used to determine the minimal and maximal number of clusters is presented in Appendix \ref{app:chap6:1}.  
 \end{itemize}
 
 The output file of this preprocessing and precomputation procedure is a \texttt{.Rdata} file containing: 
 \begin{itemize}
-\item[-] The table with all concentration measurement information built in the preprocessing step.
+\item[-] The detailed table containing all concentration measures for all stations.
+%The table with all concentration measurement information built in the preprocessing step.
 \item[-] The table with all daily maximum measurement information built in the preprocessing step.
 \item[-] A list with all temporal segmentation results and details obtained by CROPS (parameter values, cost, penalty values etc...).
 \item[-] A table with all station coordinates in WGS84 CRS and with all clustering membership results and connected component labels. 
@@ -54,10 +60,16 @@ The output file of this preprocessing and precomputation procedure is a \texttt{
 \item[-] A table with the border coordinates of the hydro ecoregions in WGS84.
 \end{itemize}
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[angle = 90,scale = 0.65]{figs/Chap6/organigramme.pdf}
+  \caption{Flowchart summarising the organisation between the preprocessing, precomputation and application steps.}
+  \label{fig:orga}
+\end{figure}
 
 \section{Rshiny application}\label{chp:6:2}
 
-As mentioned in the introduction, this application aims at visualizing the preprocessed data (subsection \ref{chp:6:2:1}) as well as the results of the anomaly detection procedure described in Chapter \ref{chp:5} (Section \ref{chp:6:2:2}). 
+As mentioned in the introduction, this application aims at visualizing the preprocessed data (subsection \ref{chp:6:2:1}) as well as the results of the anomaly detection procedure described in Chapter \ref{chp:5} (Section \ref{chp:6:2:2}). When the application is started, the \texttt{.Rdata} file generated by the preprocessing step in Section \ref{chp:6:1} from the raw concentration and geographic datasets is automatically uploaded. According to Figure \ref{fig:orga}, this \texttt{.Rdata} file will be referred as the input file in the rest of this section. 
 
 \subsection{Basic visualisation}\label{chp:6:2:1}
 
@@ -65,9 +77,10 @@ As mentioned in the introduction, this application aims at visualizing the prepr
   
 %The first element is text information where the following precisions are given: 
 
-In this part, the user can visualize information from the input file generated in section \ref{chp:6:1} from the raw concentration and geographic datasets across three panels  extracted. 
-In the first panel, the following basic information is provided :
+In this part, which is accessible through the ``Home'' tab, the user can visualize across three panels information contained in the input file.
+%from the input file generated in section \ref{chp:6:1} from the raw concentration and geographic datasets across three panels. 
 
+In the first panel, the following basic information is provided:
 \begin{itemize}
 \item The name of the substance corresponding to the input file uploaded.
 \item The dates corresponding the time span in the input data.
