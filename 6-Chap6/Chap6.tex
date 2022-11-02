@@ -15,6 +15,8 @@ The file produced in the first step is then fed to an Rshiny application, descri
 
 So far, the application can handle Prosulfocarb concentration data only, however it can very easily be extended to other substances in future developments. Three options are available for the user, implemented as three tabs in the main menu. The Home tab, presented in section \ref{chp:6:2:1}, provides an overview of the available information on the substance under consideration (here the Prosulfocarb), as well as basic visualization of the input data. The Detection tab allows the user to perform the anomaly detection procedure described in Chapter \ref{chp:5}. The corresponding implementation is described in Section \ref{chp:6:2:2}. The third tab allows accessing the user manual of the application. This document, intended for users that do not necessarily have a strong mathematical background, is available in Appendix \ref{app:chap6:2}. 
 
+The general organisation of the preprocessing, precomputation and application is represented in Figure \ref{fig:orga}.
+
 %All the procedure developped to detect spatio-temporal anomalies derived from Chapter \ref{chp:4} and \ref{chp:5} was implemented in an \texttt{Rshiny} application. This application is intended for the ANSES experts to assist them analyzing concentration data. 
 
 %Once a preprocessing is performed on the data of a substance, it can be loaded into the application. When the application starts, three tabs are available: the \textbf{Home tab} to give a overview of the susbtance informations; the \textbf{Detection tab} where the whole procedure of Chapter \ref{chp:5} is implemented; the \textbf{Explanatory note tab} this gives direction on how to use the application. This dociment is intended for people that don't necessary have mathematical background. It explains the events triggered by possible actions in the application.     
@@ -60,12 +62,10 @@ The output file of this preprocessing and precomputation procedure is a \texttt{
 \item[-] A table with the border coordinates of the hydro ecoregions in WGS84.
 \end{itemize}
 
-
-
 \begin{figure}[htbp]
   \centering
   \includegraphics[angle = 90,scale = 0.65]{figs/Chap6/organigramme.pdf}
-  \caption{Overall organisation describing the articulation between the preprocessing, the precomputation and the application.}
+  \caption{Overall organisation describing the articulation between the preprocessing, the precomputation and the application, the inputs needed and the outputs produced.}
   \label{fig:orga}
 \end{figure}
 
@@ -162,7 +162,7 @@ A second panel is available for the user, which content is dependent on the segm
   \label{fig:Imapp5}
 \end{figure}
 
-These two panel encompass the whole temporal detection procedure. The spatial clustering and anomaly detection are presented in the next section. Following the monitoring procedure developed in Chapter \ref{chp: 5}, the spatial clustering is independent of the segmentation of the daily maximum series. However, anomaly detection is made conditionally to the segment selected by the user. All anomaly detection information shown in the following figures is then dependent on the segment highlighted in black in Figure \ref{fig:Imapp4}.
+These two panel encompass the whole temporal detection procedure. The spatial clustering and anomaly detection are presented in the next section. Following the monitoring procedure developed in Chapter \ref{chp:5}, the spatial clustering is independent of the segmentation of the daily maximum series. However, anomaly detection is made conditionally to the segment selected by the user. All anomaly detection information shown in the following figures is then dependent on the segment highlighted in black in Figure \ref{fig:Imapp4}.
 
 %The user selected segment (see Figure \ref{fig:Imapp4}) determines not only the information in the second panel but also all the information that will be presented in the spatial clustering and anomaly detection steps presented in next section.
 
@@ -246,6 +246,7 @@ The last panel is dependent on all choices made in the previous panels. It is co
 \end{itemize}
 
 
+The aim of the application is to alert the expert to some clusters with high values of $\bar{W}_m$ and $\bar{I}_m$. The application allows the expert to quickly identify geographical areas and time periods where unusual concentration values have occurred. However, the actual abnormality of the detected signals must be assessed by the experts.
 
 %are provided on all samples made by the stations belonging to the selected cluster in the last window such as:  
 %made in that cluster in the time period selected; 
