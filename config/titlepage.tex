@@ -6,22 +6,27 @@
         \begin{figure}[!htb]
           \centering
           
-          \ifx\@secondlogo\none
-            \begin{minipage}{0.42\textwidth}
-            \centering       
-            \includegraphics[width=\linewidth]{\@logo}
-            \end{minipage}
-          \else
-            \begin{minipage}{0.42\textwidth}
+          %\ifx\@secondlogo\none
+          %  \begin{minipage}{0.42\textwidth}
+          %  \centering       
+          %  \includegraphics[width=\linewidth]{\@logo}
+          %  \end{minipage}
+          %\else
+            \begin{minipage}{0.25\textwidth}
             \centering       
             \includegraphics[width=\linewidth]{\@logo}
             \end{minipage}
             \hspace{1cm}
-            \begin{minipage}{0.42\textwidth}
+            \begin{minipage}{0.25\textwidth}
             \centering       
             \includegraphics[width=\linewidth]{\@secondlogo}
             \end{minipage}
-          \fi
+            \hspace{1cm}
+            \begin{minipage}{0.25\textwidth}
+            \centering       
+            \includegraphics[width=\linewidth]{\@thirdlogo}
+            \end{minipage}
+          %\fi
 
         \end{figure}
       \makeatother

@@ -73,6 +73,11 @@
 \newcommand\@secondlogo{None}
 \makeatother
 
+\makeatletter
+\newcommand\thirdlogo[1]{\renewcommand\@thirdlogo{#1}}
+\newcommand\@thirdlogo{None}
+\makeatother
+
 \newcommand\none{None}
 \newcommand\includegraphicsifexists[2]{\IfFileExists{#2}{\includegraphics[#1]{#2}}}
 
