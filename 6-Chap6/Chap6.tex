@@ -41,7 +41,7 @@ For the precomputation step, the change-point detection method proposed in Chapt
 %The following computations are performed:
 The following quantities are calculated:
 \begin{itemize}
-\item[-] The change-point detection in the daily maximal concentration signal in the geographical area of interest. The CROPS algorithm is trained for a penalty range $[\beta_{min},\beta_{max}]$ defined in Section \ref{chp:5:4:1}. The significant penalties selected by CROPS and the associated segmentation results are stored in a list.
+\item[-] The change-point detection in the daily maximal concentration signal in the geographical area of interest. The CROPS algorithm is trained for a penalty range $[\beta_{min},\beta_{max}]$ defined in Section \ref{sec:time_pattern}. The significant penalties selected by CROPS and the associated segmentation results are stored in a list.
 %, for the penalty range $[\beta_{min},\beta_{max}]$ defined in Section \ref{sec:time_pattern}. The sequence of penalties and the associated segmentation results computed by the CROPS algorithm are stored.
 \item[-] The connected components of the station graph, identified using the available \texttt{components} function in the \texttt{igraph} package.
 %are identified using  and algorithm coded in the  \citep{Hopcroft1973}. 
@@ -60,10 +60,12 @@ The output file of this preprocessing and precomputation procedure is a \texttt{
 \item[-] A table with the border coordinates of the hydro ecoregions in WGS84.
 \end{itemize}
 
+
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[angle = 90,scale = 0.65]{figs/Chap6/organigramme.pdf}
-  \caption{Flowchart summarising the organisation between the preprocessing, precomputation and application steps.}
+  \caption{Overall organisation describing the articulation between the preprocessing, the precomputation and the application.}
   \label{fig:orga}
 \end{figure}
 
@@ -88,7 +90,7 @@ In the first panel, the following basic information is provided:
 \item The total number of measurements collected over the times period.
 \item The number of active stations over the time period.
 \item The percentage of quantified concentration results among these measurements. 
-\item The number of days where at least one sample was recorded. This number is also the number of of daily maximum concentrations. 
+\item The number of days where at least one sample was recorded. This number is also the number of daily maximum concentrations. 
 \item The percentage of quantified daily maximum concentrations.
 \end{itemize}
 
@@ -112,7 +114,7 @@ The third panel (Figure \ref{fig:Imapp2}) displays the map of the active station
 
 \subsection{Anomaly detection}\label{chp:6:2:2}
 
-This part is accessible to the user through the "Detection” tab. We recall that the anomaly detection procedure described in Chapter \ref{chp:5} consists in three steps, which are a detection of temporal change-points, a spatial clustering of the stations and a procedure for anomaly detection on a given time segment. The results of the first two steps are precomputed and stored in the input file (see Section \ref{chp:6:1}), whereas the third step is performed interactively in the application
+This part is accessible to the user through the ``Detection'' tab. We recall that the anomaly detection procedure described in Chapter \ref{chp:5} consists of three steps, which are a detection of temporal change-points, a spatial clustering of the stations and a procedure for anomaly detection on a given time segment. The results of the first two steps are precomputed and stored in the input file (see Section \ref{chp:6:1}), whereas the third step is performed interactively in the application.
 
 \subsubsection{Visualisation of temporal segmentation results}\label{chp:6:2:temp}
 
@@ -120,14 +122,16 @@ This part is accessible to the user through the "Detection” tab. We recall tha
  
 The temporal segmentation results are spread across two panels. The first one displays time segmentations performed on the daily maximum time series assuming a Weibull distribution model. Several elements are made available to the user:
 \begin{itemize}
-\item The plot of the different segmentations cost against their number of change points is displayed, together with a slider allowing to choose a penalty value (see Figure \ref{fig:Imapp3}). For the selected penalty value, the corresponding segmentation is highlighted in red. The red lines on the graph are the two-part linear model obtained using the elbow method Algorithm \ref{chp:3:algoelbow}. The vertical black line indicates the optimal number of change-points detected by CROPS as the abscissa of the elbow position location. The application is initialized on the penalty value corresponding to this optimal number of change-points, however the user may select a non optimal segmentation, which we did on purpose in the Figures. 
+%The plot of the different segmentations cost against is displayed, the two-part linear model 
+\item The costs of different segmentations are plotted against their number of change points. The user can choose a penalty value with a slider (see Figure \ref{fig:Imapp3}). For the selected penalty value, the corresponding segmentation is highlighted in red. The red lines on the graph are the estimates of a piece-wise linear model with two components obtained using the elbow method Algorithm \ref{chp:3:algoelbow}. The vertical black line indicates the optimal number of change-points detected by CROPS as the abscissa of the elbow position location. The application is initialized on the penalty value corresponding to this optimal number of change-points, however the user may select a non optimal segmentation, which we did on purpose in the figures (see Figure \ref{fig:Imapp3}). 
 \begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap6/Im_appbis3.pdf}
   \caption{Penalty choice and corresponding segmentation information.}
   \label{fig:Imapp3}
 \end{figure}
-\item A plot of the segmentation of the daily maximum concentration signal (see Figure \ref{fig:Imapp4}). This plot is interactive: it is automatically updated when the user moves the cursor to change the penalty value, and it is also allows the mouse-click selection of a segment in the signal. In this case, it is highlighted in black (see Figure \ref{fig:Imapp4} for an illustration). To better distinguish quantified low concentration values from values under the quantification threshold (which are censored to the current LOQ value), we added the possibility to plot the time series in logarithmic scale to obtain a better visualization. In Figure \ref{fig:Imapp4} concentrations are plotted in logarithmic scale.
+%selection of a segment in the signal
+\item A plot of the segmentation of the daily maximum concentration signal (see Figure \ref{fig:Imapp4}). This plot is interactive: it is automatically updated when the user moves the cursor to change the penalty value, and segments can also be selected with a mouse-click. In this case, it is highlighted in black (see Figure \ref{fig:Imapp4} for an illustration). To better distinguish quantified low concentration values from values under the quantification threshold (which are censored to the current LOQ value), we added the possibility to plot the time series in logarithmic scale to obtain a better visualization. In Figure \ref{fig:Imapp4} concentrations are plotted in logarithmic scale.
 \begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap6/Im_appbis4.pdf}
@@ -141,11 +145,12 @@ The temporal segmentation results are spread across two panels. The first one di
 %The goodness of fit of the model on the data belonging to the segment selected in Figure \ref{fig:Imapp4} is assessed by comparing the parametric cumulative distribution function to the empirical one. The plot is illustrated in Figure \ref{fig:Imapp5}, vertical black lines are drawned at the LOQ values. The empircal cdf is drawned in blue and the one obtained with the parametric model is drawned in red. The quality of the fit seems satisfactory which conforts the idea that the Weibull law provide a good model for concentration data. 
 %The last information is a seasonnal plot. When a segment is selected, we provide a comparison of the violin plot of this segment with similar time periods on the previous and following years. For instance in Figure \ref{fig:Imapp4}, the selected segment spans from the 22nd of January to the 5th of October of the year 2018. We represented the violin plot of the daily maximum concentrations from the 22nd of January to the 5th of October of each year available in Figure \ref{fig:Imapp5}. The violin plot of the selected segment is highlighted in red. Note that the violin plots adapt to whether the logarithmic scale was chosen or not in the previous information box.
 
-A second panel is available for the user, whose content is dependent on the segment selected in the first panel. In this second panel, information specific of the selected segment is displayed:
+A second panel is available for the user, which content is dependent on the segment selected in the first panel. In this second panel, information specific to the segment selected by the mouse-click feature is displayed:
 \begin{itemize}
 \item The dates corresponding to the segment temporal limits, the number of daily maximum concentration values inside the segment; the percentage of quantified concentration measurements within the segment; the number of active stations within the segment timespan as well as the minimum, mean, median and maximum values of daily maximum concentrations. 
-\item A plot displaying the parametric cumulative distribution function and the empirical one, for visual comparison (see Figure \ref{fig:Imapp5} left). On this plot, vertical black lines are located at the LOQ values. The empirical cdf is coloured in blue and the one obtained with the parametric model is coloured in red. This plot aims at providing a first visual evaluation of the relevance of the parametric distribution used to model the data on the selected segment (a Weibull distribution in the current implementation).  The illustrative example in Figure \ref{fig:Imapp5} confirms the choice of the Weibull distribution as a relevant model for Prosulfocarb concentration data in surface waters.
-\item A seasonal plot, providing a comparison of the data violin plot in the currently selected time segment with those computed for the same time periods on the previous and following years. For instance, in Figure \ref{fig:Imapp5}-right, the selected segment spans from the 22nd of January to the 5th of October of the year 2018. We represented the violin plot of the daily maximum concentrations from the 22nd of January to the 5th of October of each year available. The violin plot of the selected segment is highlighted in red. Note that the violin plots adapt to whether the logarithmic scale was chosen or not in the previous panel.
+\item A plot displaying the parametric cumulative distribution function computed with the estimated parameter values and the empirical one, for visual comparison (see Figure \ref{fig:Imapp5} left). On this plot, vertical black lines are located at the LOQ values. The empirical cdf is coloured in blue and the one obtained with the parametric model is coloured in red. This plot aims at providing a first visual evaluation of the relevance of the parametric distribution used to model the data on the selected segment (a Weibull distribution in the current implementation).  The illustrative example in Figure \ref{fig:Imapp5} confirms the choice of the Weibull distribution as a relevant model for Prosulfocarb concentration data in surface waters.
+%comparison of the data violin plot in the currently selected time segment with those computed for
+\item A seasonal plot, providing a comparison between the distribution of the data in the selected time segment and the distribution of the data the same time periods on the previous and following years. The comparison is done through violin plots. For instance, in Figure \ref{fig:Imapp5}-right, the selected segment spans from January 22nd 2018 to October 5th 2018. We represented the violin plot of the daily maximum concentrations between January 22nd and October 5th of each year available. The violin plot of the selected segment is highlighted in red. Note that the violin plots adapt to whether the logarithmic scale was chosen or not in the previous panel.
 \end{itemize}  
 
 %The following informations are given in the form of text: the dates that define the segment temporal boarders; the number of daily maximum concentration values inside the segment; the quantification percentage of the segment; the number of active stations inside the temporal period defined by the segment; the minimum, the mean, the median and the maximum values of daily maximum concentrations inside the segment.
@@ -157,7 +162,9 @@ A second panel is available for the user, whose content is dependent on the segm
   \label{fig:Imapp5}
 \end{figure}
 
-These two panel encompass the whole temporal detection procedure. The user selected segment (see Figure \ref{fig:Imapp4}) determines not only the information in the second panel but also all the information that will be presented in the spatial clustering and anomaly detection steps presented in next section.
+These two panel encompass the whole temporal detection procedure. The spatial clustering and anomaly detection are presented in the next section. Following the monitoring procedure developed in Chapter \ref{chp: 5}, the spatial clustering is independent of the segmentation of the daily maximum series. However, anomaly detection is made conditionally to the segment selected by the user. All anomaly detection information shown in the following figures is then dependent on the segment highlighted in black in Figure \ref{fig:Imapp4}.
+
+%The user selected segment (see Figure \ref{fig:Imapp4}) determines not only the information in the second panel but also all the information that will be presented in the spatial clustering and anomaly detection steps presented in next section.
 
 %This two boxes encompasses the whole temporal detection procedure. The selection of the segment in Figure \ref{fig:Imapp4} determines not only the information in the second box but also all the informations that are presented in the spatial clustering and anomaly detection steps.
 
@@ -169,21 +176,21 @@ As stated previously, the information provided to the user in this part of the a
 
 The first one displays a map of the geographical area under consideration and a drop-down menu (see Figure \ref{fig:Imapp}) allowing to choose the information to be displayed on the map. Four different options are available in the menu:
 \begin{itemize}
-\item "Active station": the stations are plotted with two different colors if they collected a sample during the segment time span or not.
-\item "Hydrographic component": the stations are plotted and colored according to which station graph connected component they belong to; note that this information is already available in the "Home tab" but it was repeated here for the user convenience.
-\item "Spatial clustering":  the stations are plotted and coloured according to which cluster they belong to (see Figure \ref{fig:Imapp6}).
-\item "Pareto front values": stations are plotted and coloured according to their Pareto front level (see Figure \ref{fig:Imapp7}). 
+\item ``Active station'': the stations are plotted with two different colors according to whether they collected a sample during the segment timespan or not.
+\item ``Hydrographic component'': the stations are plotted and coloured according to the connected component of the station graph they belong to; note that this information is already available in the ``Home tab'' but it was repeated here for the user convenience.
+\item ``Spatial clustering'':  the stations are plotted and coloured according to the cluster they belong to (see Figure \ref{fig:Imapp6}).
+\item ``Pareto front values'': stations are plotted and coloured according to their Pareto front level (see Figure \ref{fig:Imapp7}). 
 \end{itemize}
 %A drop-down menu, illustrated in Figure \ref{fig:Imapp}, is present to choose the information to display on the map. As stated previously, the information is dependant of the temporal segment selected in Section \ref{chp:6:2:temp}. The user can opt for four different options: the information of activity of a station, the stations are colored differently if they made a sample or not during the segment time period; the information of the station graph components, stations are colored according to the component they belong to in the graph of stations; the cluster information, stations are colored according to which cluster they belong to (see Figure \ref{fig:Imapp6}); the pareto front information, stations are colored according to their Pareto front level (see Figure \ref{fig:Imapp7}). The map of the graph component is redundant with the Home tab information but it was still implemented in this box as well to avoid changing tab to get that information. The graph clustering is obtained using the clustering methods presented in Algorithm \ref{algo:dyn}.  
    
 \begin{figure}[htbp]
   \centering
   \includegraphics[]{figs/Chap6/Im_appbis.pdf}
-  \caption{Drop down menu with curser selecting the number of clusters in the spatial clustering}
+  \caption{Drop down menu with a slider selecting the number of clusters in the spatial clustering.}
   \label{fig:Imapp}
 \end{figure}   
    
-When "Spatial clustering" or "Pareto front values" are selected, it is necessary to select the desired number of clusters. This number can be selected with a cursor located on the left of the map (not shown in the Figures). The map updates automatically with the selected number of clusters. 
+When ``Spatial clustering'' or ``Pareto front values'' are selected, it is necessary to select the desired number of clusters. This number can be selected with a cursor located on the left of the map (see Figure \ref{fig:Imapp}). The map updates automatically with the selected number of clusters. 
 % (see Figure \ref{fig:Imapp6} and \ref{fig:Imapp7})
 
 \begin{figure}[htbp]
@@ -193,7 +200,7 @@ When "Spatial clustering" or "Pareto front values" are selected, it is necessary
   \label{fig:Imapp6}
 \end{figure}
 
-For "Spatial clustering", the information displayed was computed during the preprocessing step and stored in the input file of the application.   
+For ``Spatial clustering'', the information displayed was computed during the preprocessing step and stored in the input file of the application.   
 
 \begin{figure}[htbp]
   \centering
@@ -202,7 +209,7 @@ For "Spatial clustering", the information displayed was computed during the prep
   \label{fig:Imapp7}
 \end{figure}
 
-For "Pareto front values", the Pareto level values are computed and refreshed upon each change in the number of cluster using the \texttt{Rpref} package. The \texttt{Rpref} package implements the multi-criteria optimization using the skyline algorithm \citep{914855}. Additionally, a cluster selection feature is implemented: upon selection of a station, the cluster in which the station is located is highlighted in red as in Figure \ref{fig:Imapp7}. 
+For ``Pareto front values'', the Pareto level values are computed and refreshed upon each change in the number of cluster using the \texttt{Rpref} package. The \texttt{Rpref} package implements the multi-criteria optimization using the skyline algorithm \citep{914855}. Additionally, a cluster selection feature is implemented: upon selection of a station, the cluster in which the station is located is highlighted in red as in Figure \ref{fig:Imapp7}. 
 %The computations are performed in the application using the . 
 %Once the information is set on either the clustering information or the Pareto front levels, it is dependant on the number of cluster information. Several clustering results were imported in the application with their respective number of clusters ranging between two values. The heuristic we use to determine the minimal and maximal values of clusters in the clustering is presented in Appendix \ref{app:chap6:1}. This number can be selected with a curser located on the left in Figure \ref{fig:Imapp6} and \ref{fig:Imapp7}. The map update automatically with the number of clusters information.  
 
@@ -213,14 +220,14 @@ The last panel is dependent on all choices made in the previous panels. It is co
 \begin{itemize}
 %The station concentration window: once a station has been selected, this window displays the samples it made during the time period of the selected segment. An illustration is provided in 
 %The clusters Pareto plot window:  defined in Section \ref{section:anomaly} .  
-\item A Pareto plot where clusters are plotted according to the criteria described in Chapter \ref{chp:5} (see Figure \ref{fig:Imapp8}). The selected cluster in the map is also highlighted in red in the plot.
+\item A Pareto plot where clusters are plotted according to the criteria $\bar{W}_m$ $\bar{I}_m$ described in Section \ref{section:anomaly} (see Figure \ref{fig:Imapp8}). The selected cluster in the map is also highlighted in red in the plot.
 \begin{figure}[htbp]
  \centering
  \includegraphics[]{figs/Chap6/Im_appbis8.pdf}
  \caption{Plot of the Pareto front.}
  \label{fig:Imapp8}
 \end{figure}
-\item Additionnal text information is provided on all measurements in the selected cluster (see Figure \ref{fig:Imapp8}), such as:
+\item Additional text information is provided on all measurements in the selected cluster, such as: % (see Figure \ref{fig:Imapp8})
 \begin{itemize}
 \item The total number of measurements collected.
 \item The percentage of quantified concentration results among these measurements.
