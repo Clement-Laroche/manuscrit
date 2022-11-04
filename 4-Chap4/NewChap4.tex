@@ -212,7 +212,7 @@ We provide a practical example with the exponential distribution. We simulate a 
 
 Note that other ways to tackle fully censored segments are possible. The modification of the pruning rule \eqref{chp:3:pruning} used in PELT can also be investigated. For example, one could decide to systematically discard all potential change-point indices $\tau \in \{u,\dots,v\}$ when evaluating a fully censored segment $y_{u:v}$.  
 
-\section{Multi-dimensional parameter estimation}\label{chp:4:3}
+\section{Estimation with non-additive cost function: mixing fixed and changing parameter estimation}\label{chp:4:3}
 
 %When $\theta$ is a parameter vector of dimension $P>1$, a common strategy is to opt for simultaneous changes detection in all $P$ parameters simultaneously. This implies detecting changes in different properties of $\bm y$. In practice, it depends on what parameters are optimized in the cost function. The optimization can still be performed with numerical methods (such as Newton-Raphson) on all dimensions of $\theta$ simultaneously. Plugging an estimator of the parameters vector in a cost function defined in Equation \ref{chp:4:costfunc} would results in
 %Using a MLE estimators of all $P$ parameters as the supremum in \ref{chp:4:costfunc} provide a cost function that detects changes occurring in any of the parameters.  
